@@ -772,3 +772,35 @@ h4.wi span{display:grid}
 .seas-notify .sn-n{flex:1 1 260px;color:var(--muted);font-size:14px}
 .seas-notify input{flex:1 1 220px;min-width:0;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font:inherit}
 @media (max-width:520px){ .seas-grid{grid-template-columns:1fr 1fr;gap:12px} .seas h3{font-size:16px} }
+
+/* meet Brooklyn: the face of the brand */
+.meet .split{align-items:center}
+.meet blockquote{font:400 italic clamp(22px,2.4vw,30px)/1.35 var(--serif);color:var(--navy);margin:18px 0 12px;padding-left:18px;border-left:2px solid var(--gold)}
+.meet .who{margin:0 0 18px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.meet .who b{color:var(--ink)}
+.portrait{margin:0;position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5;max-width:440px;width:100%;justify-self:center;box-shadow:var(--shadow)}
+.portrait>img{width:100%;height:100%;object-fit:cover}
+.portrait:not(.big){width:180px;aspect-ratio:1;border-radius:50%;margin-bottom:10px}
+.pt-ph{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;background:radial-gradient(120% 90% at 30% 15%,#1c3a78,var(--navy) 70%);color:var(--gold-2)}
+.pt-ph img{width:34%;opacity:.9}
+.pt-ph span{font:500 clamp(48px,7vw,84px)/1 var(--serif);letter-spacing:.06em;color:#F4EEE2}
+.pt-ph small{font:600 10px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:#B9C2D8}
+.portrait:not(.big) .pt-ph span{font-size:46px}.portrait:not(.big) .pt-ph img{width:30%}
+@media (prefers-reduced-motion:no-preference){ .pt-ph img{animation:breathe 7s ease-in-out infinite} }
+.member.face{grid-column:1/-1;grid-template-columns:auto 1fr;justify-items:start;text-align:left;column-gap:34px;padding:34px;align-items:center}
+.member.face .portrait{grid-row:1/span 3;margin:0}
+.member.face h3{font-size:30px;align-self:end}.member.face .bio{font-size:16px;max-width:520px;align-self:start}
+@media (max-width:640px){ .member.face{grid-template-columns:1fr;justify-items:center;text-align:center}.member.face .portrait{grid-row:auto} }
+/* Utah */
+.utah{background:var(--sand)}
+.ut-head{display:flex;align-items:center;gap:22px;margin-bottom:30px}
+.ut-mark{width:64px;height:64px;color:var(--gold-deep);flex:none}.ut-mark svg{width:100%;height:100%}
+.ut-head h2{margin:8px 0 0}
+.ut-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.ut-grid>div{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.ut-grid b{font:500 20px var(--serif);color:var(--navy)}.ut-grid p{margin:8px 0 0;color:var(--muted);font-size:14px}
+@media (max-width:900px){ .ut-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:520px){ .ut-grid{grid-template-columns:1fr} }
+.made-ut{display:flex;align-items:center;gap:12px;margin-top:16px;color:var(--gold-2)}
+.made-ut svg{width:30px;height:30px;flex:none}
+.made-ut span{display:grid;font-size:13px;color:#CFC6B2}.made-ut b{color:#fff;font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase}

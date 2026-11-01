@@ -6,6 +6,7 @@ const page = document.body.dataset.page;
 
 /* ---------- icons ---------- */
 const ICON = {
+  utah: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M5 2h8v5h6v15H5z"/><circle cx="10.5" cy="9.5" r="1.1" fill="currentColor" stroke="none"/></svg>',
   cart: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
   menu: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
   wave: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 19c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M12 3l3 5h-6l3-5Z"/></svg>',
@@ -34,13 +35,22 @@ function packetsSVG(n = 5, h = 150) {
   return `<div class="packets">${out}</div>`;
 }
 
+/* the face of the brand: her photo when it lands in img/team/<slug>.jpg, a monogram until then */
+function portrait(m, big) {
+  return `<figure class="portrait${big ? ' big' : ''}">${m.photo ? `<img src="${m.photo}" alt="${m.name}">`
+    : `<div class="pt-ph"><img src="img/tiara-gold.png" alt=""><span>${m.name.split(' ').map(w => w[0]).join('')}</span><small>Portrait coming</small></div>`}</figure>`;
+}
+function meetFace() {
+  const m = TEAM.find(x => x.face);
+  $$('[data-portrait]').forEach(el => el.outerHTML = portrait(m, true));
+}
 /* ---------- header / footer ---------- */
 function layout() {
   const nav = [['shop.html', 'Shop', 'shop'], ['gifts.html', 'Gifts', 'gifts'], ['product.html?p=discovery', 'Discovery', 'start'], ['ingredients.html', 'Ingredients', 'ingredients']];
   const navR = [['process.html', 'Quality', 'process'], ['team.html', 'About', 'team'], ['wholesale.html', 'Wholesale', 'wholesale']];
   const a = ([h, t, k]) => `<a class="item${page === k ? ' on' : ''}" href="${h}">${t}</a>`;
   document.body.insertAdjacentHTML('afterbegin', `
-  <div class="announce"><span class="rot on">Free shipping over <b>$${SS.freeShip}</b></span><span class="rot">Subscriptions always ship free</span><span class="rot">Pick any five blends — <b>$15</b></span><span class="rot">Blended in Park City, Utah</span></div>
+  <div class="announce"><span class="rot on">Free shipping over <b>$${SS.freeShip}</b></span><span class="rot">Subscriptions always ship free</span><span class="rot">Pick any five blends — <b>$15</b></span><span class="rot">Made in Park City, Utah</span></div>
   <header class="site"><div class="wrap nav">
     <button class="burger" aria-label="Menu">${ICON.menu}</button>
     <nav class="left">${nav.map(a).join('')}</nav>
@@ -57,9 +67,9 @@ function layout() {
   </div></section>
   <footer class="site"><div class="wrap">
     <div class="cols">
-      <div><img class="logo" src="img/logo-ss-horizontal-white.png" alt="Sapphire Salt & Spice"><p>Sapphire Salt & Spice brings thoughtful salts, seasonings and spices to the everyday table. Blended in Park City, Utah.</p></div>
+      <div><img class="logo" src="img/logo-ss-horizontal-white.png" alt="Sapphire Salt & Spice"><p>Sapphire Salt & Spice brings thoughtful salts, seasonings and spices to the everyday table.</p><p class="made-ut">${ICON.utah}<span><b>Made in Utah</b>A Park City family company</span></p></div>
       <div><h4>Shop</h4>${BLENDS.map(b => `<a href="product.html?p=${b.slug}">${b.name}</a>`).join('')}<a href="product.html?p=discovery">Discovery Collection</a><a href="product.html?p=awaken-pepper">Awakened Pepper</a><a href="shop.html#soon">Coming soon</a></div>
-      <div><h4>Learn</h4><a href="ingredients.html">Ingredients</a><a href="process.html">Process & Quality</a><a href="story.html">Our Story</a><a href="story.html">Our Story</a><a href="faq.html">FAQ</a><a href="faq.html#find">Where to buy</a><a href="contact.html?t=idea">Suggest a blend</a></div>
+      <div><h4>Learn</h4><a href="ingredients.html">Ingredients</a><a href="process.html">Process & Quality</a><a href="story.html">Our Story</a><a href="faq.html">FAQ</a><a href="faq.html#find">Where to buy</a><a href="contact.html?t=idea">Suggest a blend</a></div>
       <div><h4>Company</h4><a href="team.html">Our team</a><a href="team.html#join">Join the team</a><a href="affiliates.html">Affiliates</a><a href="wholesale.html">Wholesale</a><a href="wholesale.html#signin">Retailer sign in</a><a href="contact.html">Contact us</a><a href="#">Instagram</a></div>
     </div>
     <div class="legal"><span>© ${new Date().getFullYear()} Sapphire Salt L.L.C. · 875 Iron Horse Dr. Suite A, Park City, UT 84098</span><span>This salt does not supply iodide, a necessary nutrient. Not intended to diagnose, treat, cure or prevent any disease.</span></div>
@@ -474,7 +484,7 @@ const R = {
         <div class="buyrow"><div class="qty"><button data-q="-1">−</button><span>1</span><button data-q="1">+</button></div>
           <button class="btn add-main">Add to cart — <span class="pp">${money(b ? SIZES[0].price : e.price)}</span></button></div>
         <div class="why"><div>${ICON.check} Tastes like the salt you know</div><div>${ICON.heart} Love it or your money back</div>
-          <div>${ICON.pin} Blended in Park City, Utah</div><div>${ICON.truck} ${e && e.digital ? 'Delivered by email' : e && (e.packet || e.inclShip) ? '<b>Ships free</b> — on us' : `Free shipping over $${SS.freeShip}`}</div></div>
+          <div>${ICON.utah} Made in Park City, Utah</div><div>${ICON.truck} ${e && e.digital ? 'Delivered by email' : e && (e.packet || e.inclShip) ? '<b>Ships free</b> — on us' : `Free shipping over $${SS.freeShip}`}</div></div>
         <div class="acc">
           ${b ? `<details open><summary>What’s inside</summary><div class="in">${ingHTML}</div></details>
           <details><summary>How to use</summary><div class="in"><p>Use it exactly like regular salt — same pinch, same shake.</p><ul>${b.use.map(u => `<li>${u}</li>`).join('')}</ul></div></details>` : ''}
@@ -770,8 +780,8 @@ const R = {
   },
   team() {
     const ini = n => n.split(' ').map(w => w[0]).join('');
-    $('#team').innerHTML = TEAM.map(m => `<article class="member${m.open ? ' open' : ''}">
-      <div class="avatar">${m.open ? '+' : `<span>${ini(m.name)}</span>`}</div>
+    $('#team').innerHTML = TEAM.map(m => `<article class="member${m.open ? ' open' : ''}${m.face ? ' face' : ''}">
+      ${m.face ? portrait(m) : `<div class="avatar">${m.open ? '+' : `<span>${ini(m.name)}</span>`}</div>`}
       <h3>${m.name}</h3><p class="role">${m.role || '<span class="draft">Role to confirm</span>'}</p>
       ${m.open ? `<a class="link" href="#join">Apply</a>` : `<p class="bio">${m.bio || 'Bio and photo coming.'}</p>`}</article>`).join('');
     $('#roles').innerHTML = ['Blending & packing — Park City, part-time', 'Markets & events — weekends, seasonal', 'Retail & restaurant sales — commission', 'Content, photo & social — freelance']
@@ -858,6 +868,7 @@ function ambient() {
 }
 
 if (page !== 'checkout') { layout(); renderCart(); }
+meetFace();
 (R[page] || (() => {}))(); linkIngredients(); ambient();
 $$('form.sform').forEach(f => f.onsubmit = ev => {
   ev.preventDefault(); const ok = $('.form-ok', f);

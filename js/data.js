@@ -275,8 +275,9 @@ const DISCOVERY = {   // anything sold as a single-serve packet can be picked; t
 
 /* the team — roles and bios to confirm; photos go in img/team/<slug>.jpg */
 const TEAM = [
-  { slug: 'ryan-sapp', name: 'Ryan Sapp', role: 'Founder', bio: '' },
-  { slug: 'brooklyn-sapp', name: 'Brooklyn Sapp', role: '', bio: '' },
+  { slug: 'brooklyn-sapp', name: 'Brooklyn Sapp', role: 'The face of Sapphire', face: true, photo: null,
+    bio: 'Brooklyn is the face of Sapphire Salt & Spice, the Park City salt company her dad, Ryan, started. She’s who you’ll meet at markets, on our pages and in your inbox.' },
+  { slug: 'ryan-sapp', name: 'Ryan Sapp', role: 'Founder', bio: 'Brooklyn’s dad. Ryan started Sapphire with one question: what if salt did a little more?' },
   { slug: 'lindy-rose', name: 'Lindy Rose', role: '', bio: '' },
   { slug: 'jimmy-rose', name: 'Jimmy Rose', role: '', bio: '' },
   { slug: 'open-1', name: 'Could be you', role: 'Markets & events', open: true },
