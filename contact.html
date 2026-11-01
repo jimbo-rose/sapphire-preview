@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact Sapphire Salt & Spice</title>
+<meta name="description" content="Email, call or visit Sapphire Salt in Park City — or suggest a blend we should make.">
+<link rel="icon" href="img/favicon.png"><link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=37"><link rel="stylesheet" href="css/checkout.css?v=3">
+</head>
+<body data-page="contact">
+<div class="page-head wrap"><span class="eyebrow">Contact</span><h1>Talk to a real person.</h1>
+<p class="lede" style="margin:0 auto">Questions, ideas, a blend you wish we made — we read and answer every message, usually within two business days.</p></div>
+
+<section style="padding-top:10px"><div class="wrap">
+  <div class="ways">
+    <div><span class="eyebrow">Email</span><b class="sel" id="c-email-addr">hello@sapphiresalt.com</b><button class="link copy" data-copy="hello@sapphiresalt.com" type="button">Copy</button></div>
+    <div><span class="eyebrow">Phone</span><b class="sel">(435) — — —</b><span class="draft">Number to confirm</span></div>
+    <div><span class="eyebrow">Visit or write</span><b class="sel">875 Iron Horse Dr. Suite A<br>Park City, UT 84098</b><a class="link" href="https://maps.google.com/?q=875+Iron+Horse+Dr+Park+City+UT+84098" target="_blank" rel="noopener">Map</a></div>
+    <div><span class="eyebrow">Find us in person</span><b>Saltbox, Park City</b><a class="link" href="faq.html#find">Where to buy</a></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="ctabs" role="tablist">
+    <button class="on" data-t="msg" role="tab">Send a message</button>
+    <button data-t="idea" role="tab">Suggest a blend</button>
+    <button data-t="want" role="tab">Request a product</button>
+    <button data-t="help" role="tab">Help me choose</button>
+  </div>
+  <div class="cpanel" data-t="msg"><form class="form sform" data-kind="Message" id="f-msg">
+    <div class="two"><label>Your name<input name="name" id="m-name" required></label><label>Email<input name="email" id="m-email" type="email" required></label></div>
+    <label>About<select name="topic" id="m-topic"><option>An order</option><option>Our blends</option><option>Gifts & corporate</option><option>Wholesale & restaurants</option><option>Press & partnerships</option><option>Something else</option></select></label>
+    <label>Message<textarea name="msg" id="m-msg" rows="5" required></textarea></label>
+    <button class="btn">Send message</button><p class="form-ok" hidden></p></form></div>
+  <div class="cpanel" data-t="idea" hidden><form class="form sform" data-kind="Blend idea" id="f-idea">
+    <p class="lede" style="margin:0">Got a flavour or ingredient you’d love in a salt? Tell us — some of our best ideas come from customers.</p>
+    <div class="two"><label>Your name<input name="name" id="i-name"></label><label>Email (to hear if we make it)<input name="email" id="i-email" type="email"></label></div>
+    <label>Name your blend<input name="blend" id="i-blend" placeholder="e.g. Lemon Herb Finishing Salt" required></label>
+    <label>What’s in it, and what would you put it on?<textarea name="what" id="i-what" rows="4"></textarea></label>
+    <button class="btn">Send my idea</button><p class="form-ok" hidden></p></form></div>
+  <div class="cpanel" data-t="want" hidden><form class="form sform" data-kind="Product request" id="f-want">
+    <p class="lede" style="margin:0">Looking for something we don’t sell yet — a size, a refill, a grinder, a gift? Ask. If enough people do, we’ll make it.</p>
+    <div class="two"><label>Your name<input name="name" id="w-name"></label><label>Email<input name="email" id="w-email" type="email" required></label></div>
+    <label>What are you looking for?<input name="want" id="w-want" required></label>
+    <label>Anything else?<textarea name="more" id="w-more" rows="3"></textarea></label>
+    <button class="btn">Send request</button><p class="form-ok" hidden></p></form></div>
+  <div class="cpanel" data-t="help" hidden><div class="helpme" id="helpme"></div></div>
+</div></section>
+<script src="js/data.js?v=37"></script><script src="js/app.js?v=37"></script>
+</body>
+</html>

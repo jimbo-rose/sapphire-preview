@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gifts — Sapphire Salt & Spice</title>
+<meta name="description" content="Salt gifts: the green Gift Box, the walnut display, sets, sample packs and corporate gifting.">
+<link rel="icon" href="img/favicon.png"><link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=37"><link rel="stylesheet" href="css/checkout.css?v=3">
+</head>
+<body data-page="gifts">
+
+<section class="gift-hero"><div class="wrap split">
+  <div class="media"><img src="img/giftbox.jpg" alt="Three Sapphire Salt jars in a navy gift box with sample packets"></div>
+  <div><span class="eyebrow">Gifts</span><h1 style="margin:14px 0 16px">A gift that ends up on the table every day.</h1>
+    <p class="lede">Glass jars, wood lids and a gold-foil navy box. Pick the blends, add a note, and we’ll send it ready to hand over.</p>
+    <ul class="ticks"><li>Free handwritten gift note on any order</li><li>Free shipping over $45</li><li>Love it or it’s free — for them too</li></ul>
+    <a class="btn gold" href="product.html?p=gift-box">Build a Gift Box — $49</a></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="section-head"><div><span class="eyebrow">Every budget</span><h2 style="margin-top:12px">Gifts from $5 to the whole shelf</h2></div></div>
+  <div class="grid3" id="gift-grid"></div>
+</div></section>
+
+<section class="band"><div class="wrap split rev">
+  <div class="media"><img src="img/fan.jpg" alt="Sample packets of all five blends" loading="lazy"></div>
+  <div><span class="eyebrow" style="color:var(--gold-2)">Stocking stuffers & favors</span><h2 style="margin:14px 0 18px">Small packets, big thank-yous.</h2>
+    <p class="lede">The Kindness Collection is five single-serve packets for $5 — wedding favors, teacher gifts, a note in a lunchbox. Discovery lets them pick their own five.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px"><a class="btn gold" href="product.html?p=kindness">Kindness — $5</a><a class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.5)" href="product.html?p=discovery">Discovery — $15</a></div></div>
+</div></section>
+
+<section id="custom"><div class="wrap">
+  <div class="section-head"><div><span class="eyebrow">Make it yours</span><h2 style="margin-top:12px">Corporate gift packages</h2></div>
+    <p style="color:var(--muted);max-width:420px;margin:0">Your logo on the card, your words on the walnut. One invoice, every address handled. <span class="draft">Proposed tiers</span></p></div>
+  <div class="tiers">
+    <div><span class="eyebrow">Thank you</span><h3>Kindness Cards</h3><b>$5<small> each · 25+</small></b><p>Five packets and your printed note. Clients, events, onboarding, the whole team.</p></div>
+    <div class="feat"><span class="eyebrow">Signature</span><h3>The Gift Box</h3><b>$44<small> each · 25+</small></b><p>Three jars, three packets, the navy foil box and a card with your logo. 10% off at 25.</p></div>
+    <div><span class="eyebrow">Executive</span><h3>The Engraved Display</h3><b>$299<small> · logo engraving</small></b><p>The whole shelf with your logo or name in the walnut. For lobbies, partners and closing gifts.</p></div>
+  </div>
+  <p style="margin-top:18px"><a class="btn ghost" href="product.html?p=engraved-display">Design an engraved display</a></p>
+</div></section>
+
+<section style="background:#fff" id="corporate"><div class="wrap split">
+  <div><span class="eyebrow">Corporate & group gifting</span><h2>Clients, teams, events.</h2>
+    <p class="lede">Gift Boxes or Kindness packs for 10 to 1,000 people, shipped to one address or many, with your note on every card.</p>
+    <ul class="ticks"><li>10% off 25+ gifts · 15% off orders over $1,000 (proposed)</li><li>Your logo on the gift card, not the jar</li><li>One invoice, every address handled</li></ul></div>
+  <form class="form" onsubmit="event.preventDefault();location.href='mailto:'+SS.email+'?subject='+encodeURIComponent('Corporate gifting: '+this.org.value)+'&body='+encodeURIComponent([...new FormData(this)].map(([k,v])=>k+': '+v).join('\n'))">
+    <div class="two"><label>Your name<input name="name" required></label><label>Company<input name="org" required></label></div>
+    <div class="two"><label>Email<input name="email" type="email" required></label><label>How many gifts?<input name="count" inputmode="numeric"></label></div>
+    <label>Needed by<input name="date" type="date"></label>
+    <label>Anything else?<textarea name="notes" rows="3"></textarea></label>
+    <button class="btn">Ask for a quote</button></form>
+</div></section>
+<script src="js/data.js?v=37"></script><script src="js/app.js?v=37"></script>
+</body>
+</html>
