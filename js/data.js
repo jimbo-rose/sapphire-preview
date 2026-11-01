@@ -121,7 +121,7 @@ const EXTRAS = [
   { slug: 'kitchen-set', name: 'The Kitchen Set', sub: 'All five blends · 16 oz', price: 125, was: 140, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set16', proposed: true,
     line: 'All five kitchen jars, for the cook who salts by the pinch.',
     about: 'Five 16 oz glass jars with wood lids, lined up by the stove. Save $15 against buying them one at a time.' },
-  { slug: 'awaken-pepper', name: 'Awaken Pepper', sub: 'Single-origin Tellicherry · 6 oz', price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
+  { slug: 'awaken-pepper', name: 'Awakened Pepper', sub: 'Single-origin Tellicherry · 6 oz', price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
     line: 'Single-origin Tellicherry peppercorns. Awaken every bite.',
     about: 'Bold, bright Tellicherry peppercorns — the larger, riper berries left longest on the vine. The partner every Sapphire Salt deserves.' },
   { slug: 'gift-box', name: 'The Gift Box', sub: 'Any three 4 oz jars + 3 packets', price: 49, color: '#0B1B3F', tint: '#E8ECF4', kind: 'gift', proposed: true,
@@ -132,7 +132,7 @@ const EXTRAS = [
     about: 'Every blend in both sizes on the walnut display stand, engraved on the top sign with up to 28 characters — or your logo (we send a proof first). Made to order in Park City in about two weeks.' },
   { slug: 'display-collection', name: 'The Display Collection', sub: 'All ten jars + walnut stand', price: 249, color: '#0B1B3F', tint: '#EFEBE1', kind: 'stand', proposed: true,
     line: 'Every blend in both sizes, on the same walnut stand you see in the shops.',
-    about: 'Five 4 oz shakers, five 16 oz kitchen jars and the walnut display stand, engraved “Salt With Purpose”. The jars alone are $210.' },
+    about: 'Five 4 oz shakers, five 16 oz kitchen jars and the walnut display shelf, engraved Sapphire Salt and Spice · Salt With Purpose · Your Everyday Salt. Room behind the front row for spare jars. The jars alone are $210.' },
 ];
 
 /* Coming soon — ideas, not products. Shown on the seasonings shelf and the shop page
@@ -148,12 +148,12 @@ const COMING = [
     line: 'Chili and lime for tacos, mango, popcorn and margarita rims.' },
   { slug: 'hydrate-sticks', name: 'Hydrate On-the-Go', sub: 'Electrolyte stick packs · 30 count', color: '#2F6FD0', img: 'img/sticks-card.jpg',
     line: 'The Hydrate blend in single-serve sticks. Tear, pour into a water bottle, go.' },
-  { slug: 'seasoning-discovery', name: 'Seasonings Discovery', sub: 'Pick any 5 seasonings', color: '#3B2A1E', img: 'img/soon-ember-steak.jpg',
+  { slug: 'seasoning-discovery', name: 'Seasonings Discovery', sub: 'Pick any 5 seasonings', color: '#3B2A1E', img: 'img/seasonings-crop.jpg',
     line: 'The Discovery idea for the seasonings shelf: pepper, steak, herb, smoked and chili lime.' },
-  { slug: 'table-packets', name: 'Walnut Packet Caddy', sub: 'Restaurants, cafés & your own table', color: '#5A3B22', img: 'img/caddy-card.jpg',
-    line: 'A two-compartment walnut caddy that matches the display stand, filled with single-serve packets. Restaurants: ask on the Wholesale page.' },
+  { slug: 'table-packets', name: 'Walnut Packet Holders', sub: 'Restaurants, cafés & your own table', color: '#5A3B22', img: 'img/caddy-card.jpg',
+    line: 'Two walnut holders that match the display: one for tall stick packs, one for tabletop sachets. Each stands alone; side by side they sit flush. Restaurants: ask on the Wholesale page.' },
   { slug: 'steakhouse-kit', name: 'The Steakhouse Kit', sub: 'Steak salt · pepper · walnut cellar', color: '#3B2A1E', icon: 'kit',
-    line: 'Ember Steak Salt, Awaken Pepper and a walnut salt cellar in one gift box.' },
+    line: 'Ember Steak Salt, Awakened Pepper and a walnut salt cellar in one gift box.' },
   { slug: 'salt-cellar', name: 'Walnut Salt Cellar', sub: 'Matches the display stand', color: '#5A3B22', icon: 'cellar',
     line: 'A lidded walnut pinch bowl for the stove. Keep your blend an arm’s length away.' },
   { slug: 'tote', name: 'Market Tote', sub: 'Merch · heavy canvas', color: '#0B1B3F', icon: 'tote',
@@ -163,7 +163,7 @@ const COMING = [
   { slug: 'apron', name: 'Kitchen Apron', sub: 'Merch · linen', color: '#5A3B22', icon: 'apron',
     line: 'A linen apron with a front pocket sized for a 4 oz shaker.' },
   { slug: 'grinder', name: 'Salt Crusher & Grinder', sub: 'Walnut and ceramic', color: '#5A3B22', icon: 'grinder',
-    line: 'A walnut mill with a ceramic burr that cracks coarse salt and Awaken Pepper at the table.' },
+    line: 'A walnut mill with a ceramic burr that cracks coarse salt and Awakened Pepper at the table.' },
   { slug: 'dispenser', name: 'Countertop Dispenser', sub: 'Walnut · one-handed pour', color: '#5A3B22', icon: 'dispenser',
     line: 'A weighted walnut dispenser that pours a measured pinch — made for the stove side.' },
   { slug: 'olive-oil', name: 'Finishing Olive Oil', sub: 'With a partner grower', color: '#5E6B2E', icon: 'oil',
@@ -172,9 +172,31 @@ const COMING = [
     line: 'Raw wildflower honey from Utah hives, for toast, tea and cheese boards.' },
   { slug: 'hot-honey', name: 'Hot Honey', sub: 'Utah honey + chili', color: '#B0401C', icon: 'honey',
     line: 'Utah honey infused with chili for pizza, fried chicken and roasted carrots.' },
-  { slug: 'refill', name: 'Refill Pouches', sub: 'Every blend · 16 oz', color: '#0B1B3F', icon: 'pouch',
+  { slug: 'refill', name: 'Refill & Bulk Bags', sub: 'Every blend · refill and bulk', color: '#0B1B3F', img: 'img/refill-card.jpg',
     line: 'Top up your glass jars for less, with less packaging.' },
 ];
+
+/* The seasonings shelf (Drive: Product and Display Review v2). Awakened Pepper is on sale; the rest are
+   packaging concepts. Gold descriptors are the label copy; little lines are proposed creative copy. */
+const SEASONINGS = [
+  { slug: 'awaken-pepper', name: 'Awakened Pepper', group: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
+  { slug: 'ember-steak', name: 'Ember Steak Salt', group: 'salt', gold: 'Savory grilling blend', little: 'Fire up every bite', color: '#7A2E1E' },
+  { slug: 'garden-herb', name: 'Garden Herb Salt', group: 'salt', gold: 'Garden herb blend', little: 'A little garden in every pinch', color: '#4A6A3C' },
+  { slug: 'smoked', name: 'Smoked Sea Salt', group: 'salt', gold: 'Smoky finishing salt', little: 'A little smoke goes a long way', color: '#5E4636' },
+  { slug: 'chili-lime', name: 'Chili Lime Salt', group: 'salt', gold: 'Zesty chili blend', little: 'A bright little kick', color: '#A8402A' },
+  { slug: 'truffle', name: 'Truffle Salt', group: 'salt', gold: 'Earthy finishing salt', little: 'A little everyday luxury', color: '#3E4440' },
+  { slug: 'garlic', name: 'Garlic Salt', group: 'salt', gold: 'Savory garlic blend', little: 'Make every pinch count', color: '#9A7A3E' },
+  { slug: 'citrus', name: 'Citrus Salt', group: 'salt', gold: 'Bright citrus blend', little: 'A little sunshine in every pinch', color: '#B8902A' },
+  { slug: 'white-pepper', name: 'White Pepper', group: 'pepper', gold: 'Mellow pepper warmth', little: 'A quiet little kick', color: '#6E6A60' },
+  { slug: 'green-pepper', name: 'Green Pepper', group: 'pepper', gold: 'Bright pepper bite', little: 'A fresh twist on flavor', color: '#4E6B3A' },
+  { slug: 'pink-pepper', name: 'Pink Pepper', group: 'pepper', gold: 'Delicate peppery notes', little: 'A pretty little finish', color: '#A8455E' },
+  { slug: 'pepper-medley', name: 'Pepper Medley', group: 'pepper', gold: 'Colorful pepper medley', little: 'A little of everything', color: '#5E4A6E' },
+  { slug: 'cayenne', name: 'Cayenne', group: 'chile', gold: 'Fiery chili heat', little: 'A little goes a long way', color: '#B2401E' },
+  { slug: 'crushed-red', name: 'Crushed Red Pepper', group: 'chile', gold: 'Classic chili flakes', little: 'Turn up the everyday', color: '#A2321E' },
+  { slug: 'chipotle', name: 'Chipotle', group: 'chile', gold: 'Smoky chili depth', little: 'Smoke with a little spark', color: '#7A3A24' },
+  { slug: 'ancho', name: 'Ancho', group: 'chile', gold: 'Rich mellow chili', little: 'Big flavor, gentle warmth', color: '#6E2A22' },
+  { slug: 'jalapeno', name: 'Jalapeño', group: 'chile', gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
+].map(x => ({ ...x, img: `img/soon-${x.slug}.jpg` }));
 
 const findBlend = s => BLENDS.find(b => b.slug === s);
 const findExtra = s => EXTRAS.find(e => e.slug === s);
@@ -247,7 +269,7 @@ const SALT_SOURCES = [
 const DISCOVERY = {   // anything sold as a single-serve packet can be picked; the price is per five
   salt: { label: 'Salts', price: 15, items: BLENDS.map(b => ({ slug: b.slug, name: b.name, tag: b.tag, color: b.color, img: `img/packet-${b.slug}.png`, available: true })) },
   seasoning: { label: 'Seasonings', price: 18, soon: true, items: [
-    { slug: 'awaken-pepper', name: 'Awaken Pepper', tag: 'Tellicherry pepper', color: '#1C1C1C', img: 'img/packet-awaken.png', available: false },
+    { slug: 'awaken-pepper', name: 'Awakened Pepper', tag: 'Tellicherry pepper', color: '#1C1C1C', img: 'img/packet-awaken.png', available: false },
     ...COMING.filter(c => ['ember-steak', 'garden-herb', 'smoked', 'chili-lime'].includes(c.slug)).map(c => ({ slug: c.slug, name: c.name, tag: c.sub, color: c.color, img: null, available: false })) ] },
 };
 

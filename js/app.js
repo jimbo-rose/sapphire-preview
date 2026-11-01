@@ -58,7 +58,7 @@ function layout() {
   <footer class="site"><div class="wrap">
     <div class="cols">
       <div><img class="logo" src="img/logo-ss-horizontal-white.png" alt="Sapphire Salt & Spice"><p>Sapphire Salt & Spice brings thoughtful salts, seasonings and spices to the everyday table. Blended in Park City, Utah.</p></div>
-      <div><h4>Shop</h4>${BLENDS.map(b => `<a href="product.html?p=${b.slug}">${b.name}</a>`).join('')}<a href="product.html?p=discovery">Discovery Collection</a><a href="product.html?p=awaken-pepper">Awaken Pepper</a><a href="shop.html#soon">Coming soon</a></div>
+      <div><h4>Shop</h4>${BLENDS.map(b => `<a href="product.html?p=${b.slug}">${b.name}</a>`).join('')}<a href="product.html?p=discovery">Discovery Collection</a><a href="product.html?p=awaken-pepper">Awakened Pepper</a><a href="shop.html#soon">Coming soon</a></div>
       <div><h4>Learn</h4><a href="ingredients.html">Ingredients</a><a href="process.html">Process & Quality</a><a href="story.html">Our Story</a><a href="story.html">Our Story</a><a href="faq.html">FAQ</a><a href="faq.html#find">Where to buy</a><a href="contact.html?t=idea">Suggest a blend</a></div>
       <div><h4>Company</h4><a href="team.html">Our team</a><a href="team.html#join">Join the team</a><a href="affiliates.html">Affiliates</a><a href="wholesale.html">Wholesale</a><a href="wholesale.html#signin">Retailer sign in</a><a href="contact.html">Contact us</a><a href="#">Instagram</a></div>
     </div>
@@ -165,9 +165,9 @@ function wireCards(root = document) {
   });
 }
 function extraImg(e) {
-  if (e.kind === 'pepper') return `<img src="img/awaken-solo.jpg" alt="Awaken Pepper in a glass jar" style="object-position:50% 40%">`;
+  if (e.kind === 'pepper') return `<img src="img/awaken-solo.jpg" alt="Awakened Pepper in a glass jar" style="object-position:50% 40%">`;
   if (e.kind === 'stand') return `<img src="img/stand-crop.jpg" alt="All ten jars on the walnut display stand">`;
-  if (e.kind === 'custom') return `<span class="engr"><img src="img/stand-crop.jpg" alt="The walnut display stand, engraved"><em>The Rose Family</em></span>`;
+  if (e.kind === 'custom') return `<span class="engr"><img src="img/stand-blank.jpg" alt="The walnut display stand, engraved"><em>The Rose Family</em></span>`;
   if (e.kind === 'gift') return `<img src="img/giftbox.jpg" alt="Three jars in the green Sapphire Salt gift box">`;
   if (e.kind === 'packets') return `<img src="img/fan.jpg" alt="Sample packets of all five blends">`;
   if (e.kind === 'kindness') return `<img src="img/kindness-card.jpg" alt="A Kindness Card with five packets">`;
@@ -209,21 +209,43 @@ function comingCard(c) {
     <div class="body"><span class="eyebrow">${c.sub}</span><h3>${c.name}</h3><p>${c.line}</p>
     <form class="notify"><input type="email" required placeholder="Your email" aria-label="Email"><button class="btn">Notify me</button></form></div></article>`;
 }
+/* the seasonings shelf on the shop page: Awakened Pepper to buy, the rest to vote for */
+function seasonings() {
+  const root = $('#seasonings'); if (!root) return;
+  const want = new Set(), grid = $('#seas', root), n = $('.sn-n', root);
+  grid.innerHTML = SEASONINGS.map(x => `<article class="seas" data-g="${x.group}" style="--c:${x.color}">
+    <div class="ph"><img src="${x.img}" alt="${x.name} in a small glass jar${x.live ? '' : ' (packaging concept)'}" loading="lazy">${x.live ? '' : '<span class="soon-tag">Soon</span>'}</div>
+    <h3>${x.name}</h3><small>${x.gold}</small>
+    ${x.live ? `<a class="btn" href="product.html?p=${x.slug}">Shop · ${money(findExtra(x.slug).price)}</a>` : `<button class="want" type="button" aria-pressed="false" data-s="${x.slug}">I’d buy this</button>`}</article>`).join('');
+  const count = () => n.textContent = want.size ? `${want.size} picked — we’ll email you when ${want.size > 1 ? 'they land' : 'it lands'}.` : 'Tap “I’d buy this” on any you want. We’ll make the most-wanted first.';
+  $$('.want', grid).forEach(b => b.onclick = () => {
+    const on = !want.has(b.dataset.s); on ? want.add(b.dataset.s) : want.delete(b.dataset.s);
+    b.setAttribute('aria-pressed', on); b.textContent = on ? '✓ On my list' : 'I’d buy this'; count();
+  });
+  $$('.seas-tabs button', root).forEach(t => t.onclick = () => {
+    $$('.seas-tabs button', root).forEach(x => x.classList.toggle('on', x === t));
+    $$('.seas', grid).forEach(a => a.hidden = t.dataset.g !== 'all' && a.dataset.g !== t.dataset.g);
+  });
+  $('.seas-notify', root).onsubmit = ev => { ev.preventDefault(); toast(want.size ? 'Thanks — you’ll hear first.' : 'Pick at least one seasoning first.'); if (want.size) ev.target.reset(); };
+  count();
+}
 function wireNotify(root = document) {
   $$('.notify', root).forEach(f => f.onsubmit = ev => { ev.preventDefault(); toast('Thanks — you’ll hear first.'); f.reset(); });
 }
 
 /* ---------- interactive shelf (home hero) ----------
-   Hotspots are in the stand image's own pixels (1680 × 936), turned into %. */
-const SHELF = { w: 1680, h: 936,
-  top: { y: [172, 434], x: [[464, 572], [619, 726], [772, 879], [917, 1031], [1067, 1181]] },
-  bot: { y: [486, 800], x: [[428, 594], [596, 766], [763, 930], [926, 1095], [1091, 1262]] },
-  stand: [322, 88, 1400, 858],
-  frame: [[322, 88, 1400, 178], [322, 88, 402, 858], [1296, 150, 1400, 858], [390, 428, 1320, 482], [360, 782, 1400, 858]],   // wood: sign, posts, shelf, base
-  salt: { img: 'img/hero-stand.jpg', alt: 'All five Sapphire Salt blends in both sizes on the walnut display stand',
-    order: ['hydrate', 'restore', 'pure', 'gut-health', 'belly-bliss'], stand: 'display-collection' },
-  seasonings: { img: 'img/seasonings-stand.jpg', alt: 'Awaken Pepper and four coming-soon seasonings on a walnut stand',
-    order: ['awaken-pepper', 'ember-steak', 'garden-herb', 'smoked', 'chili-lime'], stand: null },
+   Hotspots are in each image's own pixels, turned into %. Geometry: ../assets/v2/shelf-geometry.json */
+const SHELF = {
+  salt: { img: 'img/hero-stand.jpg', alt: 'All five Sapphire Salt & Spice blends in both sizes on the engraved walnut display shelf',
+    order: ['hydrate', 'restore', 'pure', 'gut-health', 'belly-bliss'], stand: 'display-collection', w: 1672, h: 941,
+    top: { y: [172, 408], x: [[494, 618], [656, 776], [812, 930], [964, 1081], [1114, 1231]] },
+    bot: { y: [462, 782], x: [[458, 634], [636, 806], [808, 980], [980, 1149], [1149, 1319]] },
+    case: [298, 64, 1440, 856],
+    frame: [[298, 64, 1400, 172], [298, 64, 456, 856], [1330, 130, 1440, 856], [456, 408, 1360, 462], [420, 784, 1440, 856]] },   // wood: sign, posts, shelf, base
+  seasonings: { img: 'img/seasonings-stand.jpg', alt: 'Awakened Pepper and four coming-soon seasonings in small jars on a counter',
+    order: ['awaken-pepper', 'ember-steak', 'garden-herb', 'smoked', 'chili-lime'], stand: null, w: 1672, h: 941,
+    top: { y: [450, 926], x: [[20, 314], [354, 649], [689, 983], [1023, 1318], [1358, 1652]] }, bot: null,
+    case: [0, 420, 1672, 941], frame: [] },
 };
 function shelfItem(slug, row) {
   const b = findBlend(slug);
@@ -232,7 +254,7 @@ function shelfItem(slug, row) {
   const e = findExtra(slug);
   if (e && !(e.kind === 'pepper' && row === 'bot'))
     return { name: e.name, sub: e.sub, line: e.line, color: e.color, img: extraThumb(e), href: `product.html?p=${e.slug}`, extra: e };
-  if (e) return { name: 'Awaken Pepper — kitchen jar', sub: 'Larger size', line: 'A refill-sized jar of Tellicherry peppercorns for the pepper mill.', color: e.color, img: 'img/seasonings-crop.jpg', soon: true };
+  if (e) return { name: 'Awakened Pepper — kitchen jar', sub: 'Larger size', line: 'A refill-sized jar of Tellicherry peppercorns for the pepper mill.', color: e.color, img: 'img/seasonings-crop.jpg', soon: true };
   const c = findComing(slug);
   return { name: c.name, sub: c.sub, line: c.line, color: c.color, img: c.img, soon: true };
 }
@@ -240,26 +262,27 @@ const pct = (v, of) => (v / of * 100).toFixed(3) + '%';
 let shelfLocked = null;
 function shelf(which = 'salt') {
   const S = SHELF[which], root = $('#shelf'); root.dataset.which = which; shelfLocked = null;
+  const W = S.w, H = S.h;
   // each hotspot carries its own bright crop of the photo, so it can lift off the dimmed shelf
   const box = ([x0, y0, x1, y1]) => {
     const w = x1 - x0, h = y1 - y0;
-    return `left:${pct(x0, SHELF.w)};top:${pct(y0, SHELF.h)};width:${pct(w, SHELF.w)};height:${pct(h, SHELF.h)};` +
-      `--x:url(${new URL(S.img, location.href).href});background-size:${(SHELF.w / w * 100).toFixed(2)}% ${(SHELF.h / h * 100).toFixed(2)}%;` +
-      `background-position:${(x0 / (SHELF.w - w) * 100).toFixed(2)}% ${(y0 / (SHELF.h - h) * 100).toFixed(2)}%`;
+    return `left:${pct(x0, W)};top:${pct(y0, H)};width:${pct(w, W)};height:${pct(h, H)};` +
+      `--x:url(${new URL(S.img, location.href).href});background-size:${(W / w * 100).toFixed(2)}% ${(H / h * 100).toFixed(2)}%;` +
+      `background-position:${(x0 / (W - w) * 100).toFixed(2)}% ${(y0 / (H - h) * 100).toFixed(2)}%`;
   };
   let hots = '';
-  ['top', 'bot'].forEach(row => S.order.forEach((slug, i) => {
-    const it = shelfItem(slug, row), [x0, x1] = SHELF[row].x[i], [y0, y1] = SHELF[row].y;
+  ['top', 'bot'].filter(row => S[row]).forEach(row => S.order.forEach((slug, i) => {
+    const it = shelfItem(slug, row), [x0, x1] = S[row].x[i], [y0, y1] = S[row].y;
     hots += `<button class="hot" style="${box([x0, y0, x1, y1])}" data-slug="${slug}" data-row="${row}" aria-label="${it.name}${it.size ? ', ' + it.size.label : ''}"><i class="dot"></i></button>`;
   }));
-  const frames = SHELF.frame.map(f => `<span class="frame" style="left:${pct(f[0], SHELF.w)};top:${pct(f[1], SHELF.h)};width:${pct(f[2] - f[0], SHELF.w)};height:${pct(f[3] - f[1], SHELF.h)}"></span>`).join('');
+  const frames = S.frame.map(f => `<span class="frame" style="left:${pct(f[0], W)};top:${pct(f[1], H)};width:${pct(f[2] - f[0], W)};height:${pct(f[3] - f[1], H)}"></span>`).join('');
   const e = S.stand && findExtra(S.stand);
   root.innerHTML = `<div class="canvas"><img class="bg" src="${S.img}" alt="${S.alt}" fetchpriority="high">
     <div class="sun" aria-hidden="true"><i class="leaves l1"></i><i class="leaves l2"></i><i class="glow"></i></div>
-    <button class="hot case" style="${box(SHELF.stand)}" aria-label="${e ? 'The whole display, ' + money(e.price) : 'Seasonings shelf'}"></button>${frames}${hots}</div>`;
+    <button class="hot case" style="${box(S.case)}" aria-label="${e ? 'The whole display, ' + money(e.price) : 'Seasonings shelf'}"></button>${frames}${hots}</div>`;
   const bar = $('#whole-bar');
   bar.innerHTML = e ? `<span class="wb-l"><b>Shop the whole shelf</b><small>All ten jars + the walnut display stand</small></span><span class="wb-r">${money(e.price)} <i>→</i></span>`
-    : `<span class="wb-l"><b>The seasonings shelf</b><small>Awaken Pepper today · four more in the works</small></span><span class="wb-r">Coming soon <i>→</i></span>`;
+    : `<span class="wb-l"><b>The seasonings shelf</b><small>Awakened Pepper today · sixteen more in the works</small></span><span class="wb-r">Coming soon <i>→</i></span>`;
   const hover = matchMedia('(hover:hover)').matches;
   // only the jars react to the pointer; the whole-shelf offer lives in the panel button
   // the whole display: the gold tag on the sign, or any of the wood
@@ -327,7 +350,7 @@ function shelfInfo(h, which) {
   if (!h.classList.contains('case')) return shelfItem(h.dataset.slug, h.dataset.row);
   const e = S.stand && findExtra(S.stand);
   return e ? { name: e.name, sub: e.sub, line: e.line, color: e.color, img: 'img/stand-crop.jpg', href: `product.html?p=${e.slug}`, extra: e, shop: true }
-    : { name: 'The Seasonings Shelf', sub: 'Pepper, steak, herb, smoked, chili lime', line: 'Awaken Pepper is here now. Four more seasonings are in the works — get first word when they land.', color: '#3B2A1E', img: 'img/seasonings-crop.jpg', soon: true };
+    : { name: 'The Seasonings Shelf', sub: 'Flavored salts, peppercorns & chiles', line: 'Awakened Pepper is here now. Sixteen more seasonings are in the works — get first word when they land.', color: '#3B2A1E', img: 'img/seasonings-crop.jpg', href: 'shop.html#seasonings', soon: true };
 }
 function select(h, which, preview = false) {
   const root = $('#shelf');
@@ -351,8 +374,8 @@ function shelfPanel(which, it) {
       $('.sp-one', q).onclick = () => addToCart({ key: 'discovery-' + BLENDS.map(x => x.short).join('-'), name: 'Discovery Collection', variant: BLENDS.map(x => x.short).join(', '), price: 15, qty: 1, img: 'img/fan-card.jpg', packet: true });
     } else {
       q.innerHTML = `<div class="sp-body"><span class="eyebrow">Seasonings Discovery · coming soon</span><h3>Five seasonings to try</h3>
-        <div class="sp-packs one"><figure><img src="img/packet-awaken.png" alt="Awaken Pepper packet"><figcaption>Awaken Pepper</figcaption></figure></div>
-        <p>Pepper, steak, herb, smoked and chili lime — pick any five when they land.</p>
+        <div class="sp-packs one"><figure><img src="img/packet-awaken.png" alt="Awakened Pepper packet"><figcaption>Awakened Pepper</figcaption></figure></div>
+        <p>Steak, herb, smoked, chili lime and more — pick any five when they land. <a class="link" href="shop.html#seasonings">See all seventeen</a></p>
         <form class="notify"><input type="email" required placeholder="Email for first word" aria-label="Email"><button class="btn">Notify me</button></form></div>`;
       wireNotify(q);
     }
@@ -392,7 +415,8 @@ const R = {
   shop() {
     $('#blends').innerHTML = BLENDS.map(blendCard).join(''); wireCards($('#blends'));
     $('#extras').innerHTML = EXTRAS.map(extraCard).join(''); wireExtras($('#extras'));
-    $('#coming').innerHTML = COMING.map(comingCard).join(''); wireNotify($('#coming'));
+    $('#coming').innerHTML = COMING.filter(c => !SEASONINGS.some(x => x.slug === c.slug)).map(comingCard).join(''); wireNotify($('#coming'));
+    seasonings();
   },
   product() {
     const slug = new URLSearchParams(location.search).get('p') || 'pure';
@@ -402,27 +426,27 @@ const R = {
     const root = $('#pdp'); root.style.setProperty('--c', p.color); root.style.setProperty('--tint', p.tint);
     let imgs, sizeHTML = '', ingHTML = '';
     if (b) {
-      imgs = [[`img/${b.slug}-pair.jpg`, ''], [`img/${b.slug}-16oz-label.jpg`, 'contain'], [`img/${b.slug}-4oz-label.jpg`, 'contain'], ['img/stand-crop.jpg', '']];
+      imgs = [[`img/${b.slug}-pair.jpg`, ''], [`img/${b.slug}-4oz.jpg`, ''], [`img/${b.slug}-16oz.jpg`, ''], [`img/${b.slug}-family.jpg`, ''], ['img/stand-crop.jpg', '']];
       sizeHTML = `<div class="opt-label">Size</div><div class="sizes">${SIZES.map((s, i) => `<button class="size${i ? '' : ' on'}" data-size="${s.id}"><span><b>${s.label}</b><small>${s.note}</small></span><span class="price">${money(s.price)}</span></button>`).join('')}</div>
         <div class="opt-label">Purchase</div><div class="ptype">
           <label class="on"><input type="radio" name="pt" value="once" checked> One-time purchase</label>
           <label><input type="radio" name="pt" value="sub"> Subscribe & save — ships every 2 months <span class="save">Save ${SS.subscribeOff * 100}%</span></label></div>`;
       ingHTML = b.ingredients.map(i => { const g = INGREDIENTS.find(x => x.name === i.name); return `<h4 class="wi"><img src="${g.img}" alt="" loading="lazy"><span><small>${i.title}</small><a href="ingredient.html?i=${g.slug}">${i.name}</a></span></h4><p class="no-ing">${i.desc} <a class="link sm" href="ingredient.html?i=${g.slug}">Learn more</a></p>`; }).join('') + `<p><a class="link" href="ingredients.html">All ingredients</a></p>`;
     } else {
-      imgs = e.kind === 'pepper' ? [['img/awaken-pair.jpg', ''], ['img/awaken-solo.jpg', ''], ['img/awaken-pepper-label.jpg', 'contain'], ['img/seasonings-crop.jpg', '']]
-        : e.kind === 'stand' ? [['img/stand-crop.jpg', ''], ['img/hero-stand.jpg', ''], ['img/set-4oz.jpg', ''], ['img/set-16oz.jpg', '']]
+      imgs = e.kind === 'pepper' ? [['img/awaken-6oz.jpg', ''], ['img/awaken-pair.jpg', ''], ['img/awaken-family.jpg', ''], ['img/seasonings-crop.jpg', '']]
+        : e.kind === 'stand' ? [['img/stand-crop.jpg', ''], ['img/hero-stand.jpg', ''], ['img/stand-rear.jpg', ''], ['img/set-4oz.jpg', ''], ['img/set-16oz.jpg', '']]
         : e.kind === 'gift' ? [['img/giftbox.jpg', ''], ['img/fan.jpg', '']]
-        : e.kind === 'packets' ? [['img/fan.jpg', ''], ['img/caddy.jpg', '']]
+        : e.kind === 'packets' ? [['img/fan.jpg', ''], ['img/pure-family.jpg', ''], ['img/caddy.jpg', '']]
         : e.kind === 'kindness' ? [['img/kindness-card.jpg', ''], ['img/fan.jpg', '']]
         : e.kind === 'giftcard' ? [['img/giftcard.jpg', '']]
-        : e.kind === 'custom' ? [['engraved', ''], ['img/hero-stand.jpg', '']]
+        : e.kind === 'custom' ? [['engraved', ''], ['img/hero-stand.jpg', ''], ['img/lid-etch.jpg', ''], ['img/stand-rear.jpg', '']]
         : e.kind === 'subgift' ? [['img/year-of-salt.jpg', ''], ['img/stand-crop.jpg', '']] : e.kind === 'set' ? [['img/set-4oz.jpg', ''], ['img/stand-crop.jpg', '']] : e.kind === 'set16' ? [['img/set-16oz.jpg', ''], ['img/stand-crop.jpg', '']] : [['packets', '']];
     }
     if (e && e.slug === 'discovery') sizeHTML = `<div class="opt-label">Pick your five <span class="pick-n">5 of 5</span></div>
         <div class="tabs-mini"><button class="on" data-dt="salt">Salts</button><button data-dt="seas">Seasonings <em>Soon</em></button></div>
         <div class="picker" data-dt="salt">${BLENDS.map(x => `<div class="pk" style="--c:${x.color}"><i></i><span>${x.name}</span>
           <div class="qty sm"><button data-pk="${x.slug}" data-d="-1">−</button><b data-pkv="${x.slug}">1</b><button data-pk="${x.slug}" data-d="1">+</button></div></div>`).join('')}</div>
-        <div class="picker" data-dt="seas" hidden><p style="color:var(--muted);font-size:14px;margin:0 0 10px">A Seasonings Discovery — Awaken Pepper plus steak, herb, smoked and chili lime — is coming. Proposed: any 5 for $18.</p>
+        <div class="picker" data-dt="seas" hidden><p style="color:var(--muted);font-size:14px;margin:0 0 10px">A Seasonings Discovery — Awakened Pepper plus steak, herb, smoked and chili lime — is coming. Proposed: any 5 for $18.</p>
           <form class="notify"><input type="email" required placeholder="Email for first word" aria-label="Email"><button class="btn">Notify me</button></form></div>
         <p class="pick-note">Three packets of each pick · doubles welcome · ships free on its own</p>`;
     if (e && e.slug === 'gift-box') sizeHTML = `<div class="opt-label">Choose three blends</div><div class="gift-picks">${[0, 1, 2].map(i => `<select data-gp="${i}">${[...BLENDS, findExtra('awaken-pepper')].map((x, j) => `<option value="${x.slug}"${j === [0, 1, 4][i] ? ' selected' : ''}>${x.name}</option>`).join('')}</select>`).join('')}</div>
@@ -437,7 +461,7 @@ const R = {
         <div class="opt-label">For</div><div class="gform"><input class="g-name" placeholder="Their name"><label>First box ships <select class="g-start">${['December', 'January', 'February', 'March'].map(m => `<option>${m}</option>`).join('')}</select></label><textarea class="g-note" rows="2" maxlength="200" placeholder="Your note on the first box"></textarea></div>`;
     if (e && e.kind === 'custom') sizeHTML = `<div class="opt-label">Your engraving <small>(up to 28 characters, or a logo)</small></div>
         <div class="gform"><input class="g-engr" maxlength="28" value="The Rose Family" aria-label="Engraving text"><label class="ck2"><input type="checkbox" class="g-logo"> Engrave our logo instead — we’ll email a proof first</label></div>`;
-    const mainImg = ([src, cls]) => src === 'engraved' ? `<span class="engr big"><img src="img/stand-crop.jpg" alt="The walnut display stand, engraved"><em>${($('.g-engr', root) || {}).value || 'The Rose Family'}</em></span>` : src === 'packets' ? packetsSVG(5, 220) : `<img class="${cls}" src="${src}" alt="${p.name}">`;
+    const mainImg = ([src, cls]) => src === 'engraved' ? `<span class="engr big"><img src="img/stand-blank.jpg" alt="The walnut display stand, engraved"><em>${($('.g-engr', root) || {}).value || 'The Rose Family'}</em></span>` : src === 'packets' ? packetsSVG(5, 220) : `<img class="${cls}" src="${src}" alt="${p.name}">`;
     root.innerHTML = `
       <div class="gallery"><div class="main">${mainImg(imgs[0])}</div>
         ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((im, i) => `<button class="${i ? '' : 'on'}" data-i="${i}"><img class="${im[1]}" src="${im[0] === 'engraved' ? 'img/stand-crop.jpg' : im[0]}" alt=""></button>`).join('')}</div>` : ''}</div>
