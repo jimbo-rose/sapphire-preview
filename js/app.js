@@ -38,7 +38,7 @@ function packetsSVG(n = 5, h = 150) {
 /* the face of the brand: her photo when it lands in img/team/<slug>.jpg, a monogram until then */
 function portrait(m, big) {
   return `<figure class="portrait${big ? ' big' : ''}">${m.photo ? `<img src="${m.photo}" alt="${m.name}">`
-    : `<div class="pt-ph"><img src="img/tiara-gold.png" alt=""><span>${m.name.split(' ').map(w => w[0]).join('')}</span><small>Portrait coming</small></div>`}</figure>`;
+    : `<div class="pt-ph"><img src="img/tiara-gold.png" alt=""><span class="pt-name">${m.name}</span><small>Portrait coming</small></div>`}</figure>`;
 }
 function meetFace() {
   const m = TEAM.find(x => x.face);
@@ -54,7 +54,7 @@ function layout() {
   <header class="site"><div class="wrap nav">
     <button class="burger" aria-label="Menu">${ICON.menu}</button>
     <nav class="left">${nav.map(a).join('')}</nav>
-    <a class="brand" href="index.html" aria-label="Sapphire Salt & Spice home"><img src="img/logo-ss-horizontal.png" alt="Sapphire Salt & Spice"></a>
+    <a class="brand" href="index.html" aria-label="Sapphire Salt & Spice home"><img src="img/logo-ss-stacked.png" alt="Sapphire Salt & Spice"></a>
     <div class="right">${navR.map(a).join('')}<button class="cart-btn" aria-label="Cart">${ICON.cart}<span class="count">0</span></button></div>
   </div><nav class="mobile-menu">${[...nav, ...navR, ['faq.html', 'FAQ & Contact', 'faq']].map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</nav></header>`);
 
@@ -93,11 +93,34 @@ function layout() {
 let cart = [];
 try { cart = JSON.parse(localStorage.getItem('ss_cart') || '[]'); } catch (e) { cart = []; }
 const save = () => { try { localStorage.setItem('ss_cart', JSON.stringify(cart)); } catch (e) {} renderCart(); };
+let lastTap = null;   // the button that was pressed, so the grains know where to start
+document.addEventListener('pointerdown', e => { const b = e.target.closest('button, .btn'); if (b) lastTap = { el: b, t: Date.now() }; }, true);
+function pour(from) {   // a small arc of salt grains from the button to the bag
+  const cb = $('.cart-btn'); if (!cb || calm) return 0;
+  const a = from.getBoundingClientRect(), z = cb.getBoundingClientRect();
+  const x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = z.left + z.width / 2, y1 = z.top + z.height / 2;
+  for (let i = 0; i < 12; i++) {
+    const g = document.createElement('i'); g.className = 'grain'; document.body.appendChild(g);
+    const dx = (Math.random() - .5) * 40, lift = 90 + Math.random() * 80, d = 520 + Math.random() * 260;
+    g.animate([
+      { transform: `translate(${x0 + dx}px,${y0}px) scale(1)`, opacity: 1 },
+      { transform: `translate(${(x0 + x1) / 2 + dx}px,${Math.min(y0, y1) - lift}px) scale(1.1)`, opacity: 1, offset: .45 },
+      { transform: `translate(${x1}px,${y1}px) scale(.4)`, opacity: .2 }],
+      { duration: d, delay: i * 22, easing: 'cubic-bezier(.4,.1,.3,1)', fill: 'forwards' }).onfinish = () => g.remove();
+  }
+  return 640;
+}
 function addToCart(item) {
   const hit = cart.find(i => i.key === item.key);
   hit ? hit.qty += item.qty : cart.push(item);
-  save(); openCart();
-  const cb = $('.cart-btn'); cb.classList.remove('bump'); void cb.offsetWidth; cb.classList.add('bump');
+  save();
+  const btn = lastTap && Date.now() - lastTap.t < 1500 && lastTap.el.isConnected ? lastTap.el : null;
+  const wait = btn ? pour(btn) : 0;
+  if (btn && !btn.classList.contains('added')) {   // a short "Added" with a check, then back to normal
+    const was = btn.innerHTML; btn.classList.add('added'); btn.innerHTML = `<span class="ok">✓</span> Added`;
+    setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = was; }, 1500);
+  }
+  setTimeout(() => { const cb = $('.cart-btn'); cb.classList.remove('bump'); void cb.offsetWidth; cb.classList.add('bump'); openCart(); }, wait);
 }
 /* proposed shipping rules (SS in data.js): free over the threshold; subscriptions free from
    subShipMin; packet-only orders (Discovery, Kindness) mail flat and ship free; else a flat rate */
@@ -160,20 +183,25 @@ function toast(msg) { const t = $('.toast'); t.textContent = msg; t.classList.ad
 /* ---------- product card ---------- */
 const CHIPS = SIZES.filter(z => z.chip !== null);   // the card shows one chip per format; the product page has every box size
 const sizeAlt = (b, z) => z.jar ? `${b.name} in 4 oz and 16 oz jars` : `${b.name} ${z.label.toLowerCase()}`;
+const STAR5 = n => [1, 2, 3, 4, 5].map(i => `<i class="${n >= i - .25 ? 'f' : n >= i - .75 ? 'h' : ''}">★</i>`).join('');
+const starsHTML = slug => { const r = ratingOf(slug);
+  return r ? `<a class="stars" href="product.html?p=${slug}#reviews" aria-label="${r.avg.toFixed(1)} out of 5, ${r.n} reviews">${STAR5(r.avg)}<span>${r.avg.toFixed(1)} (${r.n})</span></a>`
+    : `<a class="stars none" href="product.html?p=${slug}#reviews"><span>No reviews yet</span></a>`; };
+const strip = items => items && items.length ? `<div class="strip" aria-label="${items.join(', ')}"><div class="track">${[0, 1].map(k => `<span aria-hidden="true">${items.map(x => `<i>${x}</i>`).join('')}</span>`).join('')}</div></div>` : '';
 const EYE = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18.3 10c0 2-2.5 6.7-8.3 6.7S1.7 12 1.7 10 4.2 3.3 10 3.3 18.3 8 18.3 10Z"/><circle cx="10" cy="10" r="2.5"/></svg>';
 /* the card, after SALTT: a pill, quick view and quick add on hover, the allergen line, and a slow strip of what's in it */
 function blendCard(b) {
-  const pill = b.popular ? '★ Most popular' : b.rating ? `★ ${b.rating.avg.toFixed(1)} <small>(${b.rating.n})</small>` : 'New';
+  const pill = b.popular ? '★ Most popular' : 'New';
   return `<article class="card" style="--c:${b.color};--tint:${b.tint}" data-slug="${b.slug}">
     <div class="ph"><a href="product.html?p=${b.slug}" tabindex="-1"><img src="img/${b.slug}-card.jpg" alt="${sizeAlt(b, SIZES[0])}" loading="lazy"></a>
       <span class="pop${b.popular ? '' : ' new'}">${pill}</span>
       <button class="qv" type="button" aria-label="Quick view: ${b.name}">${EYE}<span>View</span></button>
       <button class="qadd" type="button">Quick add · <b>${money(SIZES[0].price)}</b></button>
       ${b.allergens ? `<span class="alg">${b.allergens}</span>` : ''}</div>
-    <div class="body"><span class="tag">${b.tag}</span><h3><a href="product.html?p=${b.slug}">${b.name}</a></h3><p>${b.line}</p>
+    <div class="body"><span class="tag">${b.tag}</span><h3><a href="product.html?p=${b.slug}">${b.name}</a></h3>${starsHTML(b.slug)}<p>${b.line}</p>
       <div class="chips">${CHIPS.map((s, i) => `<button class="chip${i ? '' : ' on'}" data-size="${s.id}">${s.chip || s.label}</button>`).join('')}</div>
       <div class="buy"><span class="price">${money(SIZES[0].price)}</span><button class="add">Add to cart</button></div></div>
-    ${b.spec ? `<div class="strip" aria-label="What’s in it"><div class="track">${[0, 1].map(k => `<span${k ? ' aria-hidden="true"' : ''}>${b.spec.map(x => `<i>${x}</i>`).join('')}</span>`).join('')}</div></div>` : ''}</article>`;
+    ${strip(b.spec && [...b.spec, b.allergens])}</article>`;
 }
 /* quick view: the card's essentials in a panel, without leaving the grid */
 function quickView(b, size = SIZES[0]) {
@@ -209,7 +237,7 @@ function wireCards(root = document) {
   });
 }
 function extraImg(e) {
-  if (e.kind === 'pepper') return `<img src="img/awaken-solo.jpg" alt="Awakened Pepper in a glass jar" style="object-position:50% 40%">`;
+  if (e.kind === 'pepper') return `<img src="img/soon-awaken-pepper.jpg" alt="Awakened Pepper in a glass jar" style="object-position:50% 35%">`;
   if (e.kind === 'stand') return `<img src="img/stand-crop.jpg" alt="All ten jars on the walnut display stand">`;
   if (e.kind === 'custom') return engraved(['The Rose Family', 'Salt with purpose', 'Est. 2026'], 'The walnut display stand, engraved on all three rails');
   if (e.kind === 'gift') return `<img src="img/giftbox-card.jpg" alt="Three 4 oz jars in front of the navy, gold-foil Sapphire gift box">`;
@@ -218,20 +246,22 @@ function extraImg(e) {
   if (e.kind === 'giftcard') return `<img src="img/giftcard.jpg" alt="Sapphire Salt digital gift card">`;
   if (e.kind === 'subgift') return `<img src="img/year-of-salt.jpg" alt="A Year of Salt & Spice: twelve different jars, one a month">`;
   if (e.kind === 'set') return `<img src="img/set-4oz.jpg" alt="All five blends in 4 oz shaker jars">`;
-  if (e.kind === 'test') return `<span class="proto"><img src="img/hydrate-sticks-card.jpg" alt="Three prototype sticks"><b>Prototype</b><em>Now testing: ${e.now}</em></span>`;
+  if (e.kind === 'test') return conceptArt(e.now, 'Small batch', e.color);
   if (e.kind === 'set16') return `<img src="img/set-16oz.jpg" alt="All five blends in 16 oz kitchen jars">`;
   return packetsSVG(e.slug === 'kindness' ? 5 : 5, 130);
 }
-const extraThumb = e => e.kind === 'custom' ? 'img/stand-crop.jpg' : e.kind === 'kindness' ? 'img/kindness-card.jpg' : e.kind === 'giftcard' ? 'img/giftcard.jpg' : e.kind === 'subgift' ? 'img/year-of-salt.jpg' : e.kind === 'pepper' ? 'img/awaken-solo.jpg' : e.kind === 'stand' ? 'img/stand-crop.jpg' : e.kind === 'gift' ? 'img/giftbox-card.jpg' : e.kind === 'packets' ? 'img/fan-card.jpg' : e.kind === 'set' ? 'img/set-4oz.jpg' : e.kind === 'set16' ? 'img/set-16oz.jpg' : e.kind === 'test' ? 'img/hydrate-sticks-card.jpg' : 'img/crest-gold.png';
+const extraThumb = e => e.kind === 'custom' ? 'img/stand-crop.jpg' : e.kind === 'kindness' ? 'img/kindness-card.jpg' : e.kind === 'giftcard' ? 'img/giftcard.jpg' : e.kind === 'subgift' ? 'img/year-of-salt.jpg' : e.kind === 'pepper' ? 'img/soon-awaken-pepper.jpg' : e.kind === 'stand' ? 'img/stand-crop.jpg' : e.kind === 'gift' ? 'img/giftbox-card.jpg' : e.kind === 'packets' ? 'img/fan-card.jpg' : e.kind === 'set' ? 'img/set-4oz.jpg' : e.kind === 'set16' ? 'img/set-16oz.jpg' : e.kind === 'test' ? 'img/tiara-gold.png' : 'img/crest-gold.png';
+/* art for things we don't have a photo of yet: the product's color, the tiara and its name */
+const conceptArt = (name, label, color, cls = '') => `<span class="concept-art ${cls}" style="--c:${color}"><img src="img/tiara-white.png" alt=""><b>${name}</b><small>${label}</small></span>`;
 /* the stand with every rail blank, and the customer's words laid into the walnut */
 const RAILS = [['Top sign', 'Sapphire Salt and Spice'], ['Middle rail', 'Salt with purpose'], ['Bottom rail', 'Your everyday salt']];
 const engraved = (lines, alt) => `<span class="engr"><img src="img/stand-blank3.jpg" alt="${alt}">${lines.map((t, i) => `<em class="r${i}"${t ? '' : ' hidden'}>${t}</em>`).join('')}</span>`;
 function extraCard(e) {
-  return `<article class="set" style="--tint:${e.tint}"><a class="ph" href="product.html?p=${e.slug}">${extraImg(e)}</a>
-    <div class="body">${e.was ? '<span><span class="badge">Save ' + money(e.was - e.price) + '</span></span>' : ''}<h3><a href="product.html?p=${e.slug}">${e.name}</a></h3>
+  return `<article class="set" style="--tint:${e.tint};--c:${e.color === '#0B1B3F' ? 'var(--navy)' : e.color}"><a class="ph" href="product.html?p=${e.slug}">${extraImg(e)}</a>
+    <div class="body">${e.was ? '<span><span class="badge">Save ' + money(e.was - e.price) + '</span></span>' : ''}<h3><a href="product.html?p=${e.slug}">${e.name}</a></h3>${e.digital ? '' : starsHTML(e.slug)}
     <span class="eyebrow" style="letter-spacing:.14em">${e.sub}</span><p>${e.line}</p>
     <div class="buy" style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="price">${money(e.price)}${e.was ? `<s>${money(e.was)}</s>` : ''}</span>
-    <button class="add" data-extra="${e.slug}">Add to cart</button></div></div></article>`;
+    <button class="add" data-extra="${e.slug}">Add to cart</button></div></div>${strip(e.spec)}</article>`;
 }
 function wireExtras(root = document) {
   $$('[data-extra]', root).forEach(b => b.onclick = () => { const e = findExtra(b.dataset.extra); addToCart({ key: e.slug, name: e.name, variant: e.sub, price: e.price, qty: 1, img: extraThumb(e), packet: !!e.packet }); });
@@ -259,9 +289,9 @@ const SOON_ICON = {
 };
 function comingCard(c) {
   const ph = c.img ? `<img src="${c.img}" alt="${c.name} concept" loading="lazy">` : `<div class="soon-ic" style="color:${c.color}">${SOON_ICON[c.icon]}</div>`;
-  return `<article class="soon-card" style="--c:${c.color}"><div class="ph">${ph}<span class="soon-tag">${c.img ? 'Concept' : 'Idea'}</span></div>
+  return `<article class="soon-card" style="--c:${c.color}"><div class="ph">${ph}<span class="soon-tag">Concept</span></div>
     <div class="body"><span class="eyebrow">${c.sub}</span><h3>${c.name}</h3><p>${c.line}</p>
-    <form class="notify"><input type="email" required placeholder="Your email" aria-label="Email"><button class="btn">Notify me</button></form></div></article>`;
+    <form class="notify"><input type="email" required placeholder="Your email" aria-label="Email"><button class="btn">Notify me</button></form></div>${strip(c.sub.split(' · ').concat('Coming soon'))}</article>`;
 }
 /* seasonings and spices on the shop page: each its own section, sub-category tabs, buy or vote */
 function shelfGrid(cat) {
@@ -271,9 +301,9 @@ function shelfGrid(cat) {
   $('.seas-tabs', root).innerHTML = [['all', 'All'], ...C.subs].map(([k, t], i) => `<button class="${i ? '' : 'on'}" data-g="${k}">${t}</button>`).join('');
   grid.innerHTML = items.map(x => { const e = x.live && findExtra(x.slug);
     return `<article class="seas" data-g="${x.sub}" style="--c:${x.color}">
-    <div class="ph"><img src="${x.img}" alt="${x.name} in a small glass jar${x.live ? '' : ' (packaging concept)'}" loading="lazy">${x.live ? '' : '<span class="soon-tag">Soon</span>'}</div>
+    <div class="ph">${x.img ? `<img src="${x.img}" alt="${x.name} in a small glass jar${x.live ? '' : ' (packaging concept)'}" loading="lazy">` : conceptArt(x.name, x.gold, x.color, 'tall')}${x.live ? '' : '<span class="soon-tag">Concept</span>'}</div>
     <h3>${x.name}</h3><small>${x.gold}</small>${!x.live && x.price ? `<small class="plan">Planned · ${money(x.price)} for 4 oz</small>` : ''}
-    ${e ? `<a class="btn" href="product.html?p=${x.slug}">Shop · ${money(e.price)}</a>` : `<button class="want" type="button" aria-pressed="false" data-s="${x.slug}">I’d buy this</button>`}</article>`; }).join('');
+    ${e ? `<a class="btn" href="product.html?p=${x.slug}">Shop · ${money(e.price)}</a>` : `<button class="want" type="button" aria-pressed="false" data-s="${x.slug}">I’d buy this</button>`}${strip([x.little, '4 oz glass jar', 'Walnut lid'])}</article>`; }).join('');
   const count = () => n.textContent = want.size ? `${want.size} picked — we’ll email you when ${want.size > 1 ? 'they land' : 'it lands'}.` : 'Tap “I’d buy this” on any you want. We’ll make the most-wanted first.';
   $$('.want', grid).forEach(b => b.onclick = () => {
     const on = !want.has(b.dataset.s); on ? want.add(b.dataset.s) : want.delete(b.dataset.s);
@@ -319,7 +349,7 @@ const SHELF = {
 };
 const SHELF_COPY = {
   seasonings: { name: 'The Seasonings Shelf', sub: 'Flavored salts', bar: 'Steak, herb, smoked, chili lime, truffle and more', n: 'seven' },
-  spices: { name: 'The Spices Shelf', sub: 'Peppercorns & chiles', bar: 'Awakened Pepper today · nine more in the works', n: 'ten' },
+  spices: { name: 'The Spices Shelf', sub: 'Peppercorns, chiles & staples', bar: `Awakened Pepper today · ${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more in the works`, n: String(SEASONINGS.filter(x => x.cat === 'spices').length) },
 };
 function shelfItem(slug, row) {
   const b = findBlend(slug);
@@ -424,7 +454,7 @@ function shelfInfo(h, which) {
   if (!h.classList.contains('case')) return shelfItem(h.dataset.slug, h.dataset.row);
   const e = S.stand && findExtra(S.stand);
   return e ? { name: e.name, sub: e.sub, line: e.line, color: e.color, img: 'img/stand-crop.jpg', href: `product.html?p=${e.slug}`, extra: e, shop: true }
-    : { name: SHELF_COPY[which].name, sub: SHELF_COPY[which].sub, line: `${which === 'spices' ? 'Awakened Pepper is here now; nine more spices are' : 'Seven seasonings are'} in the works, each priced on its own. Get first word when they land.`, color: '#3B2A1E', img: `img/${which}-crop.jpg`, href: `shop.html#${which}`, soon: true };
+    : { name: SHELF_COPY[which].name, sub: SHELF_COPY[which].sub, line: `${which === 'spices' ? `Awakened Pepper is here now; ${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more spices are` : 'Seven seasonings are'} in the works, each priced on its own. Get first word when they land.`, color: '#3B2A1E', img: `img/${which}-crop.jpg`, href: `shop.html#${which}`, soon: true };
 }
 function select(h, which, preview = false) {
   const root = $('#shelf');
@@ -476,6 +506,32 @@ function shelfPanel(which, it) {
 }
 const closeQV = () => {};
 
+/* ---------- reviews: summary, list and a form. Nothing shows until a real, checked review exists ---------- */
+function reviews(p, after) {
+  const list = REVIEWS[p.slug] || [], r = ratingOf(p.slug);
+  const sec = document.createElement('section'); sec.id = 'reviews'; sec.className = 'reviews wrap';
+  const bars = [5, 4, 3, 2, 1].map(n => { const c = list.filter(x => x.stars === n).length; return `<div class="rv-bar"><span>${n}★</span><i><b style="width:${list.length ? c / list.length * 100 : 0}%"></b></i><span>${c}</span></div>`; }).join('');
+  sec.innerHTML = `<div class="rv-head"><div><span class="eyebrow">Reviews</span><h2>${r ? `${r.avg.toFixed(1)} out of 5` : 'No ratings yet'}</h2>
+      ${r ? `<div class="stars big">${STAR5(r.avg)}<span>${r.n} review${r.n > 1 ? 's' : ''}</span></div>` : `<p class="muted">${p.name} is new. Tried it? Yours could be the first review.</p>`}</div>
+      <div class="rv-bars">${bars}</div><button class="btn ghost rv-open" type="button">Write a review</button></div>
+    <form class="rv-form" hidden><div class="rv-pick" role="radiogroup" aria-label="Your rating">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" aria-checked="false" data-n="${n}" aria-label="${n} star${n > 1 ? 's' : ''}">★</button>`).join('')}</div>
+      <input name="name" required placeholder="Your first name" aria-label="Your first name"><input name="title" placeholder="Headline (optional)" aria-label="Headline">
+      <textarea name="body" required rows="4" placeholder="What did you put it on? How did it taste?" aria-label="Your review"></textarea>
+      <button class="btn" type="submit">Send review</button><small class="muted">We read every review before it goes up, and we post the good, the bad and the salty.</small></form>
+    <div class="rv-list">${list.map(x => `<article class="rv-item"><div class="stars">${STAR5(x.stars)}</div><h3>${x.title || ''}</h3><p>${x.body}</p><small>${x.name}${x.verified ? ' · Verified buyer' : ''} · ${x.date}</small></article>`).join('')}</div>`;
+  after.closest('.wrap').after(sec);
+  let stars = 0; const f = $('.rv-form', sec);
+  $('.rv-open', sec).onclick = () => { f.hidden = !f.hidden; if (!f.hidden) $('.rv-pick button', f).focus(); };
+  $$('.rv-pick button', f).forEach(b => b.onclick = () => { stars = +b.dataset.n; $$('.rv-pick button', f).forEach(x => { x.classList.toggle('on', +x.dataset.n <= stars); x.setAttribute('aria-checked', +x.dataset.n === stars); }); });
+  f.onsubmit = ev => { ev.preventDefault(); if (!stars) return toast('Tap the stars to rate it first.'); f.reset(); f.hidden = true; stars = 0; $$('.rv-pick button', f).forEach(x => x.classList.remove('on')); toast('Thank you — we’ll post it once we’ve read it.'); };
+  // search engines: product data, with a rating only when one exists
+  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, description: p.line, brand: { '@type': 'Brand', name: 'Sapphire Salt & Spice' },
+    offers: { '@type': 'Offer', priceCurrency: 'USD', price: (findBlend(p.slug) ? SIZES[0].price : p.price).toFixed(2), availability: 'https://schema.org/InStock' } };
+  if (r) ld.aggregateRating = { '@type': 'AggregateRating', ratingValue: r.avg.toFixed(1), reviewCount: r.n };
+  const sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.textContent = JSON.stringify(ld); document.head.appendChild(sc);
+  if (location.hash === '#reviews') setTimeout(() => sec.scrollIntoView(), 300);
+}
+
 /* ---------- pages ---------- */
 const R = {
   home() {
@@ -516,7 +572,7 @@ const R = {
           <label><input type="radio" name="pt" value="sub"> Subscribe & save — ships every 2 months <span class="save">Save ${SS.subscribeOff * 100}%</span></label></div>`;
       ingHTML = b.ingredients.map(i => { const g = INGREDIENTS.find(x => x.name === i.name); return `<h4 class="wi"><img src="${g.img}" alt="" loading="lazy"><span><small>${i.title}</small><a href="ingredient.html?i=${g.slug}">${i.name}</a></span></h4><p class="no-ing">${i.desc} <a class="link sm" href="ingredient.html?i=${g.slug}">Learn more</a></p>`; }).join('') + `<p><a class="link" href="ingredients.html">All ingredients</a></p>`;
     } else {
-      imgs = e.kind === 'pepper' ? [['img/awaken-6oz.jpg', ''], ['img/awaken-pair.jpg', ''], ['img/awaken-family.jpg', ''], ['img/spices-crop.jpg', '']]
+      imgs = e.kind === 'pepper' ? [['img/awaken-pair.jpg', ''], ['img/awaken-6oz.jpg', ''], ['img/awaken-family.jpg', ''], ['img/spices-crop.jpg', '']]
         : e.kind === 'stand' ? [['img/stand-crop.jpg', ''], ['img/hero-stand.jpg', ''], ['img/stand-rear.jpg', ''], ['img/set-4oz.jpg', ''], ['img/set-16oz.jpg', '']]
         : e.kind === 'gift' ? [['img/giftbox.jpg', ''], ['img/set-4oz.jpg', ''], ['img/fan.jpg', '']]
         : e.kind === 'packets' ? [['img/fan.jpg', ''], ['img/packets-band.jpg', ''], ['img/pure-family.jpg', ''], ['img/caddy.jpg', '']]
@@ -537,7 +593,7 @@ const R = {
     if (e && e.slug === 'gift-box') sizeHTML = `<div class="opt-label">Choose three blends</div><div class="gift-picks">${[0, 1, 2].map(i => `<select data-gp="${i}">${[...BLENDS, findExtra('awaken-pepper')].map((x, j) => `<option value="${x.slug}"${j === [0, 1, 4][i] ? ' selected' : ''}>${x.name}</option>`).join('')}</select>`).join('')}</div>
         <div class="opt-label">Gift note (free)</div><textarea class="gift-note" rows="3" maxlength="200" placeholder="Happy birthday — salt your eggs with this one."></textarea>`;
     if (e && e.kind === 'test') sizeHTML = `<div class="tk-now"><span class="eyebrow">Now testing</span><b>${e.now}</b><span>${e.nowLine}</span></div>
-        <ol class="tk-steps"><li>We send three prototype sticks, with your order or on their own.</li><li>Three days later, three quick questions by email.</li><li>Your answers decide if it launches. Testers hear first.</li></ol>`;
+        <ol class="tk-steps"><li>We send three small-batch sticks, with your order or on their own.</li><li>Three days later, three quick questions by email.</li><li>Your answers decide if it launches. Testers hear first.</li></ol>`;
     if (e && e.kind === 'giftcard') sizeHTML = `<div class="opt-label">Amount</div><div class="chips gc-amt">${[25, 50, 100, 150].map(a => `<button class="chip${a === 50 ? ' on' : ''}" data-amt="${a}">$${a}</button>`).join('')}<label class="chip other">$<input type="number" min="10" max="500" placeholder="Other" aria-label="Other amount"></label></div>
         <div class="opt-label">Send to</div><div class="gform"><input class="g-name" placeholder="Their name"><input class="g-email" type="email" placeholder="Their email"><label>Send on <input class="g-date" type="date"></label><textarea class="g-note" rows="3" maxlength="200" placeholder="Your note"></textarea></div>`;
     if (e && e.kind === 'kindness') sizeHTML = `<div class="opt-label">Send it</div><div class="seg2"><label class="on"><input type="radio" name="to" value="them" checked> Mail it to them</label><label><input type="radio" name="to" value="me"> Send it to me</label></div>
@@ -630,6 +686,7 @@ const R = {
         ? { key: `${b.slug}-${size.id}-${sub ? 'sub' : 'once'}`, name: b.name, variant: `${size.label} ${size.note.toLowerCase()}${sub ? ' · every 2 months' : ''}`, price: unit(), qty, img: `img/${b.slug}-card.jpg` }
         : { key, name: e.name, variant, price: e.price, qty, img: extraThumb(e), packet: !!e.packet });
     };
+    reviews(p, root);
     // related
     $('#related').innerHTML = BLENDS.filter(x => x.slug !== slug).slice(0, 4).map(blendCard).join(''); wireCards($('#related'));
   },
@@ -785,7 +842,7 @@ const R = {
           <div class="pays">
             <label class="pay on"><input type="radio" name="pay" value="card" checked><span>Credit card</span><em class="cards"><i>VISA</i><i>MC</i><i>AMEX</i><i>DISC</i></em></label>
             <div class="cardbox"><div class="cf">Card number <small>secure field</small></div><div class="two"><div class="cf">Expiration (MM / YY)</div><div class="cf">Security code</div></div><div class="cf">Name on card</div>
-              <p class="note">Card fields are Shopify’s secure, hosted inputs at launch — this prototype doesn’t take card numbers.</p></div>
+              <p class="note">Card fields are Shopify’s secure, hosted inputs at launch — this demo doesn’t take card numbers.</p></div>
             <label class="pay"><input type="radio" name="pay" value="shop"><span>Shop Pay</span><em class="spay">shop<b>Pay</b></em></label>
             <label class="pay"><input type="radio" name="pay" value="paypal"><span>PayPal</span><em class="pp">PayPal</em></label>
           </div>
@@ -866,7 +923,7 @@ const R = {
         <div class="ps-row"><span>Shipping</span><span>${s.std ? money(s.std) : 'Free'} · Standard</span></div>
         <div class="ps-row"><span>Contact</span><span>Saved email</span></div>
         <div class="ps-total"><span>Pay Sapphire Salt</span><b>${money(sums().sub - sums().disc + s.std)}</b></div>
-        <button class="ps-go">${kind === 'apple' ? 'Confirm with Face ID' : 'Pay now'}</button><p class="ps-demo">Prototype — no payment is made.</p></div>`;
+        <button class="ps-go">${kind === 'apple' ? 'Confirm with Face ID' : 'Pay now'}</button><p class="ps-demo">Demo — no payment is made.</p></div>`;
       $('.ps-x', sheet).onclick = () => sheet.hidden = true;
       $('.ps-go', sheet).onclick = () => { $('.ps-go', sheet).innerHTML = '<span class="spin"></span>'; setTimeout(() => { sheet.hidden = true; st.method = 'std'; done(name); }, 1300); };
     };
@@ -875,9 +932,8 @@ const R = {
     if (new URLSearchParams(location.search).get('express') === 'apple') wallet('apple');
   },
   team() {
-    const ini = n => n.split(' ').map(w => w[0]).join('');
     $('#team').innerHTML = TEAM.map(m => `<article class="member${m.open ? ' open' : ''}${m.face ? ' face' : ''}">
-      ${m.face ? portrait(m) : `<div class="avatar">${m.open ? '+' : `<span>${ini(m.name)}</span>`}</div>`}
+      ${m.face ? portrait(m) : `<div class="avatar">${m.open ? '+' : (m.photo ? `<img src="${m.photo}" alt="${m.name}">` : `<img class="av-gem" src="img/tiara-gold.png" alt=""><small>Photo coming</small>`)}</div>`}
       <h3>${m.name}</h3><p class="role">${m.role || '<span class="draft">Role to confirm</span>'}</p>
       ${m.open ? `<a class="link" href="#join">Apply</a>` : `<p class="bio">${m.bio || 'Bio and photo coming.'}</p>`}</article>`).join('');
     $('#roles').innerHTML = ['Blending & packing — Park City, part-time', 'Markets & events — weekends, seasonal', 'Retail & restaurant sales — commission', 'Content, photo & social — freelance']

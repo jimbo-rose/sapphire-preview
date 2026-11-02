@@ -939,3 +939,85 @@ footer .cols{grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px}
 .pc-row{display:flex;gap:10px;align-items:center;font-weight:600;margin:6px 0}
 .addr{user-select:all;color:var(--ink);font-weight:600}
 @media (max-width:820px){ .pol{grid-template-columns:1fr;gap:18px} .pol-nav{position:static;display:flex;flex-wrap:wrap} }
+/* ---- 3 Nov: stacked logo, name-only portraits ---- */
+.brand img{height:62px}
+@media (max-width:860px){ .brand img{height:50px} }
+.pt-ph .pt-name{font:500 clamp(28px,3.4vw,44px)/1.05 var(--serif);letter-spacing:.02em;color:#F4EEE2;text-align:center;padding:0 12px}
+.portrait:not(.big) .pt-ph .pt-name{font-size:24px}
+.avatar{display:grid;place-content:center;justify-items:center;gap:6px}
+.avatar .av-gem{width:44%;height:auto;opacity:.9}
+.avatar small{font:600 9px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2)}
+.avatar>img:not(.av-gem){width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* ---- 3 Nov: sapphire crystal instead of flat navy ---- */
+.shelf-hero,.band,.ethos,footer.site{position:relative;isolation:isolate}
+.shelf-hero{background:linear-gradient(180deg,rgba(8,20,54,.5),rgba(11,27,63,.8) 75%),url(../img/crystal-deep.jpg) center/cover var(--navy);animation:crystalDrift 90s ease-in-out infinite alternate}
+.band{background:linear-gradient(120deg,rgba(9,22,58,.88),rgba(11,27,63,.55)),url(../img/crystal-deep.jpg) 30% 60%/cover var(--navy);animation:crystalDrift 110s ease-in-out infinite alternate}
+.ethos{background:linear-gradient(200deg,rgba(9,22,58,.92),rgba(11,27,63,.74)),url(../img/crystal-mid.jpg) 70% 40%/cover var(--navy)}
+footer.site{background:linear-gradient(180deg,rgba(9,20,48,.94),rgba(9,20,48,.97)),url(../img/crystal-deep.jpg) center/cover var(--navy)}
+@keyframes crystalDrift{from{background-position:center,40% 40%}to{background-position:center,60% 55%}}
+@media (prefers-reduced-motion:reduce){ .shelf-hero,.band{animation:none} }
+.newsletter{background:linear-gradient(rgba(247,243,234,.82),rgba(247,243,234,.88)),url(../img/crystal-light.jpg) center/cover var(--sand)}
+
+/* ---- organic motion: cards breathe up, buttons fill like poured salt, grains fly to the bag ---- */
+.card,.set,.seas,.soon-card{transition:transform .5s cubic-bezier(.2,.9,.25,1.15),box-shadow .5s ease}
+.card:hover,.set:hover,.seas:hover,.soon-card:hover{transform:translateY(-6px);box-shadow:0 22px 40px -18px color-mix(in srgb,var(--c,#0B1B3F) 45%,transparent),0 2px 6px rgba(11,27,63,.06)}
+.card .ph::after,.set .ph::after{content:"";position:absolute;inset:-30%;pointer-events:none;opacity:0;transition:opacity .6s;
+  background:radial-gradient(40% 35% at 30% 30%,color-mix(in srgb,var(--c,#1E3A9E) 30%,transparent),transparent 70%);animation:blob 9s ease-in-out infinite alternate}
+.card:hover .ph::after,.set:hover .ph::after{opacity:1}
+.set .ph{position:relative}
+@keyframes blob{to{transform:translate(18%,14%) scale(1.2) rotate(20deg)}}
+.card:hover .ph img{transform:scale(1.05) rotate(-.6deg)}
+.set .ph img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}.set:hover .ph img{transform:scale(1.04)}
+.seas .ph img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}.seas:hover .ph img{transform:scale(1.06) translateY(-2px)}
+button.add,.btn,.qadd,.want{position:relative;overflow:hidden;isolation:isolate}
+button.add::before,.btn::before,.qadd::before{content:"";position:absolute;left:-10%;right:-10%;top:100%;height:240%;z-index:-1;border-radius:42% 46% 0 0;
+  background:color-mix(in srgb,var(--c,#1E3A9E) 55%,#1E3A9E);transition:top .55s cubic-bezier(.3,.7,.2,1);animation:wave 3s linear infinite paused}
+.btn.ghost::before{background:rgba(30,58,158,.1)}.btn.gold::before{background:#D8BC7C}
+button.add:hover::before,.btn:hover::before,.qadd:hover::before{top:-40%;animation-play-state:running}
+@keyframes wave{to{transform:rotate(360deg)}}
+button:active,.btn:active,.chip:active{transform:scale(.96)}
+.chip{transition:transform .25s cubic-bezier(.2,.9,.3,1.4),background .2s,border-color .2s}
+.chip.on{animation:pick .35s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes pick{50%{transform:scale(1.08)}}
+.added{background:#2F7A4A!important;color:#fff!important;border-color:#2F7A4A!important}
+.added .ok{display:inline-block;animation:pick .4s}
+.grain{position:fixed;left:0;top:0;width:6px;height:6px;border-radius:2px;background:#fff;box-shadow:0 0 0 1px rgba(11,27,63,.25),0 1px 3px rgba(0,0,0,.2);z-index:400;pointer-events:none}
+.cart-btn.bump{animation:bagBump .6s cubic-bezier(.2,.9,.3,1.5)}
+@keyframes bagBump{30%{transform:scale(1.25) rotate(-8deg)}60%{transform:scale(.95) rotate(4deg)}}
+@media (prefers-reduced-motion:reduce){ .card,.set,.seas,.soon-card,.chip{transition:none} .card .ph::after,.set .ph::after,button.add::before,.btn::before,.qadd::before{display:none} }
+
+/* stars */
+.stars{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);text-decoration:none;margin:-2px 0 2px}
+.stars i{font-style:normal;color:#D9CFB8;letter-spacing:-1px}.stars i.f{color:var(--gold)}.stars i.h{background:linear-gradient(90deg,var(--gold) 50%,#D9CFB8 50%);-webkit-background-clip:text;color:transparent}
+.stars.none span{font-size:12px;color:var(--muted);border-bottom:1px dashed var(--line)}
+.stars.big{font-size:20px}
+
+/* strips everywhere */
+.set,.seas,.soon-card{position:relative}
+.set .strip,.soon-card .strip{margin-top:auto}
+.seas .strip{margin:10px -12px -12px;border-radius:0 0 14px 14px}
+.seas .strip i,.soon-card .strip i{font-size:9px;padding-block:9px}
+
+/* concept art: for things without a photo yet */
+.concept-art{position:relative;display:grid;place-content:center;justify-items:center;gap:8px;width:100%;height:100%;min-height:220px;color:#fff;text-align:center;padding:16px;overflow:hidden;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 55%,#fff),var(--c) 70%,color-mix(in srgb,var(--c) 70%,#000))}
+.concept-art::before{content:"";position:absolute;inset:0;background:url(../img/crystal-light.jpg) center/cover;mix-blend-mode:soft-light;opacity:.55}
+.concept-art::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.6) 1px,transparent 1.6px);background-size:16px 16px;opacity:.25;animation:drift 50s linear infinite}
+.concept-art img{position:relative;width:72px;opacity:.9}.concept-art b{position:relative;font:500 26px/1.1 var(--serif)}
+.concept-art small{position:relative;font:600 10px var(--sans);letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.concept-art.tall{min-height:0}.concept-art.tall b{font-size:21px}.concept-art.tall img{width:56px}
+.concept-art.big{border-radius:20px;aspect-ratio:5/4}.concept-art.big b{font-size:44px}.concept-art.big img{width:120px}
+
+/* reviews */
+.reviews{padding-block:30px 60px;scroll-margin-top:110px}
+.rv-head{display:grid;grid-template-columns:1fr minmax(0,320px) auto;gap:30px;align-items:center;padding:28px 30px;background:#fff;border:1px solid var(--line);border-radius:20px}
+.rv-head h2{margin:8px 0 6px}.rv-head .muted{color:var(--muted);margin:0}
+.rv-bars{display:grid;gap:5px}.rv-bar{display:grid;grid-template-columns:30px 1fr 24px;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+.rv-bar i{height:6px;border-radius:9px;background:#EFE9DF;overflow:hidden}.rv-bar b{display:block;height:100%;background:var(--gold)}
+.rv-form{display:grid;gap:10px;max-width:620px;margin:18px 0 0;padding:24px;background:#fff;border:1px solid var(--line);border-radius:18px}
+.rv-form input,.rv-form textarea{font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:10px}
+.rv-pick{display:flex;gap:4px}.rv-pick button{font-size:30px;line-height:1;border:0;background:none;color:#D9CFB8;cursor:pointer;transition:transform .2s,color .2s}
+.rv-pick button.on{color:var(--gold)}.rv-pick button:hover{transform:scale(1.15)}
+.rv-list{display:grid;gap:12px;margin-top:18px}.rv-item{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+@media (max-width:820px){ .rv-head{grid-template-columns:1fr} }
+.rv-form[hidden]{display:none}

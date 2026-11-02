@@ -8,7 +8,7 @@ const SS = {
   subscribeOff: 0.10,    // proposed Subscribe & Save discount
   email: 'hello@sapphiresalt.com', // proposed address — confirm with Ryan
   expShip: 12.95,        // proposed USPS Priority option
-  // discount codes (prototype). At launch: Shopify Admin → Discounts, same names.
+  // discount codes (demo). At launch: Shopify Admin → Discounts, same names.
   codes: {
     WELCOME10: { label: '10% off your first order', pct: 10 },
     SALT5:     { label: '$5 off orders over $30', off: 5, min: 30 },
@@ -40,7 +40,7 @@ const TAURINE = {
 const BLENDS = [
   {
     slug: 'pure', name: 'Pure Salt', short: 'Pure', sub: 'Australian Ocean Sea Salt', cat: 'pure', popular: true,
-    spec: ['Australian ocean sea salt', 'Nothing added', 'No anti-caking agents', 'Glass jar', 'Walnut lid'], allergens: 'Free of the top 9 allergens', rating: null,
+    spec: ['Australian ocean sea salt', 'Nothing added', 'No anti-caking agents', 'Glass jar', 'Walnut lid'], allergens: 'Free of the top 9 allergens',
     tag: 'Sea salt only', color: '#1E3A9E', tint: '#E8EDF8',
     line: 'Pure Australian ocean sea salt. Nothing added, nothing taken away.',
     about: 'The salt every blend starts with, on its own. Bright, pure and mineral — the everyday salt for people who just want a better one.',
@@ -49,7 +49,7 @@ const BLENDS = [
   },
   {
     slug: 'gut-health', name: 'Gut Health Salt', short: 'Gut Health', sub: 'Plant Fiber Blend', cat: 'blends', group: 'fiber',
-    spec: ['Psyllium', 'White chia', 'Golden flax', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Top-9 allergen free · has chia & flax', rating: null,
+    spec: ['Psyllium', 'White chia', 'Golden flax', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Top-9 allergen free · has chia & flax',
     tag: 'Fiber blend', color: '#3A5A24', tint: '#EEF2E4',
     line: 'Sea salt with psyllium, white chia and golden flax.',
     about: 'Three time-honored plant fibers, milled fine and blended into sea salt — so the salt you already use brings a little fiber to every meal.',
@@ -61,7 +61,7 @@ const BLENDS = [
   },
   {
     slug: 'belly-bliss', name: 'Belly Bliss Salt', short: 'Belly Bliss', sub: 'Fiber Nourishing Blend', cat: 'blends', group: 'fiber',
-    spec: ['Acacia fiber', 'Psyllium', 'L-glutamine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens', rating: null,
+    spec: ['Acacia fiber', 'Psyllium', 'L-glutamine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens',
     tag: 'Fiber + amino', color: '#A3271D', tint: '#F8EAE5',
     line: 'Sea salt with acacia fiber, psyllium and L-glutamine.',
     about: 'A smooth, gentle fiber blend. Acacia and psyllium disappear into the salt; L-glutamine rounds it out. You taste salt — that’s it.',
@@ -74,7 +74,7 @@ const BLENDS = [
   },
   {
     slug: 'restore', name: 'Restore Salt', short: 'Restore', sub: 'Daily Nourishing Blend', cat: 'blends', group: 'mineral',
-    spec: ['Magnesium glycinate', 'Taurine', 'L-theanine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens', rating: null,
+    spec: ['Magnesium glycinate', 'Taurine', 'L-theanine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens',
     tag: 'Magnesium + amino', color: '#2E5573', tint: '#EAEEF3',
     line: 'Sea salt with magnesium glycinate, taurine and L-theanine.',
     about: 'Our mineral blend for the evening table. Magnesium glycinate, taurine and L-theanine, measured into the salt you already shake.',
@@ -87,7 +87,7 @@ const BLENDS = [
   },
   {
     slug: 'hydrate', name: 'Hydrate Salt', short: 'Hydrate', sub: 'Essential Mineral Blend', cat: 'blends', group: 'mineral',
-    spec: ['Potassium', 'Magnesium', 'Taurine', 'Citrulline', 'No sugar', 'Glass jar'], allergens: 'Free of the top 9 allergens', rating: null,
+    spec: ['Potassium', 'Magnesium', 'Taurine', 'Citrulline', 'No sugar', 'Glass jar'], allergens: 'Free of the top 9 allergens',
     tag: 'Electrolyte minerals', color: '#2F6FD0', tint: '#E5F0FB',
     line: 'Sea salt with potassium, magnesium, taurine and citrulline.',
     about: 'Sodium, potassium and magnesium together, plus taurine and citrulline. Built for active days — and still just salt on your plate.',
@@ -104,8 +104,8 @@ const BLENDS = [
 const SIZES = [   // pic: which photo the card shows for that size (img/<slug>-<pic>.jpg)
   { id: '4oz', label: '4 oz', note: 'Shaker jar', price: 14, jar: true, pic: 'card' },
   { id: '16oz', label: '16 oz', note: 'Kitchen jar', price: 28, jar: true, pic: 'card' },
-  { id: 'sticks', label: 'Travel sticks', chip: 'Sticks', note: 'Box of 10 · $1.50 a stick', price: 15, pic: 'sticks-card', proposed: true },
-  { id: 'sticks-30', label: 'Travel sticks', chip: null, note: 'Box of 30 · $1.30 a stick', price: 39, pic: 'sticks-card', proposed: true },
+  { id: 'sticks', label: 'Travel sticks', chip: 'Sticks', note: 'Box of 30 · $1.33 a stick', price: 40, pic: 'sticks-card', proposed: true },   // Jimmy, 3 Nov: 30+ only, about $1.35 a stick
+  { id: 'sticks-60', label: 'Travel sticks', chip: null, note: 'Box of 60 · $1.30 a stick', price: 78, pic: 'sticks-card', proposed: true },
   { id: 'packets', label: 'Table packets', chip: 'Packets', note: 'Box of 50 · sugar-packet size', price: 15, pic: 'packets-card', proposed: true },
 ];
 const JARS = SIZES.filter(z => z.jar);
@@ -117,8 +117,8 @@ const CATS = [
     subs: [['fiber', 'Fiber blends'], ['mineral', 'Mineral blends']] },
   { id: 'seasonings', name: 'Seasonings', soon: true, line: 'Flavored salts for the grill, the garden and the finish.',
     subs: [['grill', 'Grill & smoke'], ['herb', 'Herb & garlic'], ['bright', 'Bright & zesty'], ['finish', 'Finishing']] },
-  { id: 'spices', name: 'Spices', soon: true, line: 'Peppercorns and chiles, each priced on its own.',
-    subs: [['pepper', 'Peppercorns'], ['chile', 'Chiles']] },
+  { id: 'spices', name: 'Spices', soon: true, line: 'Peppercorns, chiles and the household staples, each priced on its own.',
+    subs: [['pepper', 'Peppercorns'], ['chile', 'Chiles & paprika'], ['staple', 'Everyday staples'], ['warm', 'Warm & baking'], ['herb', 'Herbs']] },
 ];
 /* pure salts by origin. Australian is on sale as Pure Salt; the other two are coming. */
 const PURE_SALTS = [
@@ -131,39 +131,50 @@ const PURE_SALTS = [
 
 const EXTRAS = [
   { slug: 'discovery', name: 'Discovery Collection', sub: 'Pick any 5 · 15 packets', price: 15, color: '#C4A468', tint: '#F5EFE2', kind: 'packets', packet: true,
+    spec: ['Pick any five', '15 packets', 'Ships free', 'Doubles welcome'],
     line: 'For you: pick any five blends, get three packets of each — 15 in all — and find your favorite.',
     about: 'Choose five blends (doubles welcome) and we send three single-serve packets of each. Try them on something simple — eggs, avocado, tomatoes — and see which earns a jar. Ships free on its own.' },
   { slug: 'kindness', name: 'Kindness Card', sub: 'For someone else · your words, 5 packets + a gift code', price: 5, color: '#C4A468', tint: '#F5EFE2', kind: 'kindness', packet: true,
+    spec: ['Your words, hand-lettered', 'Five packets', 'A gift code on the back', 'Mailed for you'],
     line: 'A card in the mail with your own words on the front and five packets — one of each blend — tucked inside.',
     about: 'Write what you want them to read; we hand-letter it onto the front, and nothing else goes there. On the back, under our logo, a line of small print gives them 15% off their first jar with a code in your name — and when they use it, you get $5 toward your next order. We mail it to them, or to you to hand over.',
     referral: { off: 15, credit: 5 }, proposed: true },
   { slug: 'gift-card', name: 'Digital Gift Card', sub: 'Emailed on the day you choose', price: 50, color: '#0B1B3F', tint: '#E8ECF4', kind: 'giftcard', digital: true,
+    spec: ['Any amount', 'Sent by email', 'On the day you choose', 'Never expires'],
     line: 'Any amount, sent by email with your note — on their birthday, or right now.',
     about: 'Spend it on anything in the shop. It never expires. They’ll get a beautiful email with your message and a code.' },
   { slug: 'year-of-salt', name: 'A Year of Salt & Spice', sub: 'Gift subscription · something new each month', price: 240, color: '#0B1B3F', tint: '#E8ECF4', kind: 'subgift', inclShip: true, proposed: true,
+    spec: ['Twelve different jars', 'Salts, seasonings and spices', 'Shipping included', 'Prepaid'],
     plans: [{ m: 3, price: 66 }, { m: 6, price: 126 }, { m: 12, price: 240 }],
     line: 'A different salt, seasoning or spice in their mailbox every month — shipping included.',
     about: 'Each month brings a 4 oz jar of something new: a salt blend one month, a seasoning or a spice the next, with a card on how to use it. As our shelf grows, so does the year. Prepaid, so they never see a bill.' },
   { slug: 'full-table', name: 'The Full Table', sub: 'All five blends · 4 oz', price: 62, was: 70, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set', proposed: true,
+    spec: ['Five shaker jars', '4 oz each', 'Save $8', 'Glass and walnut'],
     line: 'All five shaker jars. Pure, Gut Health, Belly Bliss, Restore and Hydrate.',
     about: 'The whole line in shaker jars — one for every meal of the day. Save $8 against buying them one at a time.' },
   { slug: 'kitchen-set', name: 'The Kitchen Set', sub: 'All five blends · 16 oz', price: 125, was: 140, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set16', proposed: true,
+    spec: ['Five kitchen jars', '16 oz each', 'Save $15', 'Glass and walnut'],
     line: 'All five kitchen jars, for the cook who salts by the pinch.',
     about: 'Five 16 oz glass jars with wood lids, lined up by the stove. Save $15 against buying them one at a time.' },
   { slug: 'awaken-pepper', name: 'Awakened Pepper', sub: 'Single-origin Tellicherry · 6 oz', price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
+    spec: ['Tellicherry peppercorns', 'Single origin', 'Whole, for your mill', 'Nothing added'],
     line: 'Single-origin Tellicherry peppercorns. Awaken every bite.',
     about: 'Bold, bright Tellicherry peppercorns — the larger, riper berries left longest on the vine. The partner every Sapphire Salt deserves.' },
-  { slug: 'test-kitchen', name: 'Test Kitchen 3-Pack', sub: 'Prototype · three sticks · about our cost', price: 3, color: '#2F6FD0', tint: '#E5F0FB', kind: 'test', packet: true, proposed: true,
-    now: 'Hydrate Charge', nowLine: 'Hydrate minerals plus 80 mg of caffeine from green tea [proposed]',
+  { slug: 'test-kitchen', name: 'Test Kitchen 3-Pack', sub: 'Small batch · three sticks · about our cost', price: 3, color: '#2F6FD0', tint: '#E5F0FB', kind: 'test', packet: true, proposed: true,
+    spec: ['Three sticks', 'About our cost', 'Three quick questions', 'Ships free'],
+    now: 'Hydrate Charge', nowLine: 'Our electrolyte minerals plus a clean lift of caffeine from green tea',
     line: 'Three sticks of whatever we’re testing next, for about what they cost us. Taste it, tell us straight.',
     about: 'Before anything joins the shelf, it goes to people who’ll tell us the truth. Add a Test Kitchen pack to any order (or on its own, and it ships free). Three days later we send three questions. Your answers decide whether it launches, and testers hear first when it does.' },
   { slug: 'gift-box', name: 'The Gift Box', sub: 'Any three 4 oz jars + 3 packets', price: 49, color: '#0B1B3F', tint: '#E8ECF4', kind: 'gift', proposed: true,
+    spec: ['Three jars you choose', 'Three packets', 'Gold-foil navy box', 'Free handwritten note'],
     line: 'Three shaker jars of your choice, three sample packets and a gold-foil navy box.',
     about: 'Pick any three blends. They arrive nestled in a rigid navy gift box with three bonus packets and a handwritten note — ready to hand over.' },
   { slug: 'engraved-display', name: 'The Engraved Display', sub: 'All ten jars + a walnut stand with your words', price: 299, color: '#0B1B3F', tint: '#EFEBE1', kind: 'custom', proposed: true,
+    spec: ['All ten jars', 'Walnut stand', 'Three rails, your words', 'Made in Park City'],
     line: 'The full shelf, with your family name, business or logo laser-engraved into the walnut.',
     about: 'Every blend in both sizes on the walnut display stand. All three rails are yours: your words (up to 28 characters each), our usual inscription, or left blank — and the top sign can carry your logo instead (we send a proof first). Made to order in Park City in about two weeks.' },
   { slug: 'display-collection', name: 'The Display Collection', sub: 'All ten jars + walnut stand', price: 249, color: '#0B1B3F', tint: '#EFEBE1', kind: 'stand', proposed: true,
+    spec: ['All ten jars', 'Walnut stand', 'Room for spares', 'Made to last'],
     line: 'Every blend in both sizes, on the same walnut stand you see in the shops.',
     about: 'Five 4 oz shakers, five 16 oz kitchen jars and the walnut display shelf, engraved Sapphire Salt and Spice · Salt With Purpose · Your Everyday Salt. Room behind the front row for spare jars. The jars alone are $210.' },
 ];
@@ -223,6 +234,7 @@ const COMING = [
    packaging concepts. Gold descriptors are the label copy; little lines are proposed creative copy.
    cat: seasonings (flavored salts) or spices (peppercorns, chiles); sub: the shelf's sub-category.
    price: proposed 4 oz price, each set on its own, a little under Erewhon where margin allows (../SPICE-PRICING.md) */
+const NO_PHOTO = new Set(['sweet-paprika', 'smoked-paprika', 'chili-powder', 'garlic-powder', 'onion-powder', 'cumin', 'turmeric', 'ginger', 'cinnamon', 'nutmeg', 'oregano', 'thyme', 'bay-leaves']);   // household staples: concept art until photos (IMAGE-PROMPTS.md)
 const SEASONINGS = [
   { slug: 'awaken-pepper', name: 'Awakened Pepper', cat: 'spices', sub: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
   { slug: 'ember-steak', name: 'Ember Steak Salt', cat: 'seasonings', sub: 'grill', price: 12, gold: 'Savory grilling blend', little: 'Fire up every bite', color: '#7A2E1E' },
@@ -240,11 +252,28 @@ const SEASONINGS = [
   { slug: 'crushed-red', name: 'Crushed Red Pepper', cat: 'spices', sub: 'chile', price: 7, gold: 'Classic chili flakes', little: 'Turn up the everyday', color: '#A2321E' },
   { slug: 'chipotle', name: 'Chipotle', cat: 'spices', sub: 'chile', price: 9, gold: 'Smoky chili depth', little: 'Smoke with a little spark', color: '#7A3A24' },
   { slug: 'ancho', name: 'Ancho', cat: 'spices', sub: 'chile', price: 9, gold: 'Rich mellow chili', little: 'Big flavor, gentle warmth', color: '#6E2A22' },
+  { slug: 'sweet-paprika', name: 'Sweet Paprika', cat: 'spices', sub: 'chile', price: 8, gold: 'Mild, sweet red pepper', little: 'Color in every pinch', color: '#B8432A' },
+  { slug: 'smoked-paprika', name: 'Smoked Paprika', cat: 'spices', sub: 'chile', price: 9, gold: 'Oak-smoked red pepper', little: 'Campfire in a jar', color: '#8E3420' },
+  { slug: 'chili-powder', name: 'Chili Powder', cat: 'spices', sub: 'chile', price: 8, gold: 'Classic chili blend', little: 'Chili night, sorted', color: '#9C3A22' },
+  { slug: 'garlic-powder', name: 'Garlic Powder', cat: 'spices', sub: 'staple', price: 9, gold: 'Ground dried garlic', little: 'The everyday essential', color: '#B39A6A' },
+  { slug: 'onion-powder', name: 'Onion Powder', cat: 'spices', sub: 'staple', price: 8, gold: 'Ground dried onion', little: 'Quiet, savory depth', color: '#A88F64' },
+  { slug: 'cumin', name: 'Ground Cumin', cat: 'spices', sub: 'staple', price: 8, gold: 'Warm, earthy seed', little: 'Tacos’ best friend', color: '#8A6236' },
+  { slug: 'turmeric', name: 'Turmeric', cat: 'spices', sub: 'staple', price: 9, gold: 'Golden ground root', little: 'A little sunshine', color: '#C58A1C' },
+  { slug: 'ginger', name: 'Ground Ginger', cat: 'spices', sub: 'staple', price: 9, gold: 'Bright, warm root', little: 'A gentle bite', color: '#B98A4A' },
+  { slug: 'cinnamon', name: 'Ceylon Cinnamon', cat: 'spices', sub: 'warm', price: 10, gold: 'True, delicate cinnamon', little: 'Sweet and soft', color: '#8C4A2A' },
+  { slug: 'nutmeg', name: 'Nutmeg', cat: 'spices', sub: 'warm', price: 12, gold: 'Whole nutmeg for grating', little: 'Holiday in a pinch', color: '#7A5034' },
+  { slug: 'oregano', name: 'Oregano', cat: 'spices', sub: 'herb', price: 8, gold: 'Mediterranean dried leaf', little: 'Pizza night', color: '#5A6B34' },
+  { slug: 'thyme', name: 'Thyme', cat: 'spices', sub: 'herb', price: 8, gold: 'Dried garden thyme', little: 'Roasts and soups', color: '#6A7A44' },
+  { slug: 'bay-leaves', name: 'Bay Leaves', cat: 'spices', sub: 'herb', price: 9, gold: 'Whole Turkish bay', little: 'Slow-simmer magic', color: '#4E6A3A' },
   { slug: 'jalapeno', name: 'Jalapeño', cat: 'spices', sub: 'chile', price: 10, gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
-].map(x => ({ ...x, img: `img/soon-${x.slug}.jpg` }));
+].map(x => ({ ...x, img: NO_PHOTO.has(x.slug) ? null : `img/soon-${x.slug}.jpg` }));
 
-/* Ratings show only when real reviews exist (rating: { avg, n }). Until then the card says New.
+/* Ratings come from REVIEWS (below). With none, cards say "No reviews yet".
    Allergen lines are drafts: Ryan to confirm against each supplier's allergen statement. */
+/* reviews: real ones only, after a person reads them. At launch: a Shopify reviews app (Judge.me or Okendo)
+   fills this from verified orders. { stars 1–5, name, title, body, date 'YYYY-MM-DD', verified } */
+const REVIEWS = {};
+const ratingOf = slug => { const r = REVIEWS[slug] || []; return r.length ? { avg: r.reduce((a, x) => a + x.stars, 0) / r.length, n: r.length } : null; };
 const findBlend = s => BLENDS.find(b => b.slug === s);
 const findExtra = s => EXTRAS.find(e => e.slug === s);
 const findComing = s => COMING.find(e => e.slug === s);
