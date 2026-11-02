@@ -608,11 +608,7 @@ const R = {
     shelf('salt'); build5();
     $$('.shelf-tabs button').forEach(b => b.onclick = () => { $$('.shelf-tabs button').forEach(x => x.classList.toggle('on', x === b)); shelf(b.dataset.shelf); });
     $('#blends').innerHTML = BLENDS.map(blendCard).join(''); wireCards($('#blends'));
-    $('#sets').innerHTML = ['full-table', 'kitchen-set', 'awaken-pepper'].map(s => extraCard(findExtra(s))).join(''); wireExtras($('#sets'));
-    $('#packets').innerHTML = `<img src="img/packets-band.jpg" alt="Travel sticks and table packets of all five blends" loading="lazy">`;
-    $('#cloud').innerHTML = [...new Map(BLENDS.flatMap(b => b.ingredients.map(i => [i.name, b.color]))).entries()]
-      .map(([n, c]) => `<span style="--c:${c}"><i></i>${n}</span>`).join('');
-    wireExtras();
+    $('#sets').innerHTML = ['gift-box', 'kindness', 'full-table'].map(s => extraCard(findExtra(s))).join(''); wireExtras($('#sets'));
   },
   shop() {
     pureSalts();

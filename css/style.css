@@ -1117,3 +1117,16 @@ footer .logo{height:auto;object-fit:contain}
 .mm-shop summary::after{content:"+";float:right}.mm-shop[open] summary::after{content:"–"}
 .mm-shop a{display:block;padding:12px 0 12px 14px!important;font-size:12px!important;letter-spacing:.1em!important}
 .mm-shop a em{font-style:normal;font-size:9px;color:var(--gold-deep);letter-spacing:.14em;margin-left:4px}
+/* ---- 3 Nov: home page trim ---- */
+.ethos-mini{padding-block:64px}
+.em-head h2{color:#fff;margin:12px 0 0}
+.em-list{list-style:none;padding:0;margin:30px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.em-list li{display:grid;gap:6px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2)}
+.em-list b{font:500 21px var(--serif);color:#fff}.em-list span{font-size:14px;line-height:1.55;color:rgba(255,255,255,.74)}
+.em-links{display:flex;gap:24px;margin-top:26px}.em-links .link{color:#fff;border-color:rgba(255,255,255,.4)}
+.b5-cta{flex-wrap:wrap;align-items:center}
+.b5-photo{display:flex;align-items:center;gap:12px;margin:0 0 0 auto}
+.b5-photo img{width:120px;aspect-ratio:4/3;object-fit:cover;border-radius:10px;box-shadow:0 8px 18px -10px rgba(11,27,63,.4)}
+.b5-photo figcaption{font-size:12px;color:var(--muted);max-width:180px;line-height:1.4}
+@media (max-width:900px){ .em-list{grid-template-columns:1fr 1fr} .b5-photo{margin:0} }
+@media (max-width:520px){ .em-list{grid-template-columns:1fr} }
