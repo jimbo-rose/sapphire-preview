@@ -804,3 +804,66 @@ h4.wi span{display:grid}
 .made-ut{display:flex;align-items:center;gap:12px;margin-top:16px;color:var(--gold-2)}
 .made-ut svg{width:30px;height:30px;flex:none}
 .made-ut span{display:grid;font-size:13px;color:#CFC6B2}.made-ut b{color:#fff;font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase}
+/* ---- 2 Nov: categories, sizes, sticks & packets ---- */
+.card .ph{position:relative}
+.card .ph img{transition:transform .5s,opacity .16s}
+.pop{position:absolute;top:12px;left:12px;background:var(--navy);color:#fff;font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;padding:8px 11px;border-radius:999px;box-shadow:0 4px 12px rgba(11,27,63,.25)}
+.card .chips{flex-wrap:wrap}
+.plan{font:500 12px var(--sans);color:var(--gold-2,#9A7B3F);letter-spacing:.02em;margin:0}
+.seas small.plan{display:block;margin-top:2px}
+.origins{margin:14px 0 0;font-size:13px;color:rgba(255,255,255,.75);letter-spacing:.02em}
+.origins span{font-weight:600;color:var(--gold)}.origins a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
+.origins em{font-style:normal;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-left:3px}
+.shelf-tabs{flex-wrap:wrap}
+[data-which=spices] .sun{-webkit-mask-image:url(../img/jar-holes-seasonings.png);mask-image:url(../img/jar-holes-seasonings.png)}
+.catbar{position:sticky;top:var(--hdr,76px);z-index:20;background:rgba(247,243,234,.94);backdrop-filter:blur(8px);border-block:1px solid var(--line);margin:8px 0 26px}
+.catbar .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.catbar a{flex:none;padding:9px 16px;border-radius:999px;font:600 13px var(--sans);color:var(--ink);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.catbar a.on{background:var(--navy);color:#fff}
+.catbar em{font-style:normal;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-left:4px}
+.cat-sec{scroll-margin-top:150px}.seas-wrap,#extras-wrap,#soon{scroll-margin-top:150px}
+.cat-sec .section-head{align-items:flex-end;gap:20px;flex-wrap:wrap}
+.salt-soon .ph{aspect-ratio:5/4;position:relative;overflow:hidden}
+.salt-soon .grain{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:12px;color:#fff;
+  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.28),transparent 55%),linear-gradient(150deg,color-mix(in srgb,var(--c) 70%,#fff),var(--c));}
+.salt-soon .grain::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.55) 1px,transparent 1.6px);background-size:14px 14px;opacity:.35;animation:drift 40s linear infinite}
+.salt-soon .grain img{width:84px;opacity:.9}.salt-soon .grain b{font:500 30px var(--serif);letter-spacing:.02em}
+@keyframes drift{to{background-position:140px 280px}}
+@media (prefers-reduced-motion:reduce){.salt-soon .grain::after{animation:none}}
+#packets{background:none;padding:0;overflow:hidden;border-radius:20px}
+#packets img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}
+.slot{aspect-ratio:330/300}
+@media (max-width:560px){ #blends.grid4,#pure-grid{grid-template-columns:1fr} }
+/* engraved display: three rails, readable */
+.engr em{left:55.5%;color:#F3E2C4;background:rgba(58,32,16,.82);text-shadow:0 1px 1px rgba(0,0,0,.5);box-shadow:inset 0 1px 3px rgba(0,0,0,.55),0 0 0 1px rgba(255,230,190,.12);font-weight:600}
+.engr em.r0{top:15.7%}.engr em.r1{top:47.1%;left:54.4%}.engr em.r2{top:88.9%;left:55%}
+.set .engr em{font-size:12px;padding:.2em .7em}
+.rails{display:grid;gap:12px;margin-bottom:6px}
+.rail{display:grid;grid-template-columns:96px auto 1fr;gap:10px;align-items:center}
+.rail>span{font:600 12px var(--sans);color:var(--muted)}
+.rail input{min-width:0}.rail input:disabled{opacity:.45}
+.seg3{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg3 button{border:0;background:#fff;padding:8px 11px;font:600 12px var(--sans);cursor:pointer;color:var(--ink)}
+.seg3 button.on{background:var(--navy);color:#fff}
+@media (max-width:560px){ .rail{grid-template-columns:1fr 1fr} .rail input{grid-column:1/-1} }
+/* kindness card */
+.k-ideas{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.k-ideas .chip{font-size:12px;padding:7px 12px}
+.k-code{display:grid;gap:4px;margin:14px 0 4px;padding:14px 16px;border:1.5px dashed var(--gold);border-radius:12px;background:#FBF7EE}
+.k-code b{font:700 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2,#9A7B3F)}
+.k-code span{font-size:14px}.k-code code{font:700 14px var(--sans);letter-spacing:.08em;color:var(--navy);background:#fff;border:1px solid var(--line);padding:2px 8px;border-radius:6px}
+.k-code small{color:var(--muted);font-size:12px}
+.pk-soon{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pk-soon span{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fff}
+.pk-soon i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+/* ingredients hero: the index sits on the open stone */
+.ing-hero{position:relative;border-radius:16px;overflow:hidden;margin-top:8px}
+.ing-hero>img{width:100%;aspect-ratio:21/9;object-fit:cover;object-position:70% 50%;display:block}
+.ih-idx{position:absolute;inset:0 auto 0 0;width:min(54%,700px);padding:clamp(18px,3vw,40px);display:flex;flex-direction:column;justify-content:center;gap:14px;
+  background:linear-gradient(90deg,rgba(247,241,230,.9) 60%,rgba(247,241,230,0))}
+#ing-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px}
+#ing-index a{display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid rgba(11,27,63,.1);color:var(--ink);text-decoration:none;font:500 clamp(14px,1.2vw,17px) var(--serif)}
+#ing-index a i{width:7px;height:7px;border-radius:50%;background:var(--c);flex:none;transform:translateY(-1px)}
+#ing-index a small{margin-left:auto;font:600 9px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+#ing-index a:hover{color:var(--c)}
+@media (max-width:860px){ .ing-hero>img{aspect-ratio:16/9} .ih-idx{position:static;width:auto;background:#F7F1E6} }

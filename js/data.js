@@ -39,7 +39,7 @@ const TAURINE = {
 
 const BLENDS = [
   {
-    slug: 'pure', name: 'Pure Salt', short: 'Pure', sub: 'Australian Ocean Sea Salt',
+    slug: 'pure', name: 'Pure Salt', short: 'Pure', sub: 'Australian Ocean Sea Salt', cat: 'pure', popular: true,
     tag: 'Sea salt only', color: '#1E3A9E', tint: '#E8EDF8',
     line: 'Pure Australian ocean sea salt. Nothing added, nothing taken away.',
     about: 'The salt every blend starts with, on its own. Bright, pure and mineral — the everyday salt for people who just want a better one.',
@@ -47,7 +47,7 @@ const BLENDS = [
     ingredients: [BASE_SALT],
   },
   {
-    slug: 'gut-health', name: 'Gut Health Salt', short: 'Gut Health', sub: 'Plant Fiber Blend',
+    slug: 'gut-health', name: 'Gut Health Salt', short: 'Gut Health', sub: 'Plant Fiber Blend', cat: 'blends', group: 'fiber',
     tag: 'Fiber blend', color: '#3A5A24', tint: '#EEF2E4',
     line: 'Sea salt with psyllium, white chia and golden flax.',
     about: 'Three time-honored plant fibers, milled fine and blended into sea salt — so the salt you already use brings a little fiber to every meal.',
@@ -58,7 +58,7 @@ const BLENDS = [
       TAPIOCA],
   },
   {
-    slug: 'belly-bliss', name: 'Belly Bliss Salt', short: 'Belly Bliss', sub: 'Fiber Nourishing Blend',
+    slug: 'belly-bliss', name: 'Belly Bliss Salt', short: 'Belly Bliss', sub: 'Fiber Nourishing Blend', cat: 'blends', group: 'fiber',
     tag: 'Fiber + amino', color: '#A3271D', tint: '#F8EAE5',
     line: 'Sea salt with acacia fiber, psyllium and L-glutamine.',
     about: 'A smooth, gentle fiber blend. Acacia and psyllium disappear into the salt; L-glutamine rounds it out. You taste salt — that’s it.',
@@ -70,7 +70,7 @@ const BLENDS = [
       TAPIOCA],
   },
   {
-    slug: 'restore', name: 'Restore Salt', short: 'Restore', sub: 'Daily Nourishing Blend',
+    slug: 'restore', name: 'Restore Salt', short: 'Restore', sub: 'Daily Nourishing Blend', cat: 'blends', group: 'mineral',
     tag: 'Magnesium + amino', color: '#2E5573', tint: '#EAEEF3',
     line: 'Sea salt with magnesium glycinate, taurine and L-theanine.',
     about: 'Our mineral blend for the evening table. Magnesium glycinate, taurine and L-theanine, measured into the salt you already shake.',
@@ -82,7 +82,7 @@ const BLENDS = [
       TAPIOCA],
   },
   {
-    slug: 'hydrate', name: 'Hydrate Salt', short: 'Hydrate', sub: 'Essential Mineral Blend',
+    slug: 'hydrate', name: 'Hydrate Salt', short: 'Hydrate', sub: 'Essential Mineral Blend', cat: 'blends', group: 'mineral',
     tag: 'Electrolyte minerals', color: '#2F6FD0', tint: '#E5F0FB',
     line: 'Sea salt with potassium, magnesium, taurine and citrulline.',
     about: 'Sodium, potassium and magnesium together, plus taurine and citrulline. Built for active days — and still just salt on your plate.',
@@ -96,25 +96,49 @@ const BLENDS = [
   },
 ];
 
-const SIZES = [
-  { id: '4oz', label: '4 oz', note: 'Shaker jar', price: 14 },
-  { id: '16oz', label: '16 oz', note: 'Kitchen jar', price: 28 },
+const SIZES = [   // pic: which photo the card shows for that size (img/<slug>-<pic>.jpg)
+  { id: '4oz', label: '4 oz', note: 'Shaker jar', price: 14, jar: true, pic: 'card' },
+  { id: '16oz', label: '16 oz', note: 'Kitchen jar', price: 28, jar: true, pic: 'card' },
+  { id: 'sticks', label: 'Travel sticks', chip: 'Sticks', note: 'Box of 10 · $1.50 a stick', price: 15, pic: 'sticks-card', proposed: true },
+  { id: 'sticks-30', label: 'Travel sticks', chip: null, note: 'Box of 30 · $1.30 a stick', price: 39, pic: 'sticks-card', proposed: true },
+  { id: 'packets', label: 'Table packets', chip: 'Packets', note: 'Box of 50 · sugar-packet size', price: 15, pic: 'packets-card', proposed: true },
+];
+const JARS = SIZES.filter(z => z.jar);
+
+/* the shelf, by category. Main lines first; everything else hangs off these. */
+const CATS = [
+  { id: 'pure', name: 'Pure Salts', line: 'One salt, nothing added. Australian ocean sea salt today; Utah and Himalayan next.' },
+  { id: 'blends', name: 'Salt Blends', line: 'Pure sea salt with a few intentional ingredients. Same pinch, same taste.',
+    subs: [['fiber', 'Fiber blends'], ['mineral', 'Mineral blends']] },
+  { id: 'seasonings', name: 'Seasonings', soon: true, line: 'Flavored salts for the grill, the garden and the finish.',
+    subs: [['grill', 'Grill & smoke'], ['herb', 'Herb & garlic'], ['bright', 'Bright & zesty'], ['finish', 'Finishing']] },
+  { id: 'spices', name: 'Spices', soon: true, line: 'Peppercorns and chiles, each priced on its own.',
+    subs: [['pepper', 'Peppercorns'], ['chile', 'Chiles']] },
+];
+/* pure salts by origin. Australian is on sale as Pure Salt; the other two are coming. */
+const PURE_SALTS = [
+  { slug: 'pure', name: 'Australian Ocean', sub: 'Pure Salt · on sale now', live: true },
+  { slug: 'utah-salt', name: 'Utah Salt', sub: 'Great Salt Lake · solar-evaporated', color: '#A8742E',
+    line: 'Salt from the brine of the Great Salt Lake, an hour from our kitchen in Park City.' },
+  { slug: 'himalayan', name: 'Himalayan Pink Salt', sub: 'Salt Range · ancient rock salt', color: '#B5636A',
+    line: 'Rock salt from ancient seabed deposits, pink from its iron-rich trace minerals.' },
 ];
 
 const EXTRAS = [
   { slug: 'discovery', name: 'Discovery Collection', sub: 'Pick any 5 · 15 packets', price: 15, color: '#C4A468', tint: '#F5EFE2', kind: 'packets', packet: true,
     line: 'For you: pick any five blends, get three packets of each — 15 in all — and find your favorite.',
     about: 'Choose five blends (doubles welcome) and we send three single-serve packets of each. Try them on something simple — eggs, avocado, tomatoes — and see which earns a jar. Ships free on its own.' },
-  { slug: 'kindness', name: 'Kindness Card', sub: 'For someone else · 5 packets + your note', price: 5, color: '#C4A468', tint: '#F5EFE2', kind: 'kindness', packet: true,
-    line: 'For giving: a card in the mail with five packets — one of each blend — and your handwritten note.',
-    about: 'We mail it straight to them, or to you to hand over. Add a gift balance inside and it doubles as a gift card they can spend on a jar.' },
+  { slug: 'kindness', name: 'Kindness Card', sub: 'For someone else · your words, 5 packets + a gift code', price: 5, color: '#C4A468', tint: '#F5EFE2', kind: 'kindness', packet: true,
+    line: 'A card in the mail with your own words on the front and five packets — one of each blend — tucked inside.',
+    about: 'Write what you want them to read; we hand-letter it onto the front, and nothing else goes there. On the back, under our logo, a line of small print gives them 15% off their first jar with a code in your name — and when they use it, you get $5 toward your next order. We mail it to them, or to you to hand over.',
+    referral: { off: 15, credit: 5 }, proposed: true },
   { slug: 'gift-card', name: 'Digital Gift Card', sub: 'Emailed on the day you choose', price: 50, color: '#0B1B3F', tint: '#E8ECF4', kind: 'giftcard', digital: true,
     line: 'Any amount, sent by email with your note — on their birthday, or right now.',
     about: 'Spend it on anything in the shop. It never expires. They’ll get a beautiful email with your message and a code.' },
-  { slug: 'year-of-salt', name: 'A Year of Salt', sub: 'Gift subscription · something new each month', price: 240, color: '#0B1B3F', tint: '#E8ECF4', kind: 'subgift', inclShip: true, proposed: true,
+  { slug: 'year-of-salt', name: 'A Year of Salt & Spice', sub: 'Gift subscription · something new each month', price: 240, color: '#0B1B3F', tint: '#E8ECF4', kind: 'subgift', inclShip: true, proposed: true,
     plans: [{ m: 3, price: 66 }, { m: 6, price: 126 }, { m: 12, price: 240 }],
-    line: 'A new salt or seasoning in their mailbox every month — shipping included.',
-    about: 'Each month brings a 4 oz jar of a different blend or seasoning with a card on how to use it. As our shelf grows, so does the year. Prepaid, so they never see a bill.' },
+    line: 'A different salt, seasoning or spice in their mailbox every month — shipping included.',
+    about: 'Each month brings a 4 oz jar of something new: a salt blend one month, a seasoning or a spice the next, with a card on how to use it. As our shelf grows, so does the year. Prepaid, so they never see a bill.' },
   { slug: 'full-table', name: 'The Full Table', sub: 'All five blends · 4 oz', price: 62, was: 70, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set', proposed: true,
     line: 'All five shaker jars. Pure, Gut Health, Belly Bliss, Restore and Hydrate.',
     about: 'The whole line in shaker jars — one for every meal of the day. Save $8 against buying them one at a time.' },
@@ -129,7 +153,7 @@ const EXTRAS = [
     about: 'Pick any three blends. They arrive nestled in a rigid navy gift box with three bonus packets and a handwritten note — ready to hand over.' },
   { slug: 'engraved-display', name: 'The Engraved Display', sub: 'All ten jars + a walnut stand with your words', price: 299, color: '#0B1B3F', tint: '#EFEBE1', kind: 'custom', proposed: true,
     line: 'The full shelf, with your family name, business or logo laser-engraved into the walnut.',
-    about: 'Every blend in both sizes on the walnut display stand, engraved on the top sign with up to 28 characters — or your logo (we send a proof first). Made to order in Park City in about two weeks.' },
+    about: 'Every blend in both sizes on the walnut display stand. All three rails are yours: your words (up to 28 characters each), our usual inscription, or left blank — and the top sign can carry your logo instead (we send a proof first). Made to order in Park City in about two weeks.' },
   { slug: 'display-collection', name: 'The Display Collection', sub: 'All ten jars + walnut stand', price: 249, color: '#0B1B3F', tint: '#EFEBE1', kind: 'stand', proposed: true,
     line: 'Every blend in both sizes, on the same walnut stand you see in the shops.',
     about: 'Five 4 oz shakers, five 16 oz kitchen jars and the walnut display shelf, engraved Sapphire Salt and Spice · Salt With Purpose · Your Everyday Salt. Room behind the front row for spare jars. The jars alone are $210.' },
@@ -146,12 +170,14 @@ const COMING = [
     line: 'Slow-smoked over applewood. Ribs, salmon, eggs — and caramel.' },
   { slug: 'chili-lime', name: 'Chili Lime Salt', sub: 'Bright citrus heat', color: '#B0401C', img: 'img/soon-chili-lime.jpg',
     line: 'Chili and lime for tacos, mango, popcorn and margarita rims.' },
-  { slug: 'hydrate-sticks', name: 'Hydrate On-the-Go', sub: 'Electrolyte stick packs · 30 count', color: '#2F6FD0', img: 'img/sticks-card.jpg',
-    line: 'The Hydrate blend in single-serve sticks. Tear, pour into a water bottle, go.' },
-  { slug: 'seasoning-discovery', name: 'Seasonings Discovery', sub: 'Pick any 5 seasonings', color: '#3B2A1E', img: 'img/seasonings-crop.jpg',
-    line: 'The Discovery idea for the seasonings shelf: pepper, steak, herb, smoked and chili lime.' },
   { slug: 'table-packets', name: 'Walnut Packet Holders', sub: 'Restaurants, cafés & your own table', color: '#5A3B22', img: 'img/caddy-card.jpg',
     line: 'Two walnut holders that match the display: one for tall stick packs, one for tabletop sachets. Each stands alone; side by side they sit flush. Restaurants: ask on the Wholesale page.' },
+  { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#2F6FD0', icon: 'bolt',
+    line: 'The Hydrate minerals with a clean lift of caffeine, in a stick for your water bottle. For early runs and long ski days.' },
+  { slug: 'coffee', name: 'Sapphire Coffee', sub: 'Whole bean · with a Utah roaster', color: '#5A3B22', icon: 'coffee',
+    line: 'A small-batch roast from a Utah partner — and a pinch of Pure Salt smooths the bitterness, the old diner trick.' },
+  { slug: 'tea', name: 'Loose-Leaf Teas', sub: 'Morning, mineral and evening blends', color: '#3A5A24', icon: 'tea',
+    line: 'Loose-leaf teas to sit beside the salts: a bright morning black, a mineral green and a calm evening herbal.' },
   { slug: 'steakhouse-kit', name: 'The Steakhouse Kit', sub: 'Steak salt · pepper · walnut cellar', color: '#3B2A1E', icon: 'kit',
     line: 'Ember Steak Salt, Awakened Pepper and a walnut salt cellar in one gift box.' },
   { slug: 'salt-cellar', name: 'Walnut Salt Cellar', sub: 'Matches the display stand', color: '#5A3B22', icon: 'cellar',
@@ -176,26 +202,28 @@ const COMING = [
     line: 'Top up your glass jars for less, with less packaging.' },
 ];
 
-/* The seasonings shelf (Drive: Product and Display Review v2). Awakened Pepper is on sale; the rest are
-   packaging concepts. Gold descriptors are the label copy; little lines are proposed creative copy. */
+/* Seasonings and spices (Drive: Product and Display Review v2). Awakened Pepper is on sale; the rest are
+   packaging concepts. Gold descriptors are the label copy; little lines are proposed creative copy.
+   cat: seasonings (flavored salts) or spices (peppercorns, chiles); sub: the shelf's sub-category.
+   price: proposed 4 oz price, each set on its own, a little under Erewhon where margin allows (../SPICE-PRICING.md) */
 const SEASONINGS = [
-  { slug: 'awaken-pepper', name: 'Awakened Pepper', group: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
-  { slug: 'ember-steak', name: 'Ember Steak Salt', group: 'salt', gold: 'Savory grilling blend', little: 'Fire up every bite', color: '#7A2E1E' },
-  { slug: 'garden-herb', name: 'Garden Herb Salt', group: 'salt', gold: 'Garden herb blend', little: 'A little garden in every pinch', color: '#4A6A3C' },
-  { slug: 'smoked', name: 'Smoked Sea Salt', group: 'salt', gold: 'Smoky finishing salt', little: 'A little smoke goes a long way', color: '#5E4636' },
-  { slug: 'chili-lime', name: 'Chili Lime Salt', group: 'salt', gold: 'Zesty chili blend', little: 'A bright little kick', color: '#A8402A' },
-  { slug: 'truffle', name: 'Truffle Salt', group: 'salt', gold: 'Earthy finishing salt', little: 'A little everyday luxury', color: '#3E4440' },
-  { slug: 'garlic', name: 'Garlic Salt', group: 'salt', gold: 'Savory garlic blend', little: 'Make every pinch count', color: '#9A7A3E' },
-  { slug: 'citrus', name: 'Citrus Salt', group: 'salt', gold: 'Bright citrus blend', little: 'A little sunshine in every pinch', color: '#B8902A' },
-  { slug: 'white-pepper', name: 'White Pepper', group: 'pepper', gold: 'Mellow pepper warmth', little: 'A quiet little kick', color: '#6E6A60' },
-  { slug: 'green-pepper', name: 'Green Pepper', group: 'pepper', gold: 'Bright pepper bite', little: 'A fresh twist on flavor', color: '#4E6B3A' },
-  { slug: 'pink-pepper', name: 'Pink Pepper', group: 'pepper', gold: 'Delicate peppery notes', little: 'A pretty little finish', color: '#A8455E' },
-  { slug: 'pepper-medley', name: 'Pepper Medley', group: 'pepper', gold: 'Colorful pepper medley', little: 'A little of everything', color: '#5E4A6E' },
-  { slug: 'cayenne', name: 'Cayenne', group: 'chile', gold: 'Fiery chili heat', little: 'A little goes a long way', color: '#B2401E' },
-  { slug: 'crushed-red', name: 'Crushed Red Pepper', group: 'chile', gold: 'Classic chili flakes', little: 'Turn up the everyday', color: '#A2321E' },
-  { slug: 'chipotle', name: 'Chipotle', group: 'chile', gold: 'Smoky chili depth', little: 'Smoke with a little spark', color: '#7A3A24' },
-  { slug: 'ancho', name: 'Ancho', group: 'chile', gold: 'Rich mellow chili', little: 'Big flavor, gentle warmth', color: '#6E2A22' },
-  { slug: 'jalapeno', name: 'Jalapeño', group: 'chile', gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
+  { slug: 'awaken-pepper', name: 'Awakened Pepper', cat: 'spices', sub: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
+  { slug: 'ember-steak', name: 'Ember Steak Salt', cat: 'seasonings', sub: 'grill', price: 12, gold: 'Savory grilling blend', little: 'Fire up every bite', color: '#7A2E1E' },
+  { slug: 'garden-herb', name: 'Garden Herb Salt', cat: 'seasonings', sub: 'herb', price: 11, gold: 'Garden herb blend', little: 'A little garden in every pinch', color: '#4A6A3C' },
+  { slug: 'smoked', name: 'Smoked Sea Salt', cat: 'seasonings', sub: 'finish', price: 16, gold: 'Smoky finishing salt', little: 'A little smoke goes a long way', color: '#5E4636' },
+  { slug: 'chili-lime', name: 'Chili Lime Salt', cat: 'seasonings', sub: 'bright', price: 12, gold: 'Zesty chili blend', little: 'A bright little kick', color: '#A8402A' },
+  { slug: 'truffle', name: 'Truffle Salt', cat: 'seasonings', sub: 'finish', price: 18, gold: 'Earthy finishing salt', little: 'A little everyday luxury', color: '#3E4440' },
+  { slug: 'garlic', name: 'Garlic Salt', cat: 'seasonings', sub: 'herb', price: 11, gold: 'Savory garlic blend', little: 'Make every pinch count', color: '#9A7A3E' },
+  { slug: 'citrus', name: 'Citrus Salt', cat: 'seasonings', sub: 'bright', price: 18, gold: 'Bright citrus blend', little: 'A little sunshine in every pinch', color: '#B8902A' },
+  { slug: 'white-pepper', name: 'White Pepper', cat: 'spices', sub: 'pepper', price: 11, gold: 'Mellow pepper warmth', little: 'A quiet little kick', color: '#6E6A60' },
+  { slug: 'green-pepper', name: 'Green Pepper', cat: 'spices', sub: 'pepper', price: 9, gold: 'Bright pepper bite', little: 'A fresh twist on flavor', color: '#4E6B3A' },
+  { slug: 'pink-pepper', name: 'Pink Pepper', cat: 'spices', sub: 'pepper', price: 15, gold: 'Delicate peppery notes', little: 'A pretty little finish', color: '#A8455E' },
+  { slug: 'pepper-medley', name: 'Pepper Medley', cat: 'spices', sub: 'pepper', price: 10, gold: 'Colorful pepper medley', little: 'A little of everything', color: '#5E4A6E' },
+  { slug: 'cayenne', name: 'Cayenne', cat: 'spices', sub: 'chile', price: 8, gold: 'Fiery chili heat', little: 'A little goes a long way', color: '#B2401E' },
+  { slug: 'crushed-red', name: 'Crushed Red Pepper', cat: 'spices', sub: 'chile', price: 7, gold: 'Classic chili flakes', little: 'Turn up the everyday', color: '#A2321E' },
+  { slug: 'chipotle', name: 'Chipotle', cat: 'spices', sub: 'chile', price: 9, gold: 'Smoky chili depth', little: 'Smoke with a little spark', color: '#7A3A24' },
+  { slug: 'ancho', name: 'Ancho', cat: 'spices', sub: 'chile', price: 9, gold: 'Rich mellow chili', little: 'Big flavor, gentle warmth', color: '#6E2A22' },
+  { slug: 'jalapeno', name: 'Jalapeño', cat: 'spices', sub: 'chile', price: 10, gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
 ].map(x => ({ ...x, img: `img/soon-${x.slug}.jpg` }));
 
 const findBlend = s => BLENDS.find(b => b.slug === s);
@@ -259,18 +287,17 @@ const findIng = s => INGREDIENTS.find(i => i.slug === s);
 const SALT_SOURCES = [
   { slug: 'australian-sea-salt', name: 'Australian Ocean Sea Salt', status: 'In every blend today', now: true,
     line: 'Clean, cold-water sea salt from the Australian coast. Bright and mineral, with a smooth, familiar taste.' },
-  { slug: 'himalayan', name: 'Himalayan Pink Salt', place: 'Punjab, Pakistan', status: 'Exploring',
+  { slug: 'himalayan', name: 'Himalayan Pink Salt', place: 'Punjab, Pakistan', status: 'Coming soon',
     line: 'Rock salt mined from ancient seabed deposits in the Salt Range, pink from its iron-rich trace minerals.' },
-  { slug: 'great-salt-lake', name: 'Great Salt Lake Salt', place: 'Utah — our backyard', status: 'Exploring',
+  { slug: 'great-salt-lake', name: 'Great Salt Lake Salt', place: 'Utah — our backyard', status: 'Coming soon',
     line: 'Solar-evaporated from the brine of the Great Salt Lake, an hour from our kitchen in Park City.' },
 ];
 
-/* Discovery options by shelf. Add seasonings/spices here when they launch (available: true). */
+/* Discovery options by shelf: salts now, seasonings and spices when they launch (set available: true). */
 const DISCOVERY = {   // anything sold as a single-serve packet can be picked; the price is per five
   salt: { label: 'Salts', price: 15, items: BLENDS.map(b => ({ slug: b.slug, name: b.name, tag: b.tag, color: b.color, img: `img/packet-${b.slug}.png`, available: true })) },
-  seasoning: { label: 'Seasonings', price: 18, soon: true, items: [
-    { slug: 'awaken-pepper', name: 'Awakened Pepper', tag: 'Tellicherry pepper', color: '#1C1C1C', img: 'img/packet-awaken.png', available: false },
-    ...COMING.filter(c => ['ember-steak', 'garden-herb', 'smoked', 'chili-lime'].includes(c.slug)).map(c => ({ slug: c.slug, name: c.name, tag: c.sub, color: c.color, img: null, available: false })) ] },
+  seasonings: { label: 'Seasonings', price: 18, soon: true, items: SEASONINGS.filter(x => x.cat === 'seasonings').map(x => ({ slug: x.slug, name: x.name, tag: x.gold, color: x.color, img: x.img, available: false })) },
+  spices: { label: 'Spices', price: 18, soon: true, items: SEASONINGS.filter(x => x.cat === 'spices').map(x => ({ slug: x.slug, name: x.name, tag: x.gold, color: x.color, img: x.slug === 'awaken-pepper' ? 'img/packet-awaken.png' : x.img, available: false })) },
 };
 
 /* the team — roles and bios to confirm; photos go in img/team/<slug>.jpg */
@@ -278,7 +305,7 @@ const TEAM = [
   { slug: 'brooklyn-sapp', name: 'Brooklyn Sapp', role: 'The face of Sapphire', face: true, photo: null,
     bio: 'Brooklyn is the face of Sapphire Salt & Spice, the Park City salt company her dad, Ryan, started. She’s who you’ll meet at markets, on our pages and in your inbox.' },
   { slug: 'ryan-sapp', name: 'Ryan Sapp', role: 'Founder', bio: 'Brooklyn’s dad. Ryan started Sapphire with one question: what if salt did a little more?' },
-  { slug: 'lindy-rose', name: 'Lindy Rose', role: '', bio: '' },
+  { slug: 'lyndi-rose', name: 'Lyndi Rose', role: '', bio: '' },
   { slug: 'jimmy-rose', name: 'Jimmy Rose', role: '', bio: '' },
   { slug: 'open-1', name: 'Could be you', role: 'Markets & events', open: true },
   { slug: 'open-2', name: 'Could be you', role: 'Retail & restaurant sales', open: true },
