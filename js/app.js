@@ -48,7 +48,7 @@ function meetFace() {
 function layout() {
   const nav = [['shop.html', 'Shop', 'shop'], ['gifts.html', 'Gifts', 'gifts'], ['product.html?p=discovery', 'Discovery', 'start'], ['ingredients.html', 'Ingredients', 'ingredients']];
   const navR = [['process.html', 'Quality', 'process'], ['team.html', 'About', 'team'], ['wholesale.html', 'Wholesale', 'wholesale']];
-  const a = ([h, t, k]) => `<a class="item${page === k ? ' on' : ''}" href="${h}">${t}</a>`;
+  const a = ([h, t, k]) => `<a class="item${page === k ? ' on' : ''}${k === 'shop' ? ' shop-link' : ''}" href="${h}"${k === 'shop' ? ' aria-haspopup="true" aria-expanded="false"' : ''}>${t}</a>`;
   document.body.insertAdjacentHTML('afterbegin', `
   <div class="announce"><span class="rot on">Free shipping over <b>$${SS.freeShip}</b></span><span class="rot">Subscriptions always ship free</span><span class="rot">Pick any five blends — <b>$15</b></span><span class="rot">Made in Park City, Utah</span></div>
   <header class="site"><div class="wrap nav">
@@ -56,7 +56,9 @@ function layout() {
     <nav class="left">${nav.map(a).join('')}</nav>
     <a class="brand" href="index.html" aria-label="Sapphire Salt & Spice home"><img src="img/logo-ss-stacked.png" alt="Sapphire Salt & Spice"></a>
     <div class="right">${navR.map(a).join('')}<button class="cart-btn" aria-label="Cart">${ICON.cart}<span class="count">0</span></button></div>
-  </div><nav class="mobile-menu">${[...nav, ...navR, ['faq.html', 'FAQ & Contact', 'faq']].map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</nav></header>`);
+  </div>${megaMenu()}<nav class="mobile-menu">${[...nav, ...navR, ['faq.html', 'FAQ & Contact', 'faq']].map(([h, t, k]) => k === 'shop'
+    ? `<details class="mm-shop"><summary>Shop</summary>${MEGA().map(c => `<a href="${c.href}">${c.title}${c.soon ? ' <em>Soon</em>' : ''}</a>`).join('')}<a href="shop.html">Shop everything</a></details>` : `<a href="${h}">${t}</a>`).join('')}</nav></header>`);
+  wireMega();
 
   document.body.insertAdjacentHTML('beforeend', `
   <section class="newsletter"><div class="wrap">
@@ -87,6 +89,36 @@ function layout() {
   $('.scrim').onclick = $('.drawer .x').onclick = closeCart;
   $('.checkout').onclick = () => { location.href = 'checkout.html'; };
   $('.apay').onclick = () => { location.href = 'checkout.html?express=apple'; };
+}
+
+/* ---------- Shop mega-menu: every category with small photos, one hover away ---------- */
+const MEGA = () => [   // built on first use: it needs helpers defined further down
+  { title: 'Pure Salts', href: 'shop.html#pure', items: PURE_SALTS.map(x => x.live ? { name: x.name, sub: 'Pure Salt', href: 'product.html?p=pure', img: 'img/pure-card.jpg' }
+      : { name: x.name.replace(' Salt', '').replace(' Pink', ''), sub: 'Coming soon', href: 'shop.html#pure', color: x.color }) },
+  { title: 'Salt Blends', href: 'shop.html#blends-sec', items: BLENDS.filter(b => b.cat === 'blends').map(b => ({ name: b.name, sub: b.tag, href: `product.html?p=${b.slug}`, img: `img/${b.slug}-card.jpg` })) },
+  { title: 'Seasonings & Spices', href: 'shop.html#spices', items: [
+      { name: 'Awaken Pepper', sub: 'Tellicherry peppercorns', href: 'product.html?p=awaken-pepper', img: 'img/soon-awaken-pepper.jpg' },
+      { name: 'Seasonings', sub: `${SEASONINGS.filter(x => x.cat === 'seasonings').length} flavored salts · soon`, href: 'shop.html#seasonings', img: 'img/soon-ember-steak.jpg' },
+      { name: 'Spices', sub: `${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more · soon`, href: 'shop.html#spices', img: 'img/soon-pink-pepper.jpg' },
+      { name: 'Test Kitchen', sub: 'Taste it first · $3', href: 'product.html?p=test-kitchen', color: '#315B91' }] },
+  { title: 'Gifts & Sets', href: 'gifts.html', items: ['kindness', 'gift-box', 'year-of-salt', 'gift-card', 'display-collection'].map(k => { const e = findExtra(k); return { name: e.name, sub: money(e.price) + (k === 'gift-card' ? '+' : ''), href: `product.html?p=${k}`, img: extraThumb(e) }; }) },
+];
+function megaMenu() {
+  const it = x => `<a class="mg-it" href="${x.href}">${x.img ? `<img src="${x.img}" alt="" loading="lazy">` : `<i class="mg-sw" style="--c:${x.color}"></i>`}<span><b>${x.name}</b><small>${x.sub}</small></span></a>`;
+  return `<div class="mega" id="mega" aria-label="Shop by category"><div class="wrap mega-grid">
+    ${MEGA().map(c => `<div class="mg-col"><a class="mg-h" href="${c.href}">${c.title}</a>${c.items.map(it).join('')}</div>`).join('')}
+    <a class="mg-feat" href="product.html?p=discovery"><img src="img/fan-card.jpg" alt="Sample packets of all five blends" loading="lazy"><span class="eyebrow">New here?</span><b>Try all five for $15</b><small>Pick any five · 15 packets · ships free</small></a>
+    <div class="mg-foot"><a href="shop.html">Shop everything →</a><a href="shop.html#soon">Coming soon</a><a href="wholesale.html">For shops & cafés</a></div></div></div>`;
+}
+function wireMega() {
+  const head = $('header.site'), link = $('.shop-link', head), mega = $('#mega'); if (!link || !mega) return;
+  let t; const open = on => { clearTimeout(t); head.classList.toggle('mega-open', on); link.setAttribute('aria-expanded', on); };
+  const later = () => { clearTimeout(t); t = setTimeout(() => open(false), 180); };   // a little grace so the pointer can travel into the panel
+  if (matchMedia('(hover:hover)').matches) { link.onmouseenter = () => { clearTimeout(t); t = setTimeout(() => open(true), 90); }; link.onmouseleave = later; mega.onmouseenter = () => open(true); mega.onmouseleave = later; }
+  link.addEventListener('focus', () => open(true));
+  mega.addEventListener('focusout', e => { if (!mega.contains(e.relatedTarget) && e.relatedTarget !== link) open(false); });
+  link.addEventListener('keydown', e => { if (e.key === 'ArrowDown') { e.preventDefault(); open(true); $('a', mega).focus(); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && head.classList.contains('mega-open')) { open(false); link.focus(); } });
 }
 
 /* ---------- cart ---------- */
