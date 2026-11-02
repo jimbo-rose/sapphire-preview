@@ -394,6 +394,35 @@ const SHELF = {
     top: { y: [450, 926], x: [[20, 314], [354, 649], [689, 983], [1023, 1318], [1358, 1652]] }, bot: null,
     case: [0, 420, 1672, 941], frame: [] },
 };
+/* the hero reads its jar positions from img/hero-stand.json when that file exists, so a new hero photo
+   works the moment it lands: drop in the image and its JSON (make it with tools/hero-calibrate.html).
+   Format: { w, h, jars: [[x0,y0,x1,y1] × 10, top row left→right then bottom row], case: [x0,y0,x1,y1], order?: [5 slugs], frame?: [[…]] } */
+function heroGeometry(g) {
+  const out = { w: g.w, h: g.h, case: g.case };
+  if (g.jars) {
+    const row = js => ({ y: [Math.min(...js.map(j => j[1])), Math.max(...js.map(j => j[3]))], x: js.map(j => [j[0], j[2]]) });
+    out.top = row(g.jars.slice(0, 5)); out.bot = g.jars.length > 5 ? row(g.jars.slice(5, 10)) : null;
+  } else { out.top = g.top; out.bot = g.bot; }
+  out.frame = g.frame || [g.case];   // without wood pieces, the whole case is the "whole display" target
+  if (g.order) out.order = g.order;
+  return out;
+}
+async function loadHero() {
+  try {
+    const r = await fetch('img/hero-stand.json', { cache: 'no-cache' }); if (!r.ok) return false;
+    Object.assign(SHELF.salt, heroGeometry(await r.json())); return true;
+  } catch (e) { return false; }
+}
+/* the leaf-shadow mask: shadow everywhere except over the jars, drawn from the same geometry */
+function jarMask(S) {
+  const c = document.createElement('canvas'); c.width = Math.round(S.w / 2); c.height = Math.round(S.h / 2);
+  const x = c.getContext('2d'); x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height);
+  x.globalCompositeOperation = 'destination-out'; x.filter = 'blur(3px)';
+  ['top', 'bot'].filter(r => S[r]).forEach(r => S[r].x.forEach(([x0, x1]) => {
+    const [y0, y1] = S[r].y; x.beginPath(); x.roundRect ? x.roundRect((x0 + 4) / 2, (y0 + 4) / 2, (x1 - x0 - 8) / 2, (y1 - y0 - 6) / 2, 9) : x.rect((x0 + 4) / 2, (y0 + 4) / 2, (x1 - x0 - 8) / 2, (y1 - y0 - 6) / 2); x.fill();
+  }));
+  return `url(${c.toDataURL()})`;
+}
 const SHELF_COPY = {
   seasonings: { name: 'The Seasonings Shelf', sub: 'Flavored salts', bar: 'Steak, herb, smoked, chili lime, truffle and more', n: 'seven' },
   spices: { name: 'The Spices Shelf', sub: 'Peppercorns, chiles & staples', bar: `Awaken Pepper today · ${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more in the works`, n: String(SEASONINGS.filter(x => x.cat === 'spices').length) },
@@ -428,9 +457,10 @@ function shelf(which = 'salt') {
   }));
   const frames = S.frame.map(f => `<span class="frame" style="left:${pct(f[0], W)};top:${pct(f[1], H)};width:${pct(f[2] - f[0], W)};height:${pct(f[3] - f[1], H)}"></span>`).join('');
   const e = S.stand && findExtra(S.stand);
-  root.innerHTML = `<div class="canvas"><img class="bg" src="${S.img}" alt="${S.alt}" fetchpriority="high">
+  root.innerHTML = `<div class="canvas"><img class="bg" src="${S.img}" alt="${S.alt}" fetchpriority="high" width="${S.w}" height="${S.h}">
     <div class="sun" aria-hidden="true"><i class="leaves l1"></i><i class="leaves l2"></i><i class="glow"></i></div>
     <button class="hot case" style="${box(S.case)}" aria-label="${e ? 'The whole display, ' + money(e.price) : SHELF_COPY[which].name}"></button>${frames}${hots}</div>`;
+  const sun = $('.sun', root), mk = jarMask(S); sun.style.webkitMaskImage = mk; sun.style.maskImage = mk;
   const bar = $('#whole-bar');
   bar.innerHTML = e ? `<span class="wb-l"><b>Shop the whole shelf</b><small>All ten jars + the walnut display stand</small></span><span class="wb-r">${money(e.price)} <i>→</i></span>`
     : `<span class="wb-l"><b>${SHELF_COPY[which].name.replace('The ', 'The ')}</b><small>${SHELF_COPY[which].bar}</small></span><span class="wb-r">Coming soon <i>→</i></span>`;
@@ -611,6 +641,7 @@ function reviews(p, after) {
 const R = {
   home() {
     shelf('salt'); build5();
+    loadHero().then(got => { if (got && $('#shelf').dataset.which === 'salt') shelf('salt'); });   // a new hero photo brings its own jar map
     $$('.shelf-tabs button').forEach(b => b.onclick = () => { $$('.shelf-tabs button').forEach(x => x.classList.toggle('on', x === b)); shelf(b.dataset.shelf); });
     $('#blends').innerHTML = BLENDS.map(blendCard).join(''); wireCards($('#blends'));
     $('#sets').innerHTML = ['gift-box', 'kindness', 'full-table'].map(s => extraCard(findExtra(s))).join(''); wireExtras($('#sets'));
