@@ -70,7 +70,7 @@ function layout() {
       <div><img class="logo" src="img/logo-ss-primary-white.png" alt="Sapphire Salt & Spice"><p>Sapphire Salt & Spice brings thoughtful salts, seasonings and spices to the everyday table.</p><p class="made-ut">${ICON.utah}<span><b>Made in Utah</b>A Park City family company</span></p></div>
       <div><h4>Shop</h4>${BLENDS.map(b => `<a href="product.html?p=${b.slug}">${b.name}</a>`).join('')}<a href="product.html?p=discovery">Discovery Collection</a><a href="product.html?p=awaken-pepper">Awaken Pepper</a><a href="shop.html#soon">Coming soon</a></div>
       <div><h4>Learn</h4><a href="ingredients.html">Ingredients</a><a href="process.html">Process & Quality</a><a href="story.html">Our Story</a><a href="faq.html">FAQ</a><a href="faq.html#find">Where to buy</a><a href="contact.html?t=idea">Suggest a blend</a><a href="product.html?p=test-kitchen">Test Kitchen</a></div>
-      <div><h4>Company</h4><a href="team.html">Our team</a><a href="team.html#join">Join the team</a><a href="affiliates.html">Affiliates</a><a href="wholesale.html">Wholesale</a><a href="wholesale.html#signin">Retailer sign in</a><a href="contact.html">Contact us</a><a href="#">Instagram</a></div>
+      <div><h4>Company</h4><a href="team.html">Our team</a><a href="team.html#join">Join the team</a><a href="affiliates.html">Affiliates</a><a href="wholesale.html">Wholesale</a><a href="wholesale.html#signin">Retailer sign in</a><a href="contact.html">Contact us</a></div>
       <div><h4>Help</h4><a href="policies.html#shipping">Shipping</a><a href="policies.html#returns">Returns & refunds</a><a href="policies.html#subscriptions">Subscriptions</a><a href="policies.html#military">Military & first responders</a><a href="policies.html#privacy">Privacy policy</a><a href="policies.html#choices">Your privacy choices</a><a href="policies.html#terms">Terms</a><a href="policies.html#accessibility">Accessibility</a></div>
     </div>
     <div class="legal"><span>© ${new Date().getFullYear()} Sapphire Salt L.L.C. · 875 Iron Horse Dr. Suite A, Park City, UT 84098</span><span>This salt does not supply iodide, a necessary nutrient. Not intended to diagnose, treat, cure or prevent any disease.</span></div>
@@ -285,12 +285,14 @@ const SOON_ICON = {
   capsule: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="24" width="44" height="16" rx="8" transform="rotate(-35 32 32)"/><path d="M26 22l12 20" /></svg>',
   drop: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M28 6h8v6h-8z"/><path d="M26 12h12v6H26z"/><path d="M24 18h16l2 6v30a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4V24l2-6Z"/><path d="M32 34c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8Z"/></svg>',
   scoop: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 20h36v30a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V20Z"/><path d="M12 14h40v6H12z"/><path d="M24 34c0-4 16-4 16 0s-8 6-8 6"/></svg>',
+  shakers: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 22c0-6 3-10 7-10s7 4 7 10v28H16z"/><path d="M34 22c0-6 3-10 7-10s7 4 7 10v28H34z"/><circle cx="21" cy="17" r=".8"/><circle cx="25" cy="17" r=".8"/><circle cx="41" cy="17" r=".8"/><path d="M12 50h40"/></svg>',
   apron: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10h20v12l8 6v26H14V28l8-6V10Z"/><path d="M14 28l-6-4M50 28l6-4"/><path d="M24 40h16v8H24z"/></svg>',
 };
 function comingCard(c) {
   const ph = c.img ? `<img src="${c.img}" alt="${c.name} concept" loading="lazy">` : `<div class="soon-ic" style="color:${c.color}">${SOON_ICON[c.icon]}</div>`;
-  return `<article class="soon-card" style="--c:${c.color}"><div class="ph">${ph}<span class="soon-tag">Concept</span></div>
-    <div class="body"><span class="eyebrow">${c.sub}</span><h3>${c.name}</h3><p>${c.line}</p>
+  const page = FUTURE[c.slug] ? `product.html?p=${c.slug}` : null;
+  return `<article class="soon-card" style="--c:${c.color}" data-g="${c.group || ''}"><div class="ph">${page ? `<a href="${page}" tabindex="-1">${ph}</a>` : ph}<span class="soon-tag">Concept</span></div>
+    <div class="body"><span class="eyebrow">${c.sub}</span><h3>${page ? `<a href="${page}">${c.name}</a>` : c.name}</h3><p>${c.line}</p>${page ? `<a class="link sm" href="${page}">See the idea</a>` : ''}
     <form class="notify"><input type="email" required placeholder="Your email" aria-label="Email"><button class="btn">Notify me</button></form></div>${strip(c.sub.split(' · ').concat('Coming soon'))}</article>`;
 }
 /* seasonings and spices on the shop page: each its own section, sub-category tabs, buy or vote */
@@ -315,6 +317,14 @@ function shelfGrid(cat) {
   });
   $('.seas-notify', root).onsubmit = ev => { ev.preventDefault(); toast(want.size ? 'Thanks — you’ll hear first.' : 'Pick at least one first.'); if (want.size) ev.target.reset(); };
   count();
+}
+/* long grids show their first rows, with a button for the rest (keeps the shop page short) */
+function clamp(grid, n, noun) {
+  if (!grid || grid.children.length <= n) return;
+  grid.classList.add('clamp'); grid.style.setProperty('--n', n);
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'btn ghost clamp-more'; b.textContent = `Show all ${grid.children.length} ${noun}`;
+  b.onclick = () => { grid.classList.add('open'); b.remove(); };
+  grid.after(b);
 }
 /* pure salts by origin: Australian on sale, Utah and Himalayan coming */
 function pureSalts() {
@@ -506,6 +516,34 @@ function shelfPanel(which, it) {
 }
 const closeQV = () => {};
 
+/* ---------- concept pages for future products: the idea, how you'd use it, formats, what has to be true first ---------- */
+function conceptPage(c, root) {
+  const f = FUTURE[c.slug]; document.title = `${c.name} (concept) — Sapphire Salt & Spice`;
+  root.style.setProperty('--c', c.color);
+  const art = `<span class="concept-art big" style="--c:${c.color}"><span class="soon-ic">${SOON_ICON[c.icon] || ''}</span><b>${c.name}</b><small>Concept · in development</small></span>`;
+  root.innerHTML = `<div class="gallery"><div class="main concept-main">${art}</div></div>
+    <div class="info"><div class="crumbs"><a href="shop.html#soon">Coming soon</a> / ${c.name}</div>
+      <span class="soon-tag static">Concept</span><h1>${c.name}</h1><div class="subt">${c.sub}</div><p class="line">${f.idea}</p>
+      <div class="cp-block"><b>How you’d use it</b><ul>${f.use.map(u => `<li>${u.replace(/\[(.*?)\]/g, '<span class="draft">$1</span>')}</li>`).join('')}</ul></div>
+      <div class="cp-block"><b>Formats we’re considering</b><ul>${f.formats.map(u => `<li>${u}</li>`).join('')}</ul><p class="muted">Price to come, once the recipe and packaging are final.</p></div>
+      <div class="cp-block"><b>What has to be true first</b><ul>${f.first.map(u => `<li>${u}</li>`).join('')}</ul></div>
+      <div class="cp-act"><button class="btn gold cp-want" type="button" aria-pressed="false">I’d buy this</button>
+        <form class="notify"><input type="email" required placeholder="Email for first word" aria-label="Email"><button class="btn">Notify me</button></form>
+        <label class="ck2"><input type="checkbox" class="cp-test"> Send me a small batch to test before it launches</label></div>
+      <p class="muted cp-note">Concepts are ideas we’re working on, not products for sale. Nothing here is a final recipe, label or claim.</p></div>`;
+  const img = new Image(); img.onload = () => { $('.concept-main', root).innerHTML = `<img src="${img.src}" alt="${c.name}, concept image">`; }; img.src = `img/future/${c.slug}.jpg`;   // ChatGPT art, when it lands
+  const w = $('.cp-want', root); w.onclick = () => { const on = w.getAttribute('aria-pressed') !== 'true'; w.setAttribute('aria-pressed', on); w.textContent = on ? '✓ On my list' : 'I’d buy this'; if (on) toast('Counted. The most-wanted ideas get made first.'); };
+  $('.notify', root).onsubmit = ev => { ev.preventDefault(); toast(`Thanks — you’ll hear first${$('.cp-test', root).checked ? ', and we’ll offer you a test batch' : ''}.`); ev.target.reset(); };
+  $('#related').innerHTML = COMING.filter(x => x.group === c.group && x.slug !== c.slug && FUTURE[x.slug]).slice(0, 4).map(comingCard).join('') || BLENDS.slice(0, 4).map(blendCard).join('');
+  wireNotify($('#related')); wireCards($('#related'));
+  const rh = $('#related').closest('section'); if (rh) { const h = $('h2', rh); if (h) h.textContent = 'More in the works'; }
+}
+
+/* ---------- ingredient stand-ins: a drawn specimen in the ingredient's family color until real photos arrive ---------- */
+const KIND_COLOR = { 'Salt': '#123C9C', 'Plant fiber': '#34513B', 'Mineral': '#315B91', 'Amino acid': '#8D463D', 'Flow aid': '#9A7B3F' };
+const specimen = (i, size = '') => i.photo && size !== 'xs' ? `<span class="specimen photo ${size}"><img src="${i.img}" alt="" loading="lazy"></span>`
+  : `<span class="specimen ${size}" style="--c:${KIND_COLOR[i.kind] || '#123C9C'}" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">${ING_ICON[i.icon] || ING_ICON.mineral}</svg></span>`;
+
 /* ---------- reviews: summary, list and a form. Nothing shows until a real, checked review exists ---------- */
 function reviews(p, after) {
   const list = REVIEWS[p.slug] || [], r = ratingOf(p.slug);
@@ -551,6 +589,11 @@ const R = {
       $$('#blends .card').forEach(c => c.hidden = t.dataset.g !== 'all' && findBlend(c.dataset.slug).group !== t.dataset.g); });
     $('#extras').innerHTML = EXTRAS.map(extraCard).join(''); wireExtras($('#extras'));
     $('#coming').innerHTML = COMING.filter(c => !SEASONINGS.some(x => x.slug === c.slug)).map(comingCard).join(''); wireNotify($('#coming'));
+    const ct = $('#coming-tabs'); if (ct) {
+      ct.innerHTML = [['all', 'All'], ...FUTURE_GROUPS].map(([k, t], i) => `<button class="${i ? '' : 'on'}" data-g="${k}">${t}</button>`).join('');
+      $$('button', ct).forEach(t => t.onclick = () => { $$('button', ct).forEach(x => x.classList.toggle('on', x === t)); $$('#coming .soon-card').forEach(c => c.hidden = t.dataset.g !== 'all' && c.dataset.g !== t.dataset.g); $('#coming').classList.toggle('open', t.dataset.g !== 'all'); });
+    }
+    clamp($('#coming'), 8, 'ideas'); clamp($('#spices .seas-grid'), 12, 'spices'); clamp($('#seasonings .seas-grid'), 12, 'seasonings');
     shelfGrid('seasonings'); shelfGrid('spices'); wireExtras($('#test-kitchen'));
     // the category bar follows the scroll
     const bar = $$('.catbar a'), secs = bar.map(a => $(a.getAttribute('href')));
@@ -560,6 +603,7 @@ const R = {
   product() {
     const slug = new URLSearchParams(location.search).get('p') || 'pure';
     const b = findBlend(slug), e = b ? null : findExtra(slug);
+    if (!b && !e && FUTURE[slug]) { conceptPage(findComing(slug), $('#pdp')); return; }
     if (!b && !e) { location.href = 'shop.html'; return; }
     const p = b || e; document.title = `${p.name} — Sapphire Salt & Spice`;
     const root = $('#pdp'); root.style.setProperty('--c', p.color); root.style.setProperty('--tint', p.tint);
@@ -696,17 +740,19 @@ const R = {
       ${s.img ? `<figure class="source-material"><img src="${s.img}" alt="${s.imgAlt}" loading="lazy"><figcaption>${s.imgNote}</figcaption></figure>` : ''}<span class="badge">${s.status}</span><h3>${s.name}</h3>${s.place ? `<small>${s.place}</small>` : ''}<p>${s.line}</p><em>${s.now ? 'Deep dive' : 'Why we’re looking'} →</em></a>`).join('');
     const idx = $('#ing-index');   // the hero's empty stone carries the index: the page's whole point, up front
     if (idx) idx.innerHTML = [...INGREDIENTS].sort((x, y) => x.name.localeCompare(y.name)).map(i => `<a href="${ingUrl(i)}" style="--c:${findBlend(i.blends[i.blends.length - 1]).color}"><i></i>${i.name}<small>${i.kind}</small></a>`).join('');
-    const kinds = ['All', ...new Set(INGREDIENTS.map(i => i.kind))];
-    $('#ing-filter').innerHTML = kinds.map((k, n) => `<button class="${n ? '' : 'on'}" data-k="${k}">${k}</button>`).join('');
-    const card = i => `<a class="ing-card" href="${ingUrl(i)}" data-k="${i.kind}"><span class="ing-ph"><img src="${i.img}" alt="${i.name}" loading="lazy"></span><span class="kind">${i.kind}</span><h3>${i.name}</h3><small>${i.title}</small><p>${i.what || i.desc}</p>
-      <div class="bchips">${i.blends.map(s => { const b = findBlend(s); return `<i style="--c:${b.color}">${b.short}</i>`; }).join('')}</div><em>Deep dive →</em></a>`;
-    $('#ing-grid').innerHTML = INGREDIENTS.map(card).join('');
+    // grouped by kind, compact: what it is for, in one line, and where to find it
+    const kinds = Object.keys(KIND_COLOR).filter(k => INGREDIENTS.some(i => i.kind === k));   // salt first, flow aid last
+    $('#ing-filter').innerHTML = ['All', ...kinds].map((k, n) => `<button class="${n ? '' : 'on'}" data-k="${k}">${k}</button>`).join('');
+    const card = i => `<a class="ing-card" href="${ingUrl(i)}" data-k="${i.kind}">${specimen(i)}<span class="ic-txt"><span class="kind">${i.kind}</span><h3>${i.name}</h3><p>${i.why || i.desc}</p>
+      <span class="bchips">${i.blends.map(s => { const b = findBlend(s); return `<i style="--c:${b.color}">${b.short}</i>`; }).join('')}</span></span></a>`;
+    $('#ing-grid').innerHTML = kinds.map(k => `<div class="ing-group" data-k="${k}"><h3 class="ig-h" style="--c:${KIND_COLOR[k]}">${k}<small>${INGREDIENTS.filter(i => i.kind === k).length}</small></h3>
+      <div class="ig-cards">${INGREDIENTS.filter(i => i.kind === k).map(card).join('')}</div></div>`).join('');
     $$('#ing-filter button').forEach(btn => btn.onclick = () => {
       $$('#ing-filter button').forEach(x => x.classList.toggle('on', x === btn));
-      $$('.ing-card').forEach(c => c.hidden = btn.dataset.k !== 'All' && c.dataset.k !== btn.dataset.k);
+      $$('.ing-group').forEach(g => g.hidden = btn.dataset.k !== 'All' && g.dataset.k !== btn.dataset.k);
     });
     $('#matrix').innerHTML = `<thead><tr><th>Ingredient</th>${BLENDS.map(b => `<th><a href="product.html?p=${b.slug}" style="--c:${b.color}">${b.short}</a></th>`).join('')}</tr></thead>
-      <tbody>${INGREDIENTS.map(i => `<tr><td><a class="mx-ing" href="${ingUrl(i)}"><img src="${i.img}" alt="" loading="lazy">${i.name}</a></td>${BLENDS.map(b => `<td>${i.blends.includes(b.slug) ? `<i style="--c:${b.color}"></i>` : ''}</td>`).join('')}</tr>`).join('')}</tbody>`;
+      <tbody>${INGREDIENTS.map(i => `<tr><td><a class="mx-ing" href="${ingUrl(i)}">${specimen(i, 'xs')}${i.name}</a></td>${BLENDS.map(b => `<td>${i.blends.includes(b.slug) ? `<i style="--c:${b.color}" aria-label="in ${b.short}"></i>` : ''}</td>`).join('')}</tr>`).join('')}</tbody>`;
   },
   ingredient() {
     const slug = new URLSearchParams(location.search).get('i') || 'australian-sea-salt';
@@ -728,21 +774,27 @@ const R = {
     const k = INGREDIENTS.indexOf(i), prev = INGREDIENTS[(k - 1 + INGREDIENTS.length) % INGREDIENTS.length], next = INGREDIENTS[(k + 1) % INGREDIENTS.length];
     const blends = i.blends.map(findBlend), main = blends[0];
     const isSalt = i.slug === 'australian-sea-salt';
-    root.style.setProperty('--c', main.color);
+    root.style.setProperty('--c', KIND_COLOR[i.kind] || main.color);
+    const mates = [...new Set(blends.flatMap(b => b.ingredients.map(x => x.name)))].filter(n => n !== i.name).map(n => INGREDIENTS.find(x => x.name === n));
+    const draft = t => (t || '').replace(/\[(.*?)\]/g, '<span class="draft">$1</span>').replace(/Ryan to confirm\.?/, '<span class="draft">Ryan to confirm</span>');
     root.innerHTML = `<section class="ing-hero"><div class="wrap ing-hero-grid"><div>
         <div class="crumbs"><a href="ingredients.html">Ingredients</a> / ${i.name}</div>
         <span class="eyebrow">${i.kind} · ${i.title}</span><h1>${i.name}</h1>
-        <p class="lede">${i.desc}</p>
+        <p class="lede">${i.why || i.desc}</p>
         <div class="bchips big">${blends.map(b => `<a href="product.html?p=${b.slug}" style="--c:${b.color}">${b.name}</a>`).join('')}</div></div>
-        <figure class="ing-photo"><img src="${i.img}" alt="${i.name}"><figcaption>${i.name}, on its own</figcaption></figure></div></section>
-      <section style="padding-top:20px"><div class="wrap"><div class="ing-facts">
+        ${i.photo ? `<figure class="ing-photo"><img src="${i.img}" alt="${i.name}">${i.imgNote ? `<figcaption>${i.imgNote}</figcaption>` : ''}</figure>` : `<figure class="ing-photo spec">${specimen(i, 'xl')}<figcaption>Photo coming</figcaption></figure>`}</div></section>
+      <section style="padding-top:12px"><div class="wrap"><div class="ing-facts">
         <div><b>What it is</b><p>${i.what || i.desc}</p></div>
-        <div><b>Where it comes from</b><p>${(i.from || 'Ryan to confirm.').replace(/Ryan to confirm\.?/, '<span class="draft">Ryan to confirm</span>')}</p></div>
-        <div><b>Why it’s in the jar</b><p>${i.desc}</p></div>
-        ${i.how ? `<div class="wide"><b>How we keep it pure</b><ol class="mini">${i.how.map(h => `<li>${h.replace(/\[(.*?)\]/, '<span class="draft">$1</span>')}</li>`).join('')}</ol></div>` : ''}
-        ${isSalt ? `<div class="wide"><div class="video-ph wide-sm" role="img" aria-label="Video coming soon"><img src="img/pure-pair.jpg" alt=""><div class="vp-in"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><b>From the coast to the jar</b><small>Video coming soon</small></div></div></div>` : ''}
-        <div class="wide"><b>How much is in a serving</b><p>We’ll publish exact amounts per serving here once the updated Nutrition Facts panels are final. <span class="draft">Pending label update</span></p></div>
-      </div></div></section>
+        <div><b>Taste & texture</b><p>${i.taste || 'You won’t notice it.'}</p></div>
+        <div><b>Where you’ve met it</b><p>${i.nature || ''}</p></div>
+        <div><b>Where ours comes from</b><p>${draft(i.from || 'Ryan to confirm.')}</p></div>
+        <div><b>What we require</b><p>${draft(i.standard || '[to confirm]')}</p></div>
+        <div><b>How much in a serving</b><p>Published here once the updated Nutrition Facts panels are final. <span class="draft">Pending label update</span></p></div>
+        ${i.how ? `<div class="wide"><b>How we keep it pure</b><ol class="mini">${i.how.map(h => `<li>${draft(h)}</li>`).join('')}</ol></div>` : ''}
+      </div>
+      ${i.faq ? `<div class="ing-faq">${i.faq.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</div>` : ''}
+      ${mates.length ? `<div class="ing-mates"><span class="eyebrow">Shares the jar with</span><div>${mates.map(m => `<a href="${'ingredient.html?i=' + m.slug}">${specimen(m, 'xs')}${m.name}</a>`).join('')}</div></div>` : ''}
+      </div></section>
       <section style="padding-top:0"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Find it in</span><h2 style="margin-top:12px">${blends.length === 5 ? 'Every blend' : blends.length > 1 ? blends.length + ' of our blends' : 'One of our blends'}</h2></div><p style="color:var(--muted);margin:0;max-width:380px">${i.name} is in ${blends.map(b => b.name).join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p></div>
         <div class="grid5" id="ing-blends"></div>
         <nav class="ing-nav"><a href="ingredient.html?i=${prev.slug}">← ${prev.name}</a><a href="ingredients.html">All ingredients</a><a href="ingredient.html?i=${next.slug}">${next.name} →</a></nav></div></section>`;

@@ -1032,6 +1032,62 @@ footer .logo{height:auto;object-fit:contain}
 .source-material figcaption{padding:10px 12px;font:400 11px/1.45 var(--sans);color:var(--muted)}
 .source-material.detail{max-width:800px;margin:28px 0}
 
-/* engraved top sign, ours: gems above SAPPHIRE (shared rules) */
-.engr em.r0.logo::before{content:"";display:block;width:2.6em;height:1.2em;margin:0 auto .1em;background:url(../img/tiara-gold.png) center/contain no-repeat}
+/* the stand photo already carries the five-gem mark above the top sign, so "ours" there is just SAPPHIRE */
 .rail{grid-template-columns:96px auto;row-gap:8px}.rail input{grid-column:1/-1}
+/* ---- 3 Nov: ingredients, compact and grouped ---- */
+.specimen{display:inline-grid;place-items:center;flex:none;width:72px;height:72px;border-radius:50%;color:var(--c);
+  background:radial-gradient(circle at 32% 28%,#fff,color-mix(in srgb,var(--c) 12%,#fff) 62%,color-mix(in srgb,var(--c) 22%,#fff));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 22%,transparent)}
+.specimen svg{width:56%;height:56%}
+.specimen.photo{overflow:hidden;background:none}.specimen.photo img{width:100%;height:100%;object-fit:cover}
+.specimen.xs{width:26px;height:26px}.specimen.xs svg{width:62%;height:62%}
+.specimen.xl{width:min(320px,70vw);height:min(320px,70vw)}.specimen.xl svg{width:44%;height:44%;stroke-width:1.1}
+#ing-grid{display:grid;gap:30px}
+.ing-group{display:grid;gap:12px}
+.ig-h{display:flex;align-items:baseline;gap:10px;margin:0;font:600 12px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.ig-h small{font-weight:500;color:var(--muted);letter-spacing:.06em}
+.ig-h::after{content:"";flex:1;height:1px;background:var(--line);transform:translateY(-3px)}
+.ig-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#ing-grid .ing-card{display:flex;gap:16px;align-items:flex-start;padding:16px;background:#fff;border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--ink);
+  transition:transform .45s cubic-bezier(.2,.9,.25,1.15),box-shadow .45s,border-color .3s}
+#ing-grid .ing-card:hover{transform:translateY(-4px);border-color:transparent;box-shadow:0 18px 34px -18px rgba(11,27,63,.35)}
+#ing-grid .ing-card:hover .specimen{animation:spin 1.2s cubic-bezier(.3,.7,.2,1)}
+@keyframes spin{50%{transform:rotate(-8deg) scale(1.06)}}
+.ic-txt{display:grid;gap:4px;min-width:0}
+#ing-grid .ing-card .kind{font:600 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+#ing-grid .ing-card h3{font:500 21px/1.15 var(--serif);margin:0}
+#ing-grid .ing-card p{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+#ing-grid .bchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.mx-ing{display:inline-flex;align-items:center;gap:8px}
+.ing-photo.spec{display:grid;place-items:center;gap:10px;margin:0}.ing-photo.spec figcaption{font-size:12px;color:var(--muted)}
+.ing-faq{display:grid;gap:8px;margin-top:16px}
+.ing-faq details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.ing-faq summary{cursor:pointer;font-weight:600}.ing-faq p{margin:8px 0 0;color:var(--muted)}
+.ing-mates{display:grid;gap:10px;margin-top:22px}
+.ing-mates>div{display:flex;flex-wrap:wrap;gap:8px}
+.ing-mates a{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);text-decoration:none;font-size:13px}
+.ing-mates a:hover{border-color:var(--c)}
+@media (max-width:1000px){ .ig-cards{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:620px){ .ig-cards{grid-template-columns:1fr} .specimen{width:56px;height:56px} }
+@media (prefers-reduced-motion:reduce){ #ing-grid .ing-card:hover .specimen{animation:none} }
+#ing-grid{grid-template-columns:1fr!important}
+#ing-grid .ing-card{flex-direction:row;height:auto}
+/* ---- 3 Nov: concept pages, grouped coming soon, clamped grids ---- */
+.clamp:not(.open)>*:nth-child(n+13){display:none}
+#coming.clamp:not(.open)>*:nth-child(n+9){display:none}
+.clamp-more{display:block;margin:18px auto 0}
+.concept-main .concept-art.big{aspect-ratio:1/1;width:100%}
+.concept-main .soon-ic{position:relative;width:120px;color:#fff;opacity:.9}
+.concept-main img{width:100%;border-radius:20px;display:block}
+.soon-tag.static{position:static;display:inline-block;margin-bottom:6px}
+.cp-block{display:grid;gap:6px;margin:14px 0 0}
+.cp-block b{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.cp-block ul{margin:0;padding-left:18px;color:var(--ink);display:grid;gap:4px}
+.cp-block .muted,.cp-note{color:var(--muted);font-size:13px;margin:4px 0 0}
+.cp-act{display:grid;gap:12px;margin-top:22px;padding:20px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+.cp-act .notify{display:flex;gap:8px}.cp-act .notify input{flex:1;min-width:0}
+.cp-want[aria-pressed=true]{background:#2F7A4A;color:#fff;border-color:#2F7A4A}
+.soon-card h3 a{color:inherit;text-decoration:none}.soon-card .link.sm{font-size:12px;margin:-2px 0 6px}
+.soon-card .ph>a{display:grid;place-items:center;width:100%;height:100%;color:inherit}
+.soon-card .ph>a>img{width:100%;height:100%;object-fit:cover}
+.soon-card .ph>a>.soon-ic{width:46%;color:var(--c)}
+.soon-card[hidden],.seas[hidden],.card[hidden]{display:none!important}
