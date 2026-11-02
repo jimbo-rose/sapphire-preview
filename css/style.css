@@ -974,9 +974,9 @@ footer.site{background:linear-gradient(180deg,rgba(9,20,48,.94),rgba(9,20,48,.97
 .seas .ph img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}.seas:hover .ph img{transform:scale(1.06) translateY(-2px)}
 button.add,.btn,.qadd,.want{position:relative;overflow:hidden;isolation:isolate}
 button.add::before,.btn::before,.qadd::before{content:"";position:absolute;left:-10%;right:-10%;top:100%;height:240%;z-index:-1;border-radius:42% 46% 0 0;
-  background:color-mix(in srgb,var(--c,#123C9C) 55%,#123C9C);transition:top .55s cubic-bezier(.3,.7,.2,1);animation:wave 3s linear infinite paused}
+  background:color-mix(in srgb,var(--c,#123C9C) 55%,#123C9C);transition:top .55s cubic-bezier(.3,.7,.2,1)}
 .btn.ghost::before{background:rgba(30,58,158,.1)}.btn.gold::before{background:#D8BC7C}
-button.add:hover::before,.btn:hover::before,.qadd:hover::before{top:-40%;animation-play-state:running}
+button.add:hover::before,.btn:hover::before,.qadd:hover::before{top:-40%;animation:wave 3s linear infinite}
 @keyframes wave{to{transform:rotate(360deg)}}
 button:active,.btn:active,.chip:active{transform:scale(.96)}
 .chip{transition:transform .25s cubic-bezier(.2,.9,.3,1.4),background .2s,border-color .2s}
@@ -984,7 +984,7 @@ button:active,.btn:active,.chip:active{transform:scale(.96)}
 @keyframes pick{50%{transform:scale(1.08)}}
 .added{background:#2F7A4A!important;color:#fff!important;border-color:#2F7A4A!important}
 .added .ok{display:inline-block;animation:pick .4s}
-.grain{position:fixed;left:0;top:0;width:6px;height:6px;border-radius:2px;background:#fff;box-shadow:0 0 0 1px rgba(11,27,63,.25),0 1px 3px rgba(0,0,0,.2);z-index:400;pointer-events:none}
+.fly-grain{position:fixed;left:0;top:0;width:6px;height:6px;border-radius:2px;background:#fff;box-shadow:0 0 0 1px rgba(11,27,63,.25),0 1px 3px rgba(0,0,0,.2);z-index:400;pointer-events:none}
 .cart-btn.bump{animation:bagBump .6s cubic-bezier(.2,.9,.3,1.5)}
 @keyframes bagBump{30%{transform:scale(1.25) rotate(-8deg)}60%{transform:scale(.95) rotate(4deg)}}
 @media (prefers-reduced-motion:reduce){ .card,.set,.seas,.soon-card,.chip{transition:none} .card .ph::after,.set .ph::after,button.add::before,.btn::before,.qadd::before{display:none} }
@@ -1130,3 +1130,13 @@ footer .logo{height:auto;object-fit:contain}
 .b5-photo figcaption{font-size:12px;color:var(--muted);max-width:180px;line-height:1.4}
 @media (max-width:900px){ .em-list{grid-template-columns:1fr 1fr} .b5-photo{margin:0} }
 @media (max-width:520px){ .em-list{grid-template-columns:1fr} }
+
+/* ---- 3 Nov: one clean tab style everywhere: separate pills, no box-in-an-oval ---- */
+.b5-tabs,.tabs-mini,.shelf-tabs{display:flex;flex-wrap:wrap;gap:8px;padding:0!important;background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+.b5-tabs{margin:6px 0 26px}
+.b5-tabs button,.tabs-mini button{border:1px solid var(--line)!important;background:#fff!important;color:var(--ink)!important;border-radius:999px!important;padding:9px 16px!important;font:600 13px var(--sans)!important;letter-spacing:.02em!important;box-shadow:none!important;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.b5-tabs button.on,.tabs-mini button.on{background:var(--navy)!important;color:#fff!important;border-color:var(--navy)!important}
+.b5-tabs button em,.tabs-mini button em{font-style:normal;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);margin-left:4px;background:none!important;padding:0!important}
+.b5-tabs button.on em,.tabs-mini button.on em{color:var(--gold-2)}
+.shelf-tabs button{border:1px solid rgba(255,255,255,.28)!important;background:rgba(255,255,255,.06)!important;color:#fff!important;border-radius:999px!important;padding:10px 18px!important;box-shadow:none!important}
+.shelf-tabs button.on{background:var(--gold)!important;border-color:var(--gold)!important;color:var(--navy)!important}

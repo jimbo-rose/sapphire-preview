@@ -40,7 +40,7 @@ const TAURINE = {
 // card accents = the main-five working SKU inks (shared rules, 3 Nov); site chrome stays Sapphire blue
 const BLENDS = [
   {
-    slug: 'pure', name: 'Pure Salt', short: 'Pure', sub: 'Australian Ocean Sea Salt', cat: 'pure', popular: true,
+    slug: 'pure', name: 'Pure Sea Salt', short: 'Pure', sub: 'Australian Ocean Sea Salt', cat: 'pure', popular: true,
     spec: ['Australian ocean sea salt', 'Nothing added', 'No anti-caking agents', 'Glass jar', 'Walnut lid'], allergens: 'Free of the top 9 allergens',
     tag: 'Sea salt only', color: '#123C9C', tint: '#E8EDF8',
     line: 'Pure Australian ocean sea salt. Nothing added, nothing taken away.',
@@ -113,7 +113,7 @@ const JARS = SIZES.filter(z => z.jar);
 
 /* the shelf, by category. Main lines first; everything else hangs off these. */
 const CATS = [
-  { id: 'pure', name: 'Pure Salts', line: 'One salt, nothing added. Australian ocean sea salt today; Utah and Himalayan next.' },
+  { id: 'pure', name: 'Pure Salts', line: 'One salt, nothing added. Pure Sea Salt today; Saint Salt and Pink Mountain Salt next.' },
   { id: 'blends', name: 'Salt Blends', line: 'Pure sea salt with a few intentional ingredients. Same pinch, same taste.',
     subs: [['fiber', 'Fiber blends'], ['mineral', 'Mineral blends']] },
   { id: 'seasonings', name: 'Seasonings', soon: true, line: 'Flavored salts for the grill, the garden and the finish.',
@@ -121,12 +121,12 @@ const CATS = [
   { id: 'spices', name: 'Spices', soon: true, line: 'Peppercorns, chiles and the household staples, each priced on its own.',
     subs: [['pepper', 'Peppercorns'], ['chile', 'Chiles & paprika'], ['staple', 'Everyday staples'], ['warm', 'Warm & baking'], ['herb', 'Herbs']] },
 ];
-/* pure salts by origin. Australian is on sale as Pure Salt; the other two are coming. */
+/* pure salts by origin (names: Jimmy, 3 Nov). Pure Sea Salt is on sale; Saint Salt and Pink Mountain Salt are coming. */
 const PURE_SALTS = [
-  { slug: 'pure', name: 'Australian Ocean', sub: 'Pure Salt · on sale now', live: true },
-  { slug: 'utah-salt', name: 'Utah Salt', sub: 'Great Salt Lake · solar-evaporated', color: '#A8742E',
+  { slug: 'pure', name: 'Pure Sea Salt', sub: 'Australian ocean sea salt · on sale now', live: true },
+  { slug: 'utah-salt', name: 'Saint Salt', sub: 'Great Salt Lake, Utah', color: '#A8742E',
     line: 'Salt from the brine of the Great Salt Lake, an hour from our kitchen in Park City.' },
-  { slug: 'himalayan', img: 'img/himalayan-pink-salt-macro.png', imgAlt: "Illustration of layered pink rock salt with naturally broken crystalline surfaces", imgNote: "Pink rock-salt material illustration; not a mine photograph.", name: 'Himalayan Pink Salt', sub: 'Salt Range · ancient rock salt', color: '#B5636A',
+  { slug: 'himalayan', img: 'img/himalayan-pink-salt-macro.png', imgAlt: "Illustration of layered pink rock salt with naturally broken crystalline surfaces", imgNote: "Pink rock-salt material illustration; not a mine photograph.", name: 'Pink Mountain Salt', sub: 'Himalayan pink rock salt', color: '#B5636A',
     line: 'Rock salt from ancient seabed deposits, pink from its iron-rich trace minerals.' },
 ];
 
@@ -195,11 +195,15 @@ const COMING = [
     line: 'Five walnut modules that match the display: sachets, travel sticks, napkins, a menu sign and a 4 oz jar holder. Each stands alone; hidden magnets join them side by side or front to back. Restaurants: ask on the Wholesale page.' },
   { slug: 'hydrate-drink', name: 'Hydrate Drink Mix', sub: 'Electrolyte sticks · 30 in a resealable pouch', color: '#315B91', icon: 'pouch', group: 'drinks',
     line: 'The Hydrate minerals made for water instead of food: tear a stick, pour it in your bottle, shake. Unflavored first, with a light citrus to follow.' },
+  { slug: 'salt-flakes', name: 'Salt Flakes', sub: 'Finishing flakes · sea, smoked and Utah', color: '#123C9C', icon: 'flakes', group: 'pantry',
+    line: 'Big, crisp pyramid flakes for the last pinch: on steak, chocolate chip cookies, tomatoes and caramel.' },
+  { slug: 'salted-nuts', name: 'Salted Nuts', sub: 'Assortments · seasoned with our salts', color: '#8A6236', icon: 'nuts', group: 'pantry',
+    line: 'Almonds, cashews, pistachios and pecans roasted with our salts and seasonings. Snack-size and gift-size.' },
   { slug: 'walnut-shakers', name: 'Walnut Shaker Pair', sub: 'Salt and pepper · matches the display', color: '#5A3B22', icon: 'shakers', group: 'kitchen',
     line: 'A pair of solid walnut shakers for the table, sized to refill straight from a 4 oz jar. The small five-gem mark on top, nothing else.' },
   { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#315B91', group: 'drinks', icon: 'bolt',
     line: 'The Hydrate minerals with a clean lift of caffeine, in a stick for your water bottle. For early runs and long ski days.' },
-  { slug: 'capsules', name: 'Hydrate Capsules', sub: 'Electrolytes in a capsule · 120 count', color: '#315B91', group: 'drinks', icon: 'capsule', group: 'wellness',
+  { slug: 'capsules', name: 'Electrolyte Capsules', sub: 'Salt electrolytes + minerals · 120 count', color: '#315B91', group: 'drinks', icon: 'capsule', group: 'wellness',
     line: 'The Hydrate minerals in a plant-based capsule, for long days, travel and anywhere you’re not salting food. Glass bottle, no plastic tub.' },
   { slug: 'trace-minerals', name: 'Trace Minerals', sub: 'Mineral drops · glass dropper', color: '#2E5573', group: 'drinks', icon: 'drop', group: 'wellness',
     line: 'Concentrated ocean minerals for water, coffee or a smoothie. A few drops, no flavor added.' },
@@ -208,7 +212,7 @@ const COMING = [
   { slug: 'protein', name: 'Clean Protein', sub: 'Short-list protein powder', color: '#5A3B22', group: 'wellness', icon: 'scoop', group: 'wellness',
     line: 'A protein with an ingredient list you can read in one breath, packed with as little plastic as we can manage.' },
   { slug: 'coffee', name: 'Sapphire Coffee', sub: 'Whole bean · with a Utah roaster', color: '#5A3B22', group: 'pantry', icon: 'coffee',
-    line: 'A small-batch roast from a Utah partner — and a pinch of Pure Salt smooths the bitterness, the old diner trick.' },
+    line: 'A small-batch roast from a Utah partner — and a pinch of Pure Sea Salt smooths the bitterness, the old diner trick.' },
   { slug: 'tea', name: 'Loose-Leaf Teas', sub: 'Morning, mineral and evening blends', color: '#3A5A24', group: 'pantry', icon: 'tea',
     line: 'Loose-leaf teas to sit beside the salts: a bright morning black, a mineral green and a calm evening herbal.' },
   { slug: 'steakhouse-kit', name: 'The Steakhouse Kit', sub: 'Steak salt · pepper · walnut cellar', color: '#3B2A1E', group: 'gifts', icon: 'kit',
@@ -226,7 +230,7 @@ const COMING = [
   { slug: 'dispenser', name: 'Countertop Dispenser', sub: 'Walnut · one-handed pour', color: '#5A3B22', group: 'kitchen', icon: 'dispenser',
     line: 'A weighted walnut dispenser that pours a measured pinch — made for the stove side.' },
   { slug: 'olive-oil', name: 'Finishing Olive Oil', sub: 'With a partner grower', color: '#5E6B2E', group: 'pantry', icon: 'oil',
-    line: 'A peppery extra-virgin finishing oil to pair with Pure Salt. Partner to be announced.' },
+    line: 'A peppery extra-virgin finishing oil to pair with Pure Sea Salt. Partner to be announced.' },
   { slug: 'utah-honey', name: 'Utah Raw Honey', sub: 'Local beekeepers', color: '#C08A1E', group: 'pantry', icon: 'honey',
     line: 'Raw wildflower honey from Utah hives, for toast, tea and cheese boards.' },
   { slug: 'hot-honey', name: 'Hot Honey', sub: 'Utah honey + chili', color: '#B0401C', group: 'pantry', icon: 'honey',
@@ -244,7 +248,7 @@ const FUTURE = {
   'hydrate-charge': { idea: 'Hydrate Drink Mix with a clean lift of caffeine from green tea, for mornings and long days. Same minerals, plus a gentle boost.',
     use: ['One stick in your morning water', 'Pre-workout instead of a sugary drink', 'Never more than you’d get from a cup of coffee [amount to set]'], formats: ['30 sticks in a resealable pouch', 'A 3-stick Test Kitchen pack (testing now)'],
     first: ['Caffeine amount set and clearly labeled', 'Testers’ feedback on taste and lift', 'Label review for caffeine wording'] },
-  'capsules': { idea: 'The Hydrate minerals in a plant capsule, for days you’re not salting food: travel, hiking, long shifts.',
+  'capsules': { idea: 'Salt electrolytes with other minerals in a plant capsule, for days you’re not salting food: travel, hiking, long shifts. The mineral mix is still being worked out.',
     use: ['Swallow with water', 'Keep a bottle in your bag or car'], formats: ['120 capsules in a glass bottle with a walnut lid'],
     first: ['Capsule supplier and serving size', 'Supplement Facts panel (different rules from food labels)', 'Glass bottle sourcing'] },
   'trace-minerals': { idea: 'Concentrated ocean minerals in a dropper, for water, coffee or smoothies. No flavor added.',
@@ -257,16 +261,22 @@ const FUTURE = {
     use: ['Shakes, oats and baking'], formats: ['Glass canister', 'Uncoated paper refill bag'],
     first: ['A short-list formula worth putting our name on', 'Third-party testing', 'Packaging that keeps it fresh without plastic, or an honest note where we can’t'] },
   'utah-honey': { idea: 'Raw wildflower honey from Utah beekeepers, in the same glass and walnut as our salts.',
-    use: ['Toast, tea and yogurt', 'Cheese boards', 'Drizzled over roasted carrots with a pinch of Pure Salt'], formats: ['Glass jar with a walnut lid', 'A gift pair with Hot Honey'],
+    use: ['Toast, tea and yogurt', 'Cheese boards', 'Drizzled over roasted carrots with a pinch of Pure Sea Salt'], formats: ['Glass jar with a walnut lid', 'A gift pair with Hot Honey'],
     first: ['A Utah beekeeper partner', 'Honey labeling (origin and “raw” wording)', 'Jar and lid fit for honey'] },
   'hot-honey': { idea: 'Utah honey infused with chili: sweet first, warm after. The jar every pizza night needs.',
     use: ['Pizza and fried chicken', 'Roasted vegetables', 'Biscuits and cornbread'], formats: ['Glass jar with a walnut lid', 'A gift pair with Utah Raw Honey'],
     first: ['The same beekeeper partner as Utah Raw Honey', 'A heat level testers agree on', 'Shelf-life testing for an infused honey'] },
+  'salt-flakes': { idea: 'Light, crunchy finishing flakes: the salt you add at the end, where texture matters as much as taste. Sea salt first, then smoked, then Utah.',
+    use: ['On steak and roasted vegetables, just before serving', 'On cookies, caramel and chocolate', 'On sliced tomatoes and avocado'], formats: ['A small glass jar with a walnut lid', 'A flake trio gift set'],
+    first: ['A flake salt supplier that meets our testing standard', 'A jar that protects fragile flakes'] },
+  'salted-nuts': { idea: 'Nuts roasted with our own salts and seasonings, so you taste the difference in the snack drawer too.',
+    use: ['Snacks and trail mix', 'Cheese and charcuterie boards', 'Holiday gift boxes'], formats: ['Assortments: sea-salt almonds, smoked-salt cashews, chili-lime pistachios, rosemary mixed nuts, hot-honey pecans', 'Snack-size paper bags and a glass gift jar'],
+    first: ['A roasting partner with a nut-safe kitchen', 'Allergen labeling (tree nuts)', 'Paper packaging that keeps nuts fresh'] },
   'walnut-shakers': { idea: 'Solid walnut shakers that match the display, for people who want our salt on the table without a jar.',
     use: ['Fill from any 4 oz jar', 'Salt on the left, Awaken Pepper on the right'], formats: ['A salt and pepper pair', 'Single shaker'],
     first: ['A woodworker partner (ideally in Utah)', 'Food-safe finish', 'A cap that seals against humidity'] },
-  'coffee': { idea: 'A small-batch roast from a Utah partner. A pinch of Pure Salt smooths bitterness, the old diner trick, so the two belong together.',
-    use: ['Whole bean for your grinder', 'A pinch of Pure Salt in the grounds'], formats: ['12 oz kraft bag', 'Gift pair with Pure Salt'],
+  'coffee': { idea: 'A small-batch roast from a Utah partner. A pinch of Pure Sea Salt smooths bitterness, the old diner trick, so the two belong together.',
+    use: ['Whole bean for your grinder', 'A pinch of Pure Sea Salt in the grounds'], formats: ['12 oz kraft bag', 'Gift pair with Pure Sea Salt'],
     first: ['A Utah roaster partner', 'Packaging without a plastic valve, if possible'] },
   'tea': { idea: 'Loose-leaf teas to sit beside the salts: a bright morning black, a green and a calm evening herbal.',
     use: ['Brew loose or in a reusable infuser'], formats: ['Small glass jars with walnut lids'],
@@ -372,7 +382,7 @@ const ING_INFO = {
    standard: what we'd require of a supplier · faq: [question, answer] */
 const ING_EXTRA = {
   'australian-sea-salt': { icon: 'salt',
-    why: 'It’s the salt. Every jar starts here, and in Pure Salt it’s the only thing in the jar.',
+    why: 'It’s the salt. Every jar starts here, and in Pure Sea Salt it’s the only thing in the jar.',
     taste: 'Clean and bright, with less bitterness than heavily refined salt. A fine, even grain that shakes like table salt.',
     nature: 'Seawater is about 3.5% salt. Sun and wind leave the crystals behind.',
     standard: 'Food-grade sea salt with a lab report for every lot, including heavy metals [testing lab and limits to confirm].',
@@ -448,7 +458,7 @@ const ING_EXTRA = {
     taste: 'None. It’s there for texture only.',
     nature: 'Starch from the cassava root, grown across the tropics and used in kitchens everywhere.',
     standard: 'Food-grade tapioca starch, gluten-free [supplier to confirm].',
-    faq: [['Why not a chemical anti-caking agent?', 'Tapioca does the job and it’s something you’d find in your own pantry.'], ['Is it in Pure Salt?', 'No. Pure Salt is sea salt and nothing else.']] },
+    faq: [['Why not a chemical anti-caking agent?', 'Tapioca does the job and it’s something you’d find in your own pantry.'], ['Is it in Pure Sea Salt?', 'No. Pure Sea Salt is sea salt and nothing else.']] },
 };
 const ING_ICON = {   // drawn stand-ins until real ingredient photos arrive
   salt: '<path d="M10 22l14-8 14 8v16l-14 8-14-8z"/><path d="M10 22l14 8 14-8M24 30v16"/>',
@@ -470,9 +480,9 @@ const findIng = s => INGREDIENTS.find(i => i.slug === s);
 const SALT_SOURCES = [
   { slug: 'australian-sea-salt', img: 'img/australian-ocean-salt-detail.png', imgAlt: "Illustration of coarse white sea-salt crystals beside clear blue brine", imgNote: "Sea-salt material illustration; not a harvest-site photograph.", name: 'Australian Ocean Sea Salt', status: 'In every blend today', now: true,
     line: 'Clean, cold-water sea salt from the Australian coast. Bright and mineral, with a smooth, familiar taste.' },
-  { slug: 'himalayan', img: 'img/himalayan-pink-salt-macro.png', imgAlt: "Illustration of layered pink rock salt with naturally broken crystalline surfaces", imgNote: "Pink rock-salt material illustration; not a mine photograph.", name: 'Himalayan Pink Salt', place: 'Punjab, Pakistan', status: 'Coming soon',
+  { slug: 'himalayan', img: 'img/himalayan-pink-salt-macro.png', imgAlt: "Illustration of layered pink rock salt with naturally broken crystalline surfaces", imgNote: "Pink rock-salt material illustration; not a mine photograph.", name: 'Pink Mountain Salt', place: 'Himalayan pink salt · Punjab, Pakistan', status: 'Coming soon',
     line: 'Rock salt mined from ancient seabed deposits in the Salt Range, pink from its iron-rich trace minerals.' },
-  { slug: 'great-salt-lake', img: 'img/utah-bonneville-overhead-texture.png', imgAlt: "Illustration of white polygonal salt crust inspired by an overhead view of Bonneville, Utah", imgNote: "Bonneville-inspired texture; not a Great Salt Lake harvest-site photo.", name: 'Great Salt Lake Salt', place: 'Utah — our backyard', status: 'Coming soon',
+  { slug: 'great-salt-lake', img: 'img/utah-bonneville-overhead-texture.png', imgAlt: "Illustration of white polygonal salt crust inspired by an overhead view of Bonneville, Utah", imgNote: "Bonneville-inspired texture; not a Great Salt Lake harvest-site photo.", name: 'Saint Salt', place: 'Great Salt Lake, Utah — our backyard', status: 'Coming soon',
     line: 'Solar-evaporated from the brine of the Great Salt Lake, an hour from our kitchen in Park City.' },
 ];
 

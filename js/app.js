@@ -93,8 +93,8 @@ function layout() {
 
 /* ---------- Shop mega-menu: every category with small photos, one hover away ---------- */
 const MEGA = () => [   // built on first use: it needs helpers defined further down
-  { title: 'Pure Salts', href: 'shop.html#pure', items: PURE_SALTS.map(x => x.live ? { name: x.name, sub: 'Pure Salt', href: 'product.html?p=pure', img: 'img/pure-card.jpg' }
-      : { name: x.name.replace(' Salt', '').replace(' Pink', ''), sub: 'Coming soon', href: 'shop.html#pure', color: x.color }) },
+  { title: 'Pure Salts', href: 'shop.html#pure', items: PURE_SALTS.map(x => x.live ? { name: x.name, sub: 'Australian ocean', href: 'product.html?p=pure', img: 'img/pure-card.jpg' }
+      : { name: x.name, sub: 'Coming soon', href: 'shop.html#pure', color: x.color }) },
   { title: 'Salt Blends', href: 'shop.html#blends-sec', items: BLENDS.filter(b => b.cat === 'blends').map(b => ({ name: b.name, sub: b.tag, href: `product.html?p=${b.slug}`, img: `img/${b.slug}-card.jpg` })) },
   { title: 'Seasonings & Spices', href: 'shop.html#spices', items: [
       { name: 'Awaken Pepper', sub: 'Tellicherry peppercorns', href: 'product.html?p=awaken-pepper', img: 'img/soon-awaken-pepper.jpg' },
@@ -132,7 +132,7 @@ function pour(from) {   // a small arc of salt grains from the button to the bag
   const a = from.getBoundingClientRect(), z = cb.getBoundingClientRect();
   const x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = z.left + z.width / 2, y1 = z.top + z.height / 2;
   for (let i = 0; i < 12; i++) {
-    const g = document.createElement('i'); g.className = 'grain'; document.body.appendChild(g);
+    const g = document.createElement('i'); g.className = 'fly-grain'; document.body.appendChild(g);
     const dx = (Math.random() - .5) * 40, lift = 90 + Math.random() * 80, d = 520 + Math.random() * 260;
     g.animate([
       { transform: `translate(${x0 + dx}px,${y0}px) scale(1)`, opacity: 1 },
@@ -317,6 +317,8 @@ const SOON_ICON = {
   capsule: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="24" width="44" height="16" rx="8" transform="rotate(-35 32 32)"/><path d="M26 22l12 20" /></svg>',
   drop: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M28 6h8v6h-8z"/><path d="M26 12h12v6H26z"/><path d="M24 18h16l2 6v30a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4V24l2-6Z"/><path d="M32 34c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8Z"/></svg>',
   scoop: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 20h36v30a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V20Z"/><path d="M12 14h40v6H12z"/><path d="M24 34c0-4 16-4 16 0s-8 6-8 6"/></svg>',
+  flakes: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M18 40l10-16 10 16z"/><path d="M28 24l4 10M28 24l-4 10"/><path d="M36 30l8-12 8 12z"/><path d="M10 48l7-10 7 10z"/></svg>',
+  nuts: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="24" cy="30" rx="9" ry="13" transform="rotate(-20 24 30)"/><path d="M20 20c2 6 4 14 2 22"/><ellipse cx="42" cy="36" rx="10" ry="8"/><path d="M34 36h16"/></svg>',
   shakers: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 22c0-6 3-10 7-10s7 4 7 10v28H16z"/><path d="M34 22c0-6 3-10 7-10s7 4 7 10v28H34z"/><circle cx="21" cy="17" r=".8"/><circle cx="25" cy="17" r=".8"/><circle cx="41" cy="17" r=".8"/><path d="M12 50h40"/></svg>',
   apron: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10h20v12l8 6v26H14V28l8-6V10Z"/><path d="M14 28l-6-4M50 28l6-4"/><path d="M24 40h16v8H24z"/></svg>',
 };
@@ -358,10 +360,10 @@ function clamp(grid, n, noun) {
   b.onclick = () => { grid.classList.add('open'); b.remove(); };
   grid.after(b);
 }
-/* pure salts by origin: Australian on sale, Utah and Himalayan coming */
+/* pure salts by origin: Pure Sea Salt on sale, Saint Salt and Pink Mountain Salt coming */
 function pureSalts() {
   const el = $('#pure-grid'); if (!el) return;
-  el.innerHTML = PURE_SALTS.map(x => x.live ? blendCard(findBlend(x.slug)).replace('<span class="tag">', `<span class="tag">${x.name} · `)
+  el.innerHTML = PURE_SALTS.map(x => x.live ? blendCard(findBlend(x.slug)).replace(/<span class="tag">[^<]*<\/span>/, '<span class="tag">Australian ocean sea salt</span>')
     : `<article class="soon-card salt-soon" style="--c:${x.color}"><div class="ph"><div class="grain"><img src="img/tiara-white.png" alt=""><b>${x.name}</b></div><span class="soon-tag">Coming soon</span></div>
       <div class="body"><span class="eyebrow">${x.sub}</span><h3>${x.name}</h3><p>${x.line}</p>
       <form class="notify"><input type="email" required placeholder="Your email" aria-label="Email"><button class="btn">Notify me</button></form></div></article>`).join('');
