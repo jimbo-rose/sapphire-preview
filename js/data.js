@@ -88,10 +88,13 @@ const BLENDS = [
   },
   {
     slug: 'hydrate', name: 'Hydrate Salt', short: 'Hydrate', sub: 'Essential Mineral Blend', cat: 'blends', group: 'mineral',
-    spec: ['Potassium', 'Magnesium', 'Taurine', 'Citrulline', 'No sugar', 'Glass jar'], allergens: 'Free of the top 9 allergens',
-    tag: 'Electrolyte minerals', color: '#315B91', tint: '#E7EEF6',
-    line: 'Sea salt with potassium, magnesium, taurine and citrulline.',
-    about: 'Sodium, potassium and magnesium together, plus taurine and citrulline. Built for active days — and still just salt on your plate.',
+    spec: ['Sodium', 'Potassium', 'Magnesium', 'Taurine', 'L-citrulline', 'No sugar'], allergens: 'Free of the top 9 allergens',
+    tag: '3 electrolyte minerals', color: '#315B91', tint: '#E7EEF6', inside: 'Sodium, potassium & magnesium',
+    line: 'Three electrolyte minerals in one shake: sodium from sea salt, plus potassium and magnesium. With taurine and L-citrulline.',
+    about: 'Electrolytes are minerals your body loses when you sweat. Hydrate puts three of them in the salt you already use: sodium from Australian sea salt, potassium (as potassium chloride) and magnesium (as magnesium malate), plus two amino acids, taurine and L-citrulline. Built for active days, and it still tastes like salt.',
+    why: { title: 'What makes it Hydrate', note: 'Exact amounts per serving go on the updated Nutrition Facts panel.', items: [
+      ['Sodium', 'From the sea salt. The electrolyte you lose most in sweat.'], ['Potassium', 'As potassium chloride. Works alongside sodium.'],
+      ['Magnesium', 'As magnesium malate. The third electrolyte mineral in the jar.'], ['Taurine', 'An amino acid found in everyday foods.'], ['L-citrulline', 'An amino acid first found in watermelon.']] },
     use: ['Post-workout meals and salads', 'Grain bowls, tacos and eggs', 'Watermelon, citrus and cucumber'],
     ingredients: [BASE_SALT,
       { name: 'Potassium Chloride', title: 'Electrolyte Balance', desc: 'An electrolyte mineral included to complement the natural sodium of sea salt.' },
@@ -120,6 +123,8 @@ const CATS = [
     subs: [['grill', 'Grill & smoke'], ['herb', 'Herb & garlic'], ['bright', 'Bright & zesty'], ['finish', 'Finishing']] },
   { id: 'spices', name: 'Spices', soon: true, line: 'Peppercorns, chiles and the household staples, each priced on its own.',
     subs: [['pepper', 'Peppercorns'], ['chile', 'Chiles & paprika'], ['staple', 'Everyday staples'], ['warm', 'Warm & baking'], ['herb', 'Herbs']] },
+  { id: 'supplements', name: 'Hydration & Supplements', line: 'Electrolytes, minerals and clean basics. Hydrate Salt today; drink mixes, capsules and more on the way.',
+    subs: [['electrolytes', 'Electrolytes'], ['minerals', 'Minerals'], ['performance', 'Creatine & protein']] },
 ];
 /* pure salts by origin (names: Jimmy, 3 Nov). Pure Sea Salt is on sale; Saint Salt and Pink Mountain Salt are coming. */
 const PURE_SALTS = [
@@ -193,7 +198,7 @@ const COMING = [
     line: 'Chili and lime for tacos, mango, popcorn and margarita rims.' },
   { slug: 'table-packets', name: 'Walnut Packet Holders', sub: 'Restaurants, cafés & your own table', color: '#5A3B22', group: 'kitchen', img: 'img/caddy-card.jpg',
     line: 'Five walnut modules that match the display: sachets, travel sticks, napkins, a menu sign and a 4 oz jar holder. Each stands alone; hidden magnets join them side by side or front to back. Restaurants: ask on the Wholesale page.' },
-  { slug: 'hydrate-drink', name: 'Hydrate Drink Mix', sub: 'Electrolyte sticks · 30 in a resealable pouch', color: '#315B91', icon: 'pouch', group: 'drinks',
+  { slug: 'hydrate-drink', name: 'Hydrate Drink Mix', sub: 'Electrolyte sticks · 30 in a resealable pouch', color: '#315B91', group: 'supplements', shelf: 'electrolytes', icon: 'pouch',
     line: 'The Hydrate minerals made for water instead of food: tear a stick, pour it in your bottle, shake. Unflavored first, with a light citrus to follow.' },
   { slug: 'salt-flakes', name: 'Salt Flakes', sub: 'Finishing flakes · sea, smoked and Utah', color: '#123C9C', icon: 'flakes', group: 'pantry',
     line: 'Big, crisp pyramid flakes for the last pinch: on steak, chocolate chip cookies, tomatoes and caramel.' },
@@ -201,15 +206,15 @@ const COMING = [
     line: 'Almonds, cashews, pistachios and pecans roasted with our salts and seasonings. Snack-size and gift-size.' },
   { slug: 'walnut-shakers', name: 'Walnut Shaker Pair', sub: 'Salt and pepper · matches the display', color: '#5A3B22', icon: 'shakers', group: 'kitchen',
     line: 'A pair of solid walnut shakers for the table, sized to refill straight from a 4 oz jar. The small five-gem mark on top, nothing else.' },
-  { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#315B91', group: 'drinks', icon: 'bolt',
+  { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#315B91', group: 'supplements', shelf: 'electrolytes', icon: 'bolt',
     line: 'The Hydrate minerals with a clean lift of caffeine, in a stick for your water bottle. For early runs and long ski days.' },
-  { slug: 'capsules', name: 'Electrolyte Capsules', sub: 'Salt electrolytes + minerals · 120 count', color: '#315B91', group: 'drinks', icon: 'capsule', group: 'wellness',
+  { slug: 'capsules', name: 'Electrolyte Capsules', sub: 'Salt electrolytes + minerals · 120 count', color: '#315B91', group: 'supplements', shelf: 'electrolytes', icon: 'capsule',
     line: 'The Hydrate minerals in a plant-based capsule, for long days, travel and anywhere you’re not salting food. Glass bottle, no plastic tub.' },
-  { slug: 'trace-minerals', name: 'Trace Minerals', sub: 'Mineral drops · glass dropper', color: '#2E5573', group: 'drinks', icon: 'drop', group: 'wellness',
+  { slug: 'trace-minerals', name: 'Trace Minerals', sub: 'Mineral drops · glass dropper', color: '#2E5573', group: 'supplements', shelf: 'minerals', icon: 'drop',
     line: 'Concentrated ocean minerals for water, coffee or a smoothie. A few drops, no flavor added.' },
-  { slug: 'creatine', name: 'Creatine', sub: 'Creatine monohydrate · nothing else', color: '#0B1B3F', group: 'wellness', icon: 'scoop', group: 'wellness',
+  { slug: 'creatine', name: 'Creatine', sub: 'Creatine monohydrate · nothing else', color: '#0B1B3F', group: 'supplements', shelf: 'performance', icon: 'scoop',
     line: 'One ingredient, third-party tested, in a glass jar with a walnut scoop. Stirs into anything.' },
-  { slug: 'protein', name: 'Clean Protein', sub: 'Short-list protein powder', color: '#5A3B22', group: 'wellness', icon: 'scoop', group: 'wellness',
+  { slug: 'protein', name: 'Clean Protein', sub: 'Short-list protein powder', color: '#5A3B22', group: 'supplements', shelf: 'performance', icon: 'scoop',
     line: 'A protein with an ingredient list you can read in one breath, packed with as little plastic as we can manage.' },
   { slug: 'coffee', name: 'Sapphire Coffee', sub: 'Whole bean · with a Utah roaster', color: '#5A3B22', group: 'pantry', icon: 'coffee',
     line: 'A small-batch roast from a Utah partner — and a pinch of Pure Sea Salt smooths the bitterness, the old diner trick.' },
@@ -330,7 +335,7 @@ const ratingOf = slug => { const r = REVIEWS[slug] || []; return r.length ? { av
 const findBlend = s => BLENDS.find(b => b.slug === s);
 const findExtra = s => EXTRAS.find(e => e.slug === s);
 const findComing = s => COMING.find(e => e.slug === s);
-const FUTURE_GROUPS = [['drinks', 'Drinks & minerals'], ['pantry', 'Pantry'], ['kitchen', 'Kitchen & table'], ['wellness', 'Wellness'], ['gifts', 'Gifts & merch']];
+const FUTURE_GROUPS = [['pantry', 'Pantry'], ['kitchen', 'Kitchen & table'], ['gifts', 'Gifts & merch']];   // hydration and supplements have their own section
 
 /* ---------- ingredients: one page each, permanent URLs for QR codes ----------
    ingredient.html?i=<slug>  ·  QR short link /i/<slug>  (stubs in /i/, see ../QR-CODES.md)

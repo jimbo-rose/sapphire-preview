@@ -1140,3 +1140,14 @@ footer .logo{height:auto;object-fit:contain}
 .b5-tabs button.on em,.tabs-mini button.on em{color:var(--gold-2)}
 .shelf-tabs button{border:1px solid rgba(255,255,255,.28)!important;background:rgba(255,255,255,.06)!important;color:#fff!important;border-radius:999px!important;padding:10px 18px!important;box-shadow:none!important}
 .shelf-tabs button.on{background:var(--gold)!important;border-color:var(--gold)!important;color:var(--navy)!important}
+/* ---- 3 Nov: hydration & supplements; what makes Hydrate ---- */
+.card small.inside{font:600 11px var(--sans);letter-spacing:.04em;color:var(--c);margin:-4px 0 2px}
+#supp-grid{margin-top:14px}
+.mega-grid{grid-template-columns:repeat(5,minmax(0,1fr)) minmax(0,1fr);gap:22px}
+.why-box{margin:16px 0 4px;padding:16px 18px;border-radius:14px;background:color-mix(in srgb,var(--c) 7%,#fff);border:1px solid color-mix(in srgb,var(--c) 22%,transparent)}
+.why-box b{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.why-box ul{list-style:none;padding:0;margin:10px 0 8px;display:grid;gap:6px}
+.why-box li{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:14px;color:var(--muted)}
+.why-box li span{font-weight:600;color:var(--ink)}
+.why-box small{font-size:12px;color:var(--muted)}
+@media (max-width:520px){ .why-box li{grid-template-columns:1fr;gap:0} }

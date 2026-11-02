@@ -95,12 +95,15 @@ function layout() {
 const MEGA = () => [   // built on first use: it needs helpers defined further down
   { title: 'Pure Salts', href: 'shop.html#pure', items: PURE_SALTS.map(x => x.live ? { name: x.name, sub: 'Australian ocean', href: 'product.html?p=pure', img: 'img/pure-card.jpg' }
       : { name: x.name, sub: 'Coming soon', href: 'shop.html#pure', color: x.color }) },
-  { title: 'Salt Blends', href: 'shop.html#blends-sec', items: BLENDS.filter(b => b.cat === 'blends').map(b => ({ name: b.name, sub: b.tag, href: `product.html?p=${b.slug}`, img: `img/${b.slug}-card.jpg` })) },
+  { title: 'Salt Blends', href: 'shop.html#blends-sec', items: BLENDS.filter(b => b.cat === 'blends').map(b => ({ name: b.name, sub: b.inside || b.tag, href: `product.html?p=${b.slug}`, img: `img/${b.slug}-card.jpg` })) },
   { title: 'Seasonings & Spices', href: 'shop.html#spices', items: [
       { name: 'Awaken Pepper', sub: 'Tellicherry peppercorns', href: 'product.html?p=awaken-pepper', img: 'img/soon-awaken-pepper.jpg' },
       { name: 'Seasonings', sub: `${SEASONINGS.filter(x => x.cat === 'seasonings').length} flavored salts · soon`, href: 'shop.html#seasonings', img: 'img/soon-ember-steak.jpg' },
       { name: 'Spices', sub: `${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more · soon`, href: 'shop.html#spices', img: 'img/soon-pink-pepper.jpg' },
       { name: 'Test Kitchen', sub: 'Taste it first · $3', href: 'product.html?p=test-kitchen', color: '#315B91' }] },
+  { title: 'Hydration & Supplements', href: 'shop.html#supplements', items: [
+      { name: 'Hydrate Salt', sub: 'Sodium, potassium & magnesium', href: 'product.html?p=hydrate', img: 'img/hydrate-card.jpg' },
+      ...COMING.filter(c => c.group === 'supplements').slice(0, 4).map(c => ({ name: c.name, sub: 'Coming soon', href: `product.html?p=${c.slug}`, color: c.color }))] },
   { title: 'Gifts & Sets', href: 'gifts.html', items: ['kindness', 'gift-box', 'year-of-salt', 'gift-card', 'display-collection'].map(k => { const e = findExtra(k); return { name: e.name, sub: money(e.price) + (k === 'gift-card' ? '+' : ''), href: `product.html?p=${k}`, img: extraThumb(e) }; }) },
 ];
 function megaMenu() {
@@ -230,7 +233,7 @@ function blendCard(b) {
       <button class="qv" type="button" aria-label="Quick view: ${b.name}">${EYE}<span>View</span></button>
       <button class="qadd" type="button">Quick add · <b>${money(SIZES[0].price)}</b></button>
       ${b.allergens ? `<span class="alg">${b.allergens}</span>` : ''}</div>
-    <div class="body"><span class="tag">${b.tag}</span><h3><a href="product.html?p=${b.slug}">${b.name}</a></h3>${starsHTML(b.slug)}<p>${b.line}</p>
+    <div class="body"><span class="tag">${b.tag}</span><h3><a href="product.html?p=${b.slug}">${b.name}</a></h3>${b.inside ? `<small class="inside">${b.inside}</small>` : ''}${starsHTML(b.slug)}<p>${b.line}</p>
       <div class="chips">${CHIPS.map((s, i) => `<button class="chip${i ? '' : ' on'}" data-size="${s.id}">${s.chip || s.label}</button>`).join('')}</div>
       <div class="buy"><span class="price">${money(SIZES[0].price)}</span><button class="add">Add to cart</button></div></div>
     ${strip(b.spec && [...b.spec, b.allergens])}</article>`;
@@ -618,7 +621,14 @@ const R = {
     $$('#blend-tabs button').forEach(t => t.onclick = () => { $$('#blend-tabs button').forEach(x => x.classList.toggle('on', x === t));
       $$('#blends .card').forEach(c => c.hidden = t.dataset.g !== 'all' && findBlend(c.dataset.slug).group !== t.dataset.g); });
     $('#extras').innerHTML = EXTRAS.map(extraCard).join(''); wireExtras($('#extras'));
-    $('#coming').innerHTML = COMING.filter(c => !SEASONINGS.some(x => x.slug === c.slug)).map(comingCard).join(''); wireNotify($('#coming'));
+    $('#coming').innerHTML = COMING.filter(c => !SEASONINGS.some(x => x.slug === c.slug) && c.group !== 'supplements').map(comingCard).join(''); wireNotify($('#coming'));
+    const sup = $('#supp-grid'); if (sup) {   // hydration & supplements: Hydrate Salt today, the rest as concepts
+      const C = CATS.find(c => c.id === 'supplements');
+      sup.innerHTML = blendCard(findBlend('hydrate')).replace('<article class="card"', '<article class="card" data-g="electrolytes"') + COMING.filter(c => c.group === 'supplements').map(c => comingCard(c).replace(`data-g="supplements"`, `data-g="${c.shelf}"`)).join('');
+      wireCards(sup); wireNotify(sup);
+      $('#supp-tabs').innerHTML = [['all', 'All'], ...C.subs].map(([k, t], i) => `<button class="${i ? '' : 'on'}" data-g="${k}">${t}</button>`).join('');
+      $$('#supp-tabs button').forEach(t => t.onclick = () => { $$('#supp-tabs button').forEach(x => x.classList.toggle('on', x === t)); $$('#supp-grid > *').forEach(c => c.hidden = t.dataset.g !== 'all' && c.dataset.g !== t.dataset.g); });
+    }
     const ct = $('#coming-tabs'); if (ct) {
       ct.innerHTML = [['all', 'All'], ...FUTURE_GROUPS].map(([k, t], i) => `<button class="${i ? '' : 'on'}" data-g="${k}">${t}</button>`).join('');
       $$('button', ct).forEach(t => t.onclick = () => { $$('button', ct).forEach(x => x.classList.toggle('on', x === t)); $$('#coming .soon-card').forEach(c => c.hidden = t.dataset.g !== 'all' && c.dataset.g !== t.dataset.g); $('#coming').classList.toggle('open', t.dataset.g !== 'all'); });
@@ -692,6 +702,7 @@ const R = {
         ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((im, i) => `<button class="${i ? '' : 'on'}" data-i="${i}"><img class="${im[1]}" src="${im[0] === 'engraved' ? 'img/stand-crop.jpg' : im[0]}" alt=""></button>`).join('')}</div>` : ''}</div>
       <div class="info"><div class="crumbs"><a href="shop.html">Shop</a> / ${p.name}</div>
         <h1>${p.name}</h1><div class="subt">${p.sub}</div><p class="line">${p.line}</p><p style="color:var(--muted)">${p.about}</p>
+        ${b && b.why ? `<div class="why-box" style="--c:${b.color}"><b>${b.why.title}</b><ul>${b.why.items.map(([n, t]) => `<li><span>${n}</span>${t}</li>`).join('')}</ul><small>${b.why.note} <span class="draft">Pending label update</span></small></div>` : ''}
         ${b ? `<div class="swatches">${BLENDS.map(x => `<a href="product.html?p=${x.slug}" title="${x.name}" style="--sw:${x.color}" class="${x.slug === b.slug ? 'on' : ''}"></a>`).join('')}</div>` : ''}
         ${sizeHTML}
         ${e && (e.kind === 'stand' || e.kind === 'custom') ? `<a class="partner-note" href="wholesale.html#signin">Shop, café or studio? <b>Partner pricing on displays</b> is available to retail and wholesale accounts →</a>` : ''}
