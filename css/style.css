@@ -1028,3 +1028,7 @@ footer .logo{height:auto;object-fit:contain}
 .source-material img{width:100%;aspect-ratio:16/9;object-fit:cover}
 .source-material figcaption{padding:10px 12px;font:400 11px/1.45 var(--sans);color:var(--muted)}
 .source-material.detail{max-width:800px;margin:28px 0}
+
+/* engraved top sign, ours: gems above SAPPHIRE (shared rules) */
+.engr em.r0.logo::before{content:"";display:block;width:2.6em;height:1.2em;margin:0 auto .1em;background:url(../img/tiara-gold.png) center/contain no-repeat}
+.rail{grid-template-columns:96px auto;row-gap:8px}.rail input{grid-column:1/-1}

@@ -239,7 +239,7 @@ function wireCards(root = document) {
 function extraImg(e) {
   if (e.kind === 'pepper') return `<img src="img/soon-awaken-pepper.jpg" alt="Awaken Pepper in a glass jar" style="object-position:50% 35%">`;
   if (e.kind === 'stand') return `<img src="img/stand-crop.jpg" alt="All ten jars on the walnut display stand">`;
-  if (e.kind === 'custom') return engraved(['The Rose Family', 'Salt with purpose', 'Est. 2026'], 'The walnut display stand, engraved on all three rails');
+  if (e.kind === 'custom') return engraved(['The Rose Family', 'Salt & Spice', 'Est. 2026'], 'The walnut display stand, engraved on all three rails');
   if (e.kind === 'gift') return `<img src="img/giftbox-card.jpg" alt="Three 4 oz jars in front of the navy, gold-foil Sapphire gift box">`;
   if (e.kind === 'packets') return `<img src="img/fan.jpg" alt="Sample packets of all five blends">`;
   if (e.kind === 'kindness') return `<img src="img/kindness-card.jpg" alt="A Kindness Card with five packets">`;
@@ -254,8 +254,8 @@ const extraThumb = e => e.kind === 'custom' ? 'img/stand-crop.jpg' : e.kind === 
 /* art for things we don't have a photo of yet: the product's color, the tiara and its name */
 const conceptArt = (name, label, color, cls = '') => `<span class="concept-art ${cls}" style="--c:${color}"><img src="img/tiara-white.png" alt=""><b>${name}</b><small>${label}</small></span>`;
 /* the stand with every rail blank, and the customer's words laid into the walnut */
-const RAILS = [['Top sign', 'Sapphire Salt and Spice'], ['Middle rail', 'Salt with purpose'], ['Bottom rail', 'Your everyday salt']];
-const engraved = (lines, alt) => `<span class="engr"><img src="img/stand-blank3.jpg" alt="${alt}">${lines.map((t, i) => `<em class="r${i}"${t ? '' : ' hidden'}>${t}</em>`).join('')}</span>`;
+const RAILS = [['Top sign', 'Sapphire'], ['Middle rail', 'Salt & Spice'], ['Bottom rail', 'Your everyday salt']];   // shared rules: gems above SAPPHIRE / SALT & SPICE / YOUR EVERYDAY SALT
+const engraved = (lines, alt) => `<span class="engr"><img src="img/stand-blank3.jpg" alt="${alt}">${lines.map((t, i) => `<em class="r${i}${i === 0 && t === RAILS[0][1] ? ' logo' : ''}"${t ? '' : ' hidden'}>${t}</em>`).join('')}</span>`;   // our top sign is the full lockup: gems above SAPPHIRE
 function extraCard(e) {
   return `<article class="set" style="--tint:${e.tint};--c:${e.color === '#0B1B3F' ? 'var(--navy)' : e.color}"><a class="ph" href="product.html?p=${e.slug}">${extraImg(e)}</a>
     <div class="body">${e.was ? '<span><span class="badge">Save ' + money(e.was - e.price) + '</span></span>' : ''}<h3><a href="product.html?p=${e.slug}">${e.name}</a></h3>${e.digital ? '' : starsHTML(e.slug)}
@@ -664,7 +664,7 @@ const R = {
     $$('[data-plan]', root).forEach(b => b.onclick = () => { $$('[data-plan]', root).forEach(x => x.classList.remove('on')); b.classList.add('on'); plan = e.plans.find(p => p.m === +b.dataset.plan); setPrice(plan.price); });
     if (e && e.kind === 'giftcard') setPrice(50);
     // engraving: three rails, each your words, ours or blank; the preview follows
-    const showRails = () => { const t = railText(); $$('.engr em', root).forEach((m, i) => { m.textContent = t[i]; m.hidden = !t[i]; }); };
+    const showRails = () => { const t = railText(); $$('.engr em', root).forEach((m, i) => { m.textContent = t[i]; m.hidden = !t[i]; m.classList.toggle('logo', i === 0 && t[i] === RAILS[0][1]); }); };
     $$('.rail', root).forEach(r => {
       $$('.seg3 button', r).forEach(bt => bt.onclick = () => { $$('.seg3 button', r).forEach(x => x.classList.toggle('on', x === bt)); $('input', r).disabled = bt.dataset.m !== 'own'; if (bt.dataset.m === 'own') $('input', r).focus(); showRails(); });
       $('input', r).oninput = showRails;

@@ -176,7 +176,7 @@ const EXTRAS = [
   { slug: 'display-collection', name: 'The Display Collection', sub: 'All ten jars + walnut stand', price: 249, color: '#0B1B3F', tint: '#EFEBE1', kind: 'stand', proposed: true,
     spec: ['All ten jars', 'Walnut stand', 'Room for spares', 'Made to last'],
     line: 'Every blend in both sizes, on the same walnut stand you see in the shops.',
-    about: 'Five 4 oz shakers, five 16 oz kitchen jars and the walnut display shelf, engraved Sapphire Salt and Spice · Salt With Purpose · Your Everyday Salt. Room behind the front row for spare jars. The jars alone are $210.' },
+    about: 'Five 4 oz shakers, five 16 oz kitchen jars and the walnut display shelf, engraved with the five-gem SAPPHIRE mark, SALT & SPICE and YOUR EVERYDAY SALT. Room behind the front row for spare jars. The jars alone are $210.' },
 ];
 
 /* Coming soon — ideas, not products. Shown on the seasonings shelf and the shop page
@@ -191,7 +191,7 @@ const COMING = [
   { slug: 'chili-lime', name: 'Chili Lime Salt', sub: 'Bright citrus heat', color: '#B0401C', img: 'img/soon-chili-lime.jpg',
     line: 'Chili and lime for tacos, mango, popcorn and margarita rims.' },
   { slug: 'table-packets', name: 'Walnut Packet Holders', sub: 'Restaurants, cafés & your own table', color: '#5A3B22', img: 'img/caddy-card.jpg',
-    line: 'Two walnut holders that match the display: one for tall stick packs, one for tabletop sachets. Each stands alone; side by side they sit flush. Restaurants: ask on the Wholesale page.' },
+    line: 'Five walnut modules that match the display: sachets, travel sticks, napkins, a menu sign and a 4 oz jar holder. Each stands alone; hidden magnets join them side by side or front to back. Restaurants: ask on the Wholesale page.' },
   { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#2F6FD0', icon: 'bolt',
     line: 'The Hydrate minerals with a clean lift of caffeine, in a stick for your water bottle. For early runs and long ski days.' },
   { slug: 'capsules', name: 'Hydrate Capsules', sub: 'Electrolytes in a capsule · 120 count', color: '#2F6FD0', icon: 'capsule', group: 'wellness',
