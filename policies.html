@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Policies — Sapphire Salt & Spice</title>
+<meta name="description" content="Shipping, returns, subscriptions, privacy, terms, accessibility and our military and first-responder discount.">
+<link rel="icon" href="img/favicon.png"><link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=42"><link rel="stylesheet" href="css/checkout.css?v=3">
+</head>
+<body data-page="policies">
+
+<div class="page-head wrap"><span class="eyebrow">The fine print, in plain words</span><h1>Policies</h1>
+<p class="lede" style="margin:0 auto">Short versions you can actually read. <span class="draft">Drafts — to be checked by a lawyer before launch</span></p></div>
+<section style="padding-top:0"><div class="wrap pol">
+  <nav class="pol-nav" aria-label="Policies"><a href="#shipping">Shipping</a><a href="#returns">Returns & refunds</a><a href="#subscriptions">Subscriptions</a><a href="#military">Military & first responders</a><a href="#privacy">Privacy</a><a href="#choices">Your privacy choices</a><a href="#terms">Terms</a><a href="#accessibility">Accessibility</a></nav>
+  <div class="pol-body">
+  <article id="shipping"><h2>Shipping</h2>
+    <p>Free standard shipping on orders over $45 in the US. Under that, it’s a flat $6.95. Subscriptions, Discovery, Kindness Cards and Test Kitchen packs always ship free.</p>
+    <p>We pack orders in Park City, usually within two business days, and email a tracking number when the label is made. Most orders arrive in 3–7 business days. Around Park City and Summit County we can hand-deliver.</p>
+    <p>We pack in paper and cardboard: no bubble wrap, no plastic air pillows.</p></article>
+  <article id="returns"><h2>Returns & refunds</h2>
+    <p><b>Love it, or it’s free.</b> If a blend isn’t for you, write to us within 30 days and we’ll refund it in full. You don’t need to send back an open jar; pass it to a neighbor.</p>
+    <p>Something arrived broken? Send a photo and we’ll replace it. Engraved displays are made to order, so we can’t take those back unless they arrive damaged or we got the engraving wrong.</p></article>
+  <article id="subscriptions"><h2>Subscriptions</h2>
+    <p>Subscribe & Save takes 10% off and ships every two months. Skip, swap blends, change the timing or cancel at any time from your account or by email; there’s no minimum and no fee. We email a reminder three days before each order ships.</p>
+    <p>Gift subscriptions are prepaid and end on their own. Nobody is billed again.</p></article>
+  <article id="military"><h2>Military & first responders</h2>
+    <p>Active duty, veterans, police, firefighters, EMTs and nurses get <b>15% off every order</b>, subscriptions included. We verify through ID.me or GovX ID at checkout, so you never have to send us a photo of an ID. <span class="draft">Proposed — Ryan to confirm</span></p></article>
+  <article id="privacy"><h2>Privacy</h2>
+    <p>We collect what we need to send your order and run the shop: your name, address, email, what you bought, and how you used the site. Payments are handled by our checkout provider; we never see your full card number.</p>
+    <p>We don’t sell your information. We use cookies to keep your cart, count visits, and (only if you allow it) show you our ads on other sites. You can ask to see, correct or delete your information at any time: write to <span class="addr">hello@sapphiresalt.com</span>.</p></article>
+  <article id="choices"><h2>Your privacy choices</h2>
+    <p>Some state laws treat ads based on your activity across websites as “selling” or “sharing” information. You can opt out of that here, and we also honor the Global Privacy Control signal from your browser automatically.</p>
+    <label class="pc-row"><input type="checkbox" id="optout"> Don’t sell or share my information for targeted ads</label>
+    <p class="pc-msg" aria-live="polite"></p></article>
+  <article id="terms"><h2>Terms</h2>
+    <p>By buying from us you agree to pay the price shown, and we agree to send what you ordered or refund you. Prices can change, but never on an order you’ve already placed. Our products are food: salts, seasonings and spices for cooking. They aren’t intended to diagnose, treat, cure or prevent any disease. Please don’t copy our photos or copy for your own products.</p></article>
+  <article id="accessibility"><h2>Accessibility</h2>
+    <p>We want everyone to be able to use this site, including with a screen reader or keyboard. If anything gets in your way, tell us and we’ll fix it, and we’ll take your order by email or phone in the meantime.</p></article>
+  </div>
+</div></section>
+<script src="js/data.js?v=42"></script><script src="js/app.js?v=42"></script>
+<script>
+(function () {
+  const box = document.getElementById('optout'), msg = document.querySelector('.pc-msg');
+  let on = false; try { on = localStorage.getItem('ss_optout') === '1'; } catch (e) {}
+  if (navigator.globalPrivacyControl) on = true;
+  box.checked = on;
+  const say = () => msg.textContent = box.checked ? (navigator.globalPrivacyControl ? 'Opted out — your browser’s Global Privacy Control signal is on.' : 'Opted out on this browser.') : '';
+  box.onchange = () => { try { localStorage.setItem('ss_optout', box.checked ? '1' : '0'); } catch (e) {} say(); };
+  say();
+})();
+</script>
+</body>
+</html>

@@ -69,8 +69,9 @@ function layout() {
     <div class="cols">
       <div><img class="logo" src="img/logo-ss-horizontal-white.png" alt="Sapphire Salt & Spice"><p>Sapphire Salt & Spice brings thoughtful salts, seasonings and spices to the everyday table.</p><p class="made-ut">${ICON.utah}<span><b>Made in Utah</b>A Park City family company</span></p></div>
       <div><h4>Shop</h4>${BLENDS.map(b => `<a href="product.html?p=${b.slug}">${b.name}</a>`).join('')}<a href="product.html?p=discovery">Discovery Collection</a><a href="product.html?p=awaken-pepper">Awakened Pepper</a><a href="shop.html#soon">Coming soon</a></div>
-      <div><h4>Learn</h4><a href="ingredients.html">Ingredients</a><a href="process.html">Process & Quality</a><a href="story.html">Our Story</a><a href="faq.html">FAQ</a><a href="faq.html#find">Where to buy</a><a href="contact.html?t=idea">Suggest a blend</a></div>
+      <div><h4>Learn</h4><a href="ingredients.html">Ingredients</a><a href="process.html">Process & Quality</a><a href="story.html">Our Story</a><a href="faq.html">FAQ</a><a href="faq.html#find">Where to buy</a><a href="contact.html?t=idea">Suggest a blend</a><a href="product.html?p=test-kitchen">Test Kitchen</a></div>
       <div><h4>Company</h4><a href="team.html">Our team</a><a href="team.html#join">Join the team</a><a href="affiliates.html">Affiliates</a><a href="wholesale.html">Wholesale</a><a href="wholesale.html#signin">Retailer sign in</a><a href="contact.html">Contact us</a><a href="#">Instagram</a></div>
+      <div><h4>Help</h4><a href="policies.html#shipping">Shipping</a><a href="policies.html#returns">Returns & refunds</a><a href="policies.html#subscriptions">Subscriptions</a><a href="policies.html#military">Military & first responders</a><a href="policies.html#privacy">Privacy policy</a><a href="policies.html#choices">Your privacy choices</a><a href="policies.html#terms">Terms</a><a href="policies.html#accessibility">Accessibility</a></div>
     </div>
     <div class="legal"><span>© ${new Date().getFullYear()} Sapphire Salt L.L.C. · 875 Iron Horse Dr. Suite A, Park City, UT 84098</span><span>This salt does not supply iodide, a necessary nutrient. Not intended to diagnose, treat, cure or prevent any disease.</span></div>
   </div></footer>
@@ -159,23 +160,52 @@ function toast(msg) { const t = $('.toast'); t.textContent = msg; t.classList.ad
 /* ---------- product card ---------- */
 const CHIPS = SIZES.filter(z => z.chip !== null);   // the card shows one chip per format; the product page has every box size
 const sizeAlt = (b, z) => z.jar ? `${b.name} in 4 oz and 16 oz jars` : `${b.name} ${z.label.toLowerCase()}`;
+const EYE = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18.3 10c0 2-2.5 6.7-8.3 6.7S1.7 12 1.7 10 4.2 3.3 10 3.3 18.3 8 18.3 10Z"/><circle cx="10" cy="10" r="2.5"/></svg>';
+/* the card, after SALTT: a pill, quick view and quick add on hover, the allergen line, and a slow strip of what's in it */
 function blendCard(b) {
+  const pill = b.popular ? '★ Most popular' : b.rating ? `★ ${b.rating.avg.toFixed(1)} <small>(${b.rating.n})</small>` : 'New';
   return `<article class="card" style="--c:${b.color};--tint:${b.tint}" data-slug="${b.slug}">
-    <a class="ph" href="product.html?p=${b.slug}"><img src="img/${b.slug}-card.jpg" alt="${sizeAlt(b, SIZES[0])}" loading="lazy">${b.popular ? '<span class="pop">★ Most popular</span>' : ''}</a>
+    <div class="ph"><a href="product.html?p=${b.slug}" tabindex="-1"><img src="img/${b.slug}-card.jpg" alt="${sizeAlt(b, SIZES[0])}" loading="lazy"></a>
+      <span class="pop${b.popular ? '' : ' new'}">${pill}</span>
+      <button class="qv" type="button" aria-label="Quick view: ${b.name}">${EYE}<span>View</span></button>
+      <button class="qadd" type="button">Quick add · <b>${money(SIZES[0].price)}</b></button>
+      ${b.allergens ? `<span class="alg">${b.allergens}</span>` : ''}</div>
     <div class="body"><span class="tag">${b.tag}</span><h3><a href="product.html?p=${b.slug}">${b.name}</a></h3><p>${b.line}</p>
       <div class="chips">${CHIPS.map((s, i) => `<button class="chip${i ? '' : ' on'}" data-size="${s.id}">${s.chip || s.label}</button>`).join('')}</div>
-      <div class="buy"><span class="price">${money(SIZES[0].price)}</span><button class="add">Add to cart</button></div></div></article>`;
+      <div class="buy"><span class="price">${money(SIZES[0].price)}</span><button class="add">Add to cart</button></div></div>
+    ${b.spec ? `<div class="strip" aria-label="What’s in it"><div class="track">${[0, 1].map(k => `<span${k ? ' aria-hidden="true"' : ''}>${b.spec.map(x => `<i>${x}</i>`).join('')}</span>`).join('')}</div></div>` : ''}</article>`;
+}
+/* quick view: the card's essentials in a panel, without leaving the grid */
+function quickView(b, size = SIZES[0]) {
+  let q = $('#qv'); if (!q) { document.body.insertAdjacentHTML('beforeend', '<div id="qv" class="qv-modal" role="dialog" aria-modal="true" aria-label="Quick view" hidden><div class="qv-box"></div></div>'); q = $('#qv'); q.onclick = e => { if (e.target === q) q.hidden = true; }; }
+  const box = $('.qv-box', q);
+  const draw = () => {
+    box.style.setProperty('--c', b.color);
+    box.innerHTML = `<button class="qv-x" aria-label="Close">×</button><div class="qv-img"><img src="img/${b.slug}-${size.pic === 'card' ? 'pair' : size.pic.replace('-card', '')}.jpg" alt="${sizeAlt(b, size)}"></div>
+      <div class="qv-info"><span class="tag" style="color:var(--c)">${b.tag}</span><h3>${b.name}</h3><p>${b.line}</p>
+        <div class="chips">${SIZES.map(z => `<button class="chip${z.id === size.id ? ' on' : ''}" data-size="${z.id}">${z.jar ? z.label : z.label.split(' ').pop().replace(/^./, c => c.toUpperCase()) + ' · ' + z.note.split(' · ')[0].replace('Box of ', '')}</button>`).join('')}</div>
+        <p class="qv-note">${size.note}</p>
+        ${b.allergens ? `<p class="qv-alg">${b.allergens}</p>` : ''}
+        <div class="qv-buy"><span class="price">${money(size.price)}</span><button class="btn qv-add">Add to cart</button></div>
+        <a class="link" href="product.html?p=${b.slug}&size=${size.id}">Full details</a></div>`;
+    $('.qv-x', box).onclick = () => q.hidden = true;
+    $$('.chip', box).forEach(c => c.onclick = () => { size = SIZES.find(z => z.id === c.dataset.size); draw(); });
+    $('.qv-add', box).onclick = () => { q.hidden = true; addToCart({ key: `${b.slug}-${size.id}`, name: b.name, variant: `${size.label} · ${size.note.toLowerCase()}`, price: size.price, qty: 1, img: `img/${b.slug}-${size.pic}.jpg` }); };
+  };
+  draw(); q.hidden = false; $('.qv-x', box).focus();
+  document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { q.hidden = true; document.removeEventListener('keydown', esc); } });
 }
 function wireCards(root = document) {
   $$('.card[data-slug]', root).forEach(card => {
     const b = findBlend(card.dataset.slug); let size = SIZES[0];
     $$('.chip', card).forEach(ch => ch.onclick = () => {
       $$('.chip', card).forEach(c => c.classList.remove('on')); ch.classList.add('on');
-      size = SIZES.find(s => s.id === ch.dataset.size); $('.price', card).textContent = money(size.price);
+      size = SIZES.find(s => s.id === ch.dataset.size); $('.price', card).textContent = money(size.price); $('.qadd b', card).textContent = money(size.price);
       const im = $('.ph img', card), src = `img/${b.slug}-${size.pic}.jpg`;
       if (!im.src.endsWith(src)) { im.style.opacity = 0; setTimeout(() => { im.src = src; im.alt = sizeAlt(b, size); im.style.opacity = ''; }, 160); }
     });
-    $('.add', card).onclick = () => addToCart({ key: `${b.slug}-${size.id}`, name: b.name, variant: `${size.label} · ${size.note.toLowerCase()}`, price: size.price, qty: 1, img: `img/${b.slug}-${size.pic}.jpg` });
+    $('.add', card).onclick = $('.qadd', card).onclick = () => addToCart({ key: `${b.slug}-${size.id}`, name: b.name, variant: `${size.label} · ${size.note.toLowerCase()}`, price: size.price, qty: 1, img: `img/${b.slug}-${size.pic}.jpg` });
+    $('.qv', card).onclick = () => quickView(b, size);
   });
 }
 function extraImg(e) {
@@ -188,10 +218,11 @@ function extraImg(e) {
   if (e.kind === 'giftcard') return `<img src="img/giftcard.jpg" alt="Sapphire Salt digital gift card">`;
   if (e.kind === 'subgift') return `<img src="img/year-of-salt.jpg" alt="A Year of Salt & Spice: twelve different jars, one a month">`;
   if (e.kind === 'set') return `<img src="img/set-4oz.jpg" alt="All five blends in 4 oz shaker jars">`;
+  if (e.kind === 'test') return `<span class="proto"><img src="img/hydrate-sticks-card.jpg" alt="Three prototype sticks"><b>Prototype</b><em>Now testing: ${e.now}</em></span>`;
   if (e.kind === 'set16') return `<img src="img/set-16oz.jpg" alt="All five blends in 16 oz kitchen jars">`;
   return packetsSVG(e.slug === 'kindness' ? 5 : 5, 130);
 }
-const extraThumb = e => e.kind === 'custom' ? 'img/stand-crop.jpg' : e.kind === 'kindness' ? 'img/kindness-card.jpg' : e.kind === 'giftcard' ? 'img/giftcard.jpg' : e.kind === 'subgift' ? 'img/year-of-salt.jpg' : e.kind === 'pepper' ? 'img/awaken-solo.jpg' : e.kind === 'stand' ? 'img/stand-crop.jpg' : e.kind === 'gift' ? 'img/giftbox-card.jpg' : e.kind === 'packets' ? 'img/fan-card.jpg' : e.kind === 'set' ? 'img/set-4oz.jpg' : e.kind === 'set16' ? 'img/set-16oz.jpg' : 'img/crest-gold.png';
+const extraThumb = e => e.kind === 'custom' ? 'img/stand-crop.jpg' : e.kind === 'kindness' ? 'img/kindness-card.jpg' : e.kind === 'giftcard' ? 'img/giftcard.jpg' : e.kind === 'subgift' ? 'img/year-of-salt.jpg' : e.kind === 'pepper' ? 'img/awaken-solo.jpg' : e.kind === 'stand' ? 'img/stand-crop.jpg' : e.kind === 'gift' ? 'img/giftbox-card.jpg' : e.kind === 'packets' ? 'img/fan-card.jpg' : e.kind === 'set' ? 'img/set-4oz.jpg' : e.kind === 'set16' ? 'img/set-16oz.jpg' : e.kind === 'test' ? 'img/hydrate-sticks-card.jpg' : 'img/crest-gold.png';
 /* the stand with every rail blank, and the customer's words laid into the walnut */
 const RAILS = [['Top sign', 'Sapphire Salt and Spice'], ['Middle rail', 'Salt with purpose'], ['Bottom rail', 'Your everyday salt']];
 const engraved = (lines, alt) => `<span class="engr"><img src="img/stand-blank3.jpg" alt="${alt}">${lines.map((t, i) => `<em class="r${i}"${t ? '' : ' hidden'}>${t}</em>`).join('')}</span>`;
@@ -221,6 +252,9 @@ const SOON_ICON = {
   bolt: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="22" y="6" width="20" height="52" rx="3"/><path d="M22 13h20M22 51h20"/><path d="M34 20l-7 14h7l-3 12 9-16h-7l3-10z"/></svg>',
   coffee: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 26h34v14a12 12 0 0 1-12 12h-10a12 12 0 0 1-12-12V26Z"/><path d="M46 30h4a6 6 0 0 1 0 12h-5"/><path d="M22 10c-3 4 3 6 0 10M30 10c-3 4 3 6 0 10M38 10c-3 4 3 6 0 10"/><path d="M10 56h40"/></svg>',
   tea: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 28h36v8a16 16 0 0 1-16 16h-4a16 16 0 0 1-16-16v-8Z"/><path d="M48 32h3a5 5 0 0 1 0 10h-5"/><path d="M30 28V12"/><rect x="25" y="12" width="10" height="9" rx="1"/><path d="M26 22c4 2 0-6 8-2"/></svg>',
+  capsule: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="24" width="44" height="16" rx="8" transform="rotate(-35 32 32)"/><path d="M26 22l12 20" /></svg>',
+  drop: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M28 6h8v6h-8z"/><path d="M26 12h12v6H26z"/><path d="M24 18h16l2 6v30a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4V24l2-6Z"/><path d="M32 34c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8Z"/></svg>',
+  scoop: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 20h36v30a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V20Z"/><path d="M12 14h40v6H12z"/><path d="M24 34c0-4 16-4 16 0s-8 6-8 6"/></svg>',
   apron: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10h20v12l8 6v26H14V28l8-6V10Z"/><path d="M14 28l-6-4M50 28l6-4"/><path d="M24 40h16v8H24z"/></svg>',
 };
 function comingCard(c) {
@@ -461,7 +495,7 @@ const R = {
       $$('#blends .card').forEach(c => c.hidden = t.dataset.g !== 'all' && findBlend(c.dataset.slug).group !== t.dataset.g); });
     $('#extras').innerHTML = EXTRAS.map(extraCard).join(''); wireExtras($('#extras'));
     $('#coming').innerHTML = COMING.filter(c => !SEASONINGS.some(x => x.slug === c.slug)).map(comingCard).join(''); wireNotify($('#coming'));
-    shelfGrid('seasonings'); shelfGrid('spices');
+    shelfGrid('seasonings'); shelfGrid('spices'); wireExtras($('#test-kitchen'));
     // the category bar follows the scroll
     const bar = $$('.catbar a'), secs = bar.map(a => $(a.getAttribute('href')));
     const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) bar.forEach((a, i) => a.classList.toggle('on', secs[i] === en.target)); }), { rootMargin: '-45% 0px -50% 0px' });
@@ -488,6 +522,7 @@ const R = {
         : e.kind === 'packets' ? [['img/fan.jpg', ''], ['img/packets-band.jpg', ''], ['img/pure-family.jpg', ''], ['img/caddy.jpg', '']]
         : e.kind === 'kindness' ? [['img/kindness-card.jpg', ''], ['img/fan.jpg', '']]
         : e.kind === 'giftcard' ? [['img/giftcard.jpg', '']]
+        : e.kind === 'test' ? [['img/hydrate-sticks.jpg', ''], ['img/packets-band.jpg', '']]
         : e.kind === 'custom' ? [['engraved', ''], ['img/hero-stand.jpg', ''], ['img/lid-etch.jpg', ''], ['img/stand-rear.jpg', '']]
         : e.kind === 'subgift' ? [['img/year-of-salt.jpg', ''], ['img/seasonings-crop.jpg', ''], ['img/spices-crop.jpg', ''], ['img/set-4oz.jpg', '']] : e.kind === 'set' ? [['img/set-4oz.jpg', ''], ['img/stand-crop.jpg', '']] : e.kind === 'set16' ? [['img/set-16oz.jpg', ''], ['img/stand-crop.jpg', '']] : [['packets', '']];
     }
@@ -501,6 +536,8 @@ const R = {
         <p class="pick-note">Three packets of each pick · doubles welcome · ships free on its own</p>`;
     if (e && e.slug === 'gift-box') sizeHTML = `<div class="opt-label">Choose three blends</div><div class="gift-picks">${[0, 1, 2].map(i => `<select data-gp="${i}">${[...BLENDS, findExtra('awaken-pepper')].map((x, j) => `<option value="${x.slug}"${j === [0, 1, 4][i] ? ' selected' : ''}>${x.name}</option>`).join('')}</select>`).join('')}</div>
         <div class="opt-label">Gift note (free)</div><textarea class="gift-note" rows="3" maxlength="200" placeholder="Happy birthday — salt your eggs with this one."></textarea>`;
+    if (e && e.kind === 'test') sizeHTML = `<div class="tk-now"><span class="eyebrow">Now testing</span><b>${e.now}</b><span>${e.nowLine}</span></div>
+        <ol class="tk-steps"><li>We send three prototype sticks, with your order or on their own.</li><li>Three days later, three quick questions by email.</li><li>Your answers decide if it launches. Testers hear first.</li></ol>`;
     if (e && e.kind === 'giftcard') sizeHTML = `<div class="opt-label">Amount</div><div class="chips gc-amt">${[25, 50, 100, 150].map(a => `<button class="chip${a === 50 ? ' on' : ''}" data-amt="${a}">$${a}</button>`).join('')}<label class="chip other">$<input type="number" min="10" max="500" placeholder="Other" aria-label="Other amount"></label></div>
         <div class="opt-label">Send to</div><div class="gform"><input class="g-name" placeholder="Their name"><input class="g-email" type="email" placeholder="Their email"><label>Send on <input class="g-date" type="date"></label><textarea class="g-note" rows="3" maxlength="200" placeholder="Your note"></textarea></div>`;
     if (e && e.kind === 'kindness') sizeHTML = `<div class="opt-label">Send it</div><div class="seg2"><label class="on"><input type="radio" name="to" value="them" checked> Mail it to them</label><label><input type="radio" name="to" value="me"> Send it to me</label></div>
@@ -862,7 +899,7 @@ const R = {
       linkIngredients($('.hm-out', hm));
     });
   },
-  story() {}, faq() {},
+  story() {}, faq() {}, policies() {},
 };
 
 /* ---------- ingredient links: any ingredient named in page copy links to its page ---------- */

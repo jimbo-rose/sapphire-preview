@@ -40,6 +40,7 @@ const TAURINE = {
 const BLENDS = [
   {
     slug: 'pure', name: 'Pure Salt', short: 'Pure', sub: 'Australian Ocean Sea Salt', cat: 'pure', popular: true,
+    spec: ['Australian ocean sea salt', 'Nothing added', 'No anti-caking agents', 'Glass jar', 'Walnut lid'], allergens: 'Free of the top 9 allergens', rating: null,
     tag: 'Sea salt only', color: '#1E3A9E', tint: '#E8EDF8',
     line: 'Pure Australian ocean sea salt. Nothing added, nothing taken away.',
     about: 'The salt every blend starts with, on its own. Bright, pure and mineral — the everyday salt for people who just want a better one.',
@@ -48,6 +49,7 @@ const BLENDS = [
   },
   {
     slug: 'gut-health', name: 'Gut Health Salt', short: 'Gut Health', sub: 'Plant Fiber Blend', cat: 'blends', group: 'fiber',
+    spec: ['Psyllium', 'White chia', 'Golden flax', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Top-9 allergen free · has chia & flax', rating: null,
     tag: 'Fiber blend', color: '#3A5A24', tint: '#EEF2E4',
     line: 'Sea salt with psyllium, white chia and golden flax.',
     about: 'Three time-honored plant fibers, milled fine and blended into sea salt — so the salt you already use brings a little fiber to every meal.',
@@ -59,6 +61,7 @@ const BLENDS = [
   },
   {
     slug: 'belly-bliss', name: 'Belly Bliss Salt', short: 'Belly Bliss', sub: 'Fiber Nourishing Blend', cat: 'blends', group: 'fiber',
+    spec: ['Acacia fiber', 'Psyllium', 'L-glutamine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens', rating: null,
     tag: 'Fiber + amino', color: '#A3271D', tint: '#F8EAE5',
     line: 'Sea salt with acacia fiber, psyllium and L-glutamine.',
     about: 'A smooth, gentle fiber blend. Acacia and psyllium disappear into the salt; L-glutamine rounds it out. You taste salt — that’s it.',
@@ -71,6 +74,7 @@ const BLENDS = [
   },
   {
     slug: 'restore', name: 'Restore Salt', short: 'Restore', sub: 'Daily Nourishing Blend', cat: 'blends', group: 'mineral',
+    spec: ['Magnesium glycinate', 'Taurine', 'L-theanine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens', rating: null,
     tag: 'Magnesium + amino', color: '#2E5573', tint: '#EAEEF3',
     line: 'Sea salt with magnesium glycinate, taurine and L-theanine.',
     about: 'Our mineral blend for the evening table. Magnesium glycinate, taurine and L-theanine, measured into the salt you already shake.',
@@ -83,6 +87,7 @@ const BLENDS = [
   },
   {
     slug: 'hydrate', name: 'Hydrate Salt', short: 'Hydrate', sub: 'Essential Mineral Blend', cat: 'blends', group: 'mineral',
+    spec: ['Potassium', 'Magnesium', 'Taurine', 'Citrulline', 'No sugar', 'Glass jar'], allergens: 'Free of the top 9 allergens', rating: null,
     tag: 'Electrolyte minerals', color: '#2F6FD0', tint: '#E5F0FB',
     line: 'Sea salt with potassium, magnesium, taurine and citrulline.',
     about: 'Sodium, potassium and magnesium together, plus taurine and citrulline. Built for active days — and still just salt on your plate.',
@@ -148,6 +153,10 @@ const EXTRAS = [
   { slug: 'awaken-pepper', name: 'Awakened Pepper', sub: 'Single-origin Tellicherry · 6 oz', price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
     line: 'Single-origin Tellicherry peppercorns. Awaken every bite.',
     about: 'Bold, bright Tellicherry peppercorns — the larger, riper berries left longest on the vine. The partner every Sapphire Salt deserves.' },
+  { slug: 'test-kitchen', name: 'Test Kitchen 3-Pack', sub: 'Prototype · three sticks · about our cost', price: 3, color: '#2F6FD0', tint: '#E5F0FB', kind: 'test', packet: true, proposed: true,
+    now: 'Hydrate Charge', nowLine: 'Hydrate minerals plus 80 mg of caffeine from green tea [proposed]',
+    line: 'Three sticks of whatever we’re testing next, for about what they cost us. Taste it, tell us straight.',
+    about: 'Before anything joins the shelf, it goes to people who’ll tell us the truth. Add a Test Kitchen pack to any order (or on its own, and it ships free). Three days later we send three questions. Your answers decide whether it launches, and testers hear first when it does.' },
   { slug: 'gift-box', name: 'The Gift Box', sub: 'Any three 4 oz jars + 3 packets', price: 49, color: '#0B1B3F', tint: '#E8ECF4', kind: 'gift', proposed: true,
     line: 'Three shaker jars of your choice, three sample packets and a gold-foil navy box.',
     about: 'Pick any three blends. They arrive nestled in a rigid navy gift box with three bonus packets and a handwritten note — ready to hand over.' },
@@ -174,6 +183,14 @@ const COMING = [
     line: 'Two walnut holders that match the display: one for tall stick packs, one for tabletop sachets. Each stands alone; side by side they sit flush. Restaurants: ask on the Wholesale page.' },
   { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#2F6FD0', icon: 'bolt',
     line: 'The Hydrate minerals with a clean lift of caffeine, in a stick for your water bottle. For early runs and long ski days.' },
+  { slug: 'capsules', name: 'Hydrate Capsules', sub: 'Electrolytes in a capsule · 120 count', color: '#2F6FD0', icon: 'capsule', group: 'wellness',
+    line: 'The Hydrate minerals in a plant-based capsule, for long days, travel and anywhere you’re not salting food. Glass bottle, no plastic tub.' },
+  { slug: 'trace-minerals', name: 'Trace Minerals', sub: 'Mineral drops · glass dropper', color: '#2E5573', icon: 'drop', group: 'wellness',
+    line: 'Concentrated ocean minerals for water, coffee or a smoothie. A few drops, no flavor added.' },
+  { slug: 'creatine', name: 'Creatine', sub: 'Creatine monohydrate · nothing else', color: '#0B1B3F', icon: 'scoop', group: 'wellness',
+    line: 'One ingredient, third-party tested, in a glass jar with a walnut scoop. Stirs into anything.' },
+  { slug: 'protein', name: 'Clean Protein', sub: 'Short-list protein powder', color: '#5A3B22', icon: 'scoop', group: 'wellness',
+    line: 'A protein with an ingredient list you can read in one breath, packed with as little plastic as we can manage.' },
   { slug: 'coffee', name: 'Sapphire Coffee', sub: 'Whole bean · with a Utah roaster', color: '#5A3B22', icon: 'coffee',
     line: 'A small-batch roast from a Utah partner — and a pinch of Pure Salt smooths the bitterness, the old diner trick.' },
   { slug: 'tea', name: 'Loose-Leaf Teas', sub: 'Morning, mineral and evening blends', color: '#3A5A24', icon: 'tea',
@@ -226,6 +243,8 @@ const SEASONINGS = [
   { slug: 'jalapeno', name: 'Jalapeño', cat: 'spices', sub: 'chile', price: 10, gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
 ].map(x => ({ ...x, img: `img/soon-${x.slug}.jpg` }));
 
+/* Ratings show only when real reviews exist (rating: { avg, n }). Until then the card says New.
+   Allergen lines are drafts: Ryan to confirm against each supplier's allergen statement. */
 const findBlend = s => BLENDS.find(b => b.slug === s);
 const findExtra = s => EXTRAS.find(e => e.slug === s);
 const findComing = s => COMING.find(e => e.slug === s);
