@@ -125,7 +125,7 @@ const PURE_SALTS = [
   { slug: 'pure', name: 'Australian Ocean', sub: 'Pure Salt · on sale now', live: true },
   { slug: 'utah-salt', name: 'Utah Salt', sub: 'Great Salt Lake · solar-evaporated', color: '#A8742E',
     line: 'Salt from the brine of the Great Salt Lake, an hour from our kitchen in Park City.' },
-  { slug: 'himalayan', name: 'Himalayan Pink Salt', sub: 'Salt Range · ancient rock salt', color: '#B5636A',
+  { slug: 'himalayan', img: 'img/himalayan-pink-salt-macro.png', imgAlt: "Illustration of layered pink rock salt with naturally broken crystalline surfaces", imgNote: "Pink rock-salt material illustration; not a mine photograph.", name: 'Himalayan Pink Salt', sub: 'Salt Range · ancient rock salt', color: '#B5636A',
     line: 'Rock salt from ancient seabed deposits, pink from its iron-rich trace minerals.' },
 ];
 
@@ -156,7 +156,7 @@ const EXTRAS = [
     spec: ['Five kitchen jars', '16 oz each', 'Save $15', 'Glass and walnut'],
     line: 'All five kitchen jars, for the cook who salts by the pinch.',
     about: 'Five 16 oz glass jars with wood lids, lined up by the stove. Save $15 against buying them one at a time.' },
-  { slug: 'awaken-pepper', name: 'Awakened Pepper', sub: 'Single-origin Tellicherry · 6 oz', price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
+  { slug: 'awaken-pepper', name: 'Awaken Pepper', sub: 'Single-origin Tellicherry · 6 oz', price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
     spec: ['Tellicherry peppercorns', 'Single origin', 'Whole, for your mill', 'Nothing added'],
     line: 'Single-origin Tellicherry peppercorns. Awaken every bite.',
     about: 'Bold, bright Tellicherry peppercorns — the larger, riper berries left longest on the vine. The partner every Sapphire Salt deserves.' },
@@ -207,7 +207,7 @@ const COMING = [
   { slug: 'tea', name: 'Loose-Leaf Teas', sub: 'Morning, mineral and evening blends', color: '#3A5A24', icon: 'tea',
     line: 'Loose-leaf teas to sit beside the salts: a bright morning black, a mineral green and a calm evening herbal.' },
   { slug: 'steakhouse-kit', name: 'The Steakhouse Kit', sub: 'Steak salt · pepper · walnut cellar', color: '#3B2A1E', icon: 'kit',
-    line: 'Ember Steak Salt, Awakened Pepper and a walnut salt cellar in one gift box.' },
+    line: 'Ember Steak Salt, Awaken Pepper and a walnut salt cellar in one gift box.' },
   { slug: 'salt-cellar', name: 'Walnut Salt Cellar', sub: 'Matches the display stand', color: '#5A3B22', icon: 'cellar',
     line: 'A lidded walnut pinch bowl for the stove. Keep your blend an arm’s length away.' },
   { slug: 'tote', name: 'Market Tote', sub: 'Merch · heavy canvas', color: '#0B1B3F', icon: 'tote',
@@ -217,7 +217,7 @@ const COMING = [
   { slug: 'apron', name: 'Kitchen Apron', sub: 'Merch · linen', color: '#5A3B22', icon: 'apron',
     line: 'A linen apron with a front pocket sized for a 4 oz shaker.' },
   { slug: 'grinder', name: 'Salt Crusher & Grinder', sub: 'Walnut and ceramic', color: '#5A3B22', icon: 'grinder',
-    line: 'A walnut mill with a ceramic burr that cracks coarse salt and Awakened Pepper at the table.' },
+    line: 'A walnut mill with a ceramic burr that cracks coarse salt and Awaken Pepper at the table.' },
   { slug: 'dispenser', name: 'Countertop Dispenser', sub: 'Walnut · one-handed pour', color: '#5A3B22', icon: 'dispenser',
     line: 'A weighted walnut dispenser that pours a measured pinch — made for the stove side.' },
   { slug: 'olive-oil', name: 'Finishing Olive Oil', sub: 'With a partner grower', color: '#5E6B2E', icon: 'oil',
@@ -230,13 +230,13 @@ const COMING = [
     line: 'Top up your glass jars for less, with less packaging.' },
 ];
 
-/* Seasonings and spices (Drive: Product and Display Review v2). Awakened Pepper is on sale; the rest are
+/* Seasonings and spices (Drive: Product and Display Review v2). Awaken Pepper is on sale; the rest are
    packaging concepts. Gold descriptors are the label copy; little lines are proposed creative copy.
    cat: seasonings (flavored salts) or spices (peppercorns, chiles); sub: the shelf's sub-category.
    price: proposed 4 oz price, each set on its own, a little under Erewhon where margin allows (../SPICE-PRICING.md) */
 const NO_PHOTO = new Set(['sweet-paprika', 'smoked-paprika', 'chili-powder', 'garlic-powder', 'onion-powder', 'cumin', 'turmeric', 'ginger', 'cinnamon', 'nutmeg', 'oregano', 'thyme', 'bay-leaves']);   // household staples: concept art until photos (IMAGE-PROMPTS.md)
 const SEASONINGS = [
-  { slug: 'awaken-pepper', name: 'Awakened Pepper', cat: 'spices', sub: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
+  { slug: 'awaken-pepper', name: 'Awaken Pepper', cat: 'spices', sub: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
   { slug: 'ember-steak', name: 'Ember Steak Salt', cat: 'seasonings', sub: 'grill', price: 12, gold: 'Savory grilling blend', little: 'Fire up every bite', color: '#7A2E1E' },
   { slug: 'garden-herb', name: 'Garden Herb Salt', cat: 'seasonings', sub: 'herb', price: 11, gold: 'Garden herb blend', little: 'A little garden in every pinch', color: '#4A6A3C' },
   { slug: 'smoked', name: 'Smoked Sea Salt', cat: 'seasonings', sub: 'finish', price: 16, gold: 'Smoky finishing salt', little: 'A little smoke goes a long way', color: '#5E4636' },
@@ -282,7 +282,7 @@ const findComing = s => COMING.find(e => e.slug === s);
    ingredient.html?i=<slug>  ·  QR short link /i/<slug>  (stubs in /i/, see ../QR-CODES.md)
    "what" and "from" are plain, general facts; "how" lines are drafts for Ryan to confirm. */
 const ING_INFO = {
-  'Australian Ocean Sea Salt': { slug: 'australian-sea-salt', kind: 'Salt', aka: ['Australian ocean sea salt', 'Australian sea salt', 'ocean sea salt', 'sea salt'],
+  'Australian Ocean Sea Salt': { slug: 'australian-sea-salt', img: 'img/australian-ocean-salt-detail.png', imgNote: 'Sea-salt material illustration; not a harvest-site photograph.', kind: 'Salt', aka: ['Australian ocean sea salt', 'Australian sea salt', 'ocean sea salt', 'sea salt'],
     what: 'Sodium chloride crystallised from seawater, with the trace minerals that come with it.',
     from: 'The cold coastal waters of Australia. Harvest site and producer: Ryan to confirm.',
     how: ['Seawater evaporated by sun and wind into crystals [to confirm]', 'Washed, dried and milled to a fine, even grain [to confirm]', 'Every lot tested before blending [proposed standard]'] },
@@ -326,18 +326,18 @@ const ING_INFO = {
 const INGREDIENTS = [];
 BLENDS.forEach(b => b.ingredients.forEach(i => {
   let ing = INGREDIENTS.find(x => x.name === i.name);
-  if (!ing) { ing = { ...i, ...(ING_INFO[i.name] || {}), blends: [] }; ing.img = `img/ingredients/${ing.slug}.jpg`; INGREDIENTS.push(ing); }
+  if (!ing) { ing = { ...i, ...(ING_INFO[i.name] || {}), blends: [] }; ing.img = ing.img || `img/ingredients/${ing.slug}.jpg`; INGREDIENTS.push(ing); }
   ing.blends.push(b.slug);
 }));
 const findIng = s => INGREDIENTS.find(i => i.slug === s);
 
 /* where the salt comes from — the foundation, and sources we're exploring */
 const SALT_SOURCES = [
-  { slug: 'australian-sea-salt', name: 'Australian Ocean Sea Salt', status: 'In every blend today', now: true,
+  { slug: 'australian-sea-salt', img: 'img/australian-ocean-salt-detail.png', imgAlt: "Illustration of coarse white sea-salt crystals beside clear blue brine", imgNote: "Sea-salt material illustration; not a harvest-site photograph.", name: 'Australian Ocean Sea Salt', status: 'In every blend today', now: true,
     line: 'Clean, cold-water sea salt from the Australian coast. Bright and mineral, with a smooth, familiar taste.' },
-  { slug: 'himalayan', name: 'Himalayan Pink Salt', place: 'Punjab, Pakistan', status: 'Coming soon',
+  { slug: 'himalayan', img: 'img/himalayan-pink-salt-macro.png', imgAlt: "Illustration of layered pink rock salt with naturally broken crystalline surfaces", imgNote: "Pink rock-salt material illustration; not a mine photograph.", name: 'Himalayan Pink Salt', place: 'Punjab, Pakistan', status: 'Coming soon',
     line: 'Rock salt mined from ancient seabed deposits in the Salt Range, pink from its iron-rich trace minerals.' },
-  { slug: 'great-salt-lake', name: 'Great Salt Lake Salt', place: 'Utah — our backyard', status: 'Coming soon',
+  { slug: 'great-salt-lake', img: 'img/utah-bonneville-overhead-texture.png', imgAlt: "Illustration of white polygonal salt crust inspired by an overhead view of Bonneville, Utah", imgNote: "Bonneville-inspired texture; not a Great Salt Lake harvest-site photo.", name: 'Great Salt Lake Salt', place: 'Utah — our backyard', status: 'Coming soon',
     line: 'Solar-evaporated from the brine of the Great Salt Lake, an hour from our kitchen in Park City.' },
 ];
 

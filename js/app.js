@@ -67,8 +67,8 @@ function layout() {
   </div></section>
   <footer class="site"><div class="wrap">
     <div class="cols">
-      <div><img class="logo" src="img/logo-ss-horizontal-white.png" alt="Sapphire Salt & Spice"><p>Sapphire Salt & Spice brings thoughtful salts, seasonings and spices to the everyday table.</p><p class="made-ut">${ICON.utah}<span><b>Made in Utah</b>A Park City family company</span></p></div>
-      <div><h4>Shop</h4>${BLENDS.map(b => `<a href="product.html?p=${b.slug}">${b.name}</a>`).join('')}<a href="product.html?p=discovery">Discovery Collection</a><a href="product.html?p=awaken-pepper">Awakened Pepper</a><a href="shop.html#soon">Coming soon</a></div>
+      <div><img class="logo" src="img/logo-ss-primary-white.png" alt="Sapphire Salt & Spice"><p>Sapphire Salt & Spice brings thoughtful salts, seasonings and spices to the everyday table.</p><p class="made-ut">${ICON.utah}<span><b>Made in Utah</b>A Park City family company</span></p></div>
+      <div><h4>Shop</h4>${BLENDS.map(b => `<a href="product.html?p=${b.slug}">${b.name}</a>`).join('')}<a href="product.html?p=discovery">Discovery Collection</a><a href="product.html?p=awaken-pepper">Awaken Pepper</a><a href="shop.html#soon">Coming soon</a></div>
       <div><h4>Learn</h4><a href="ingredients.html">Ingredients</a><a href="process.html">Process & Quality</a><a href="story.html">Our Story</a><a href="faq.html">FAQ</a><a href="faq.html#find">Where to buy</a><a href="contact.html?t=idea">Suggest a blend</a><a href="product.html?p=test-kitchen">Test Kitchen</a></div>
       <div><h4>Company</h4><a href="team.html">Our team</a><a href="team.html#join">Join the team</a><a href="affiliates.html">Affiliates</a><a href="wholesale.html">Wholesale</a><a href="wholesale.html#signin">Retailer sign in</a><a href="contact.html">Contact us</a><a href="#">Instagram</a></div>
       <div><h4>Help</h4><a href="policies.html#shipping">Shipping</a><a href="policies.html#returns">Returns & refunds</a><a href="policies.html#subscriptions">Subscriptions</a><a href="policies.html#military">Military & first responders</a><a href="policies.html#privacy">Privacy policy</a><a href="policies.html#choices">Your privacy choices</a><a href="policies.html#terms">Terms</a><a href="policies.html#accessibility">Accessibility</a></div>
@@ -237,7 +237,7 @@ function wireCards(root = document) {
   });
 }
 function extraImg(e) {
-  if (e.kind === 'pepper') return `<img src="img/soon-awaken-pepper.jpg" alt="Awakened Pepper in a glass jar" style="object-position:50% 35%">`;
+  if (e.kind === 'pepper') return `<img src="img/soon-awaken-pepper.jpg" alt="Awaken Pepper in a glass jar" style="object-position:50% 35%">`;
   if (e.kind === 'stand') return `<img src="img/stand-crop.jpg" alt="All ten jars on the walnut display stand">`;
   if (e.kind === 'custom') return engraved(['The Rose Family', 'Salt with purpose', 'Est. 2026'], 'The walnut display stand, engraved on all three rails');
   if (e.kind === 'gift') return `<img src="img/giftbox-card.jpg" alt="Three 4 oz jars in front of the navy, gold-foil Sapphire gift box">`;
@@ -342,14 +342,14 @@ const SHELF = {
     order: ['ember-steak', 'garden-herb', 'smoked', 'chili-lime', 'truffle'], stand: null, w: 1672, h: 941,
     top: { y: [450, 926], x: [[20, 314], [354, 649], [689, 983], [1023, 1318], [1358, 1652]] }, bot: null,
     case: [0, 420, 1672, 941], frame: [] },
-  spices: { img: 'img/spices-stand.jpg', alt: 'Awakened Pepper and four coming-soon spices in small jars on a counter',
+  spices: { img: 'img/spices-stand.jpg', alt: 'Awaken Pepper and four coming-soon spices in small jars on a counter',
     order: ['awaken-pepper', 'pink-pepper', 'pepper-medley', 'chipotle', 'cayenne'], stand: null, w: 1672, h: 941,
     top: { y: [450, 926], x: [[20, 314], [354, 649], [689, 983], [1023, 1318], [1358, 1652]] }, bot: null,
     case: [0, 420, 1672, 941], frame: [] },
 };
 const SHELF_COPY = {
   seasonings: { name: 'The Seasonings Shelf', sub: 'Flavored salts', bar: 'Steak, herb, smoked, chili lime, truffle and more', n: 'seven' },
-  spices: { name: 'The Spices Shelf', sub: 'Peppercorns, chiles & staples', bar: `Awakened Pepper today · ${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more in the works`, n: String(SEASONINGS.filter(x => x.cat === 'spices').length) },
+  spices: { name: 'The Spices Shelf', sub: 'Peppercorns, chiles & staples', bar: `Awaken Pepper today · ${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more in the works`, n: String(SEASONINGS.filter(x => x.cat === 'spices').length) },
 };
 function shelfItem(slug, row) {
   const b = findBlend(slug);
@@ -358,7 +358,7 @@ function shelfItem(slug, row) {
   const e = findExtra(slug);
   if (e && !(e.kind === 'pepper' && row === 'bot'))
     return { name: e.name, sub: e.sub, line: e.line, color: e.color, img: extraThumb(e), href: `product.html?p=${e.slug}`, extra: e };
-  if (e) return { name: 'Awakened Pepper — kitchen jar', sub: 'Larger size', line: 'A refill-sized jar of Tellicherry peppercorns for the pepper mill.', color: e.color, img: 'img/spices-crop.jpg', soon: true };
+  if (e) return { name: 'Awaken Pepper — kitchen jar', sub: 'Larger size', line: 'A refill-sized jar of Tellicherry peppercorns for the pepper mill.', color: e.color, img: 'img/spices-crop.jpg', soon: true };
   const x = SEASONINGS.find(i => i.slug === slug), c = findComing(slug);
   return { name: x.name, sub: x.gold, line: c ? c.line : `${x.gold}. ${x.little}.`, color: x.color, img: x.img, soon: true, price: x.price };
 }
@@ -454,7 +454,7 @@ function shelfInfo(h, which) {
   if (!h.classList.contains('case')) return shelfItem(h.dataset.slug, h.dataset.row);
   const e = S.stand && findExtra(S.stand);
   return e ? { name: e.name, sub: e.sub, line: e.line, color: e.color, img: 'img/stand-crop.jpg', href: `product.html?p=${e.slug}`, extra: e, shop: true }
-    : { name: SHELF_COPY[which].name, sub: SHELF_COPY[which].sub, line: `${which === 'spices' ? `Awakened Pepper is here now; ${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more spices are` : 'Seven seasonings are'} in the works, each priced on its own. Get first word when they land.`, color: '#3B2A1E', img: `img/${which}-crop.jpg`, href: `shop.html#${which}`, soon: true };
+    : { name: SHELF_COPY[which].name, sub: SHELF_COPY[which].sub, line: `${which === 'spices' ? `Awaken Pepper is here now; ${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more spices are` : 'Seven seasonings are'} in the works, each priced on its own. Get first word when they land.`, color: '#3B2A1E', img: `img/${which}-crop.jpg`, href: `shop.html#${which}`, soon: true };
 }
 function select(h, which, preview = false) {
   const root = $('#shelf');
@@ -479,7 +479,7 @@ function shelfPanel(which, it) {
     } else {
       const sp = which === 'spices';
       q.innerHTML = `<div class="sp-body"><span class="eyebrow">${sp ? 'Spices' : 'Seasonings'} Discovery · coming soon</span><h3>Five ${sp ? 'spices' : 'seasonings'} to try</h3>
-        <div class="sp-packs one"><figure><img src="${sp ? 'img/packet-awaken.png' : 'img/soon-ember-steak.jpg'}" alt=""><figcaption>${sp ? 'Awakened Pepper' : 'Ember Steak Salt'}</figcaption></figure></div>
+        <div class="sp-packs one"><figure><img src="${sp ? 'img/packet-awaken.png' : 'img/soon-ember-steak.jpg'}" alt=""><figcaption>${sp ? 'Awaken Pepper' : 'Ember Steak Salt'}</figcaption></figure></div>
         <p>${sp ? 'Peppercorns and chiles' : 'Steak, herb, smoked, chili lime and more'} — pick any five when they land. <a class="link" href="shop.html#${which}">See all ${SHELF_COPY[which].n}</a></p>
         <form class="notify"><input type="email" required placeholder="Email for first word" aria-label="Email"><button class="btn">Notify me</button></form></div>`;
       wireNotify(q);
@@ -586,7 +586,7 @@ const R = {
         <div class="tabs-mini"><button class="on" data-dt="salt">Salts</button><button data-dt="seasonings">Seasonings <em>Soon</em></button><button data-dt="spices">Spices <em>Soon</em></button></div>
         <div class="picker" data-dt="salt">${BLENDS.map(x => `<div class="pk" style="--c:${x.color}"><i></i><span>${x.name}</span>
           <div class="qty sm"><button data-pk="${x.slug}" data-d="-1">−</button><b data-pkv="${x.slug}">1</b><button data-pk="${x.slug}" data-d="1">+</button></div></div>`).join('')}</div>
-        ${['seasonings', 'spices'].map(k => `<div class="picker" data-dt="${k}" hidden><p style="color:var(--muted);font-size:14px;margin:0 0 10px">${k === 'spices' ? 'A Spices Discovery — Awakened Pepper, pink pepper, pepper medley, chipotle, cayenne and more' : 'A Seasonings Discovery — steak, garden herb, smoked, chili lime, truffle and more'} — is coming. Proposed: any 5 for $${DISCOVERY[k].price}.</p>
+        ${['seasonings', 'spices'].map(k => `<div class="picker" data-dt="${k}" hidden><p style="color:var(--muted);font-size:14px;margin:0 0 10px">${k === 'spices' ? 'A Spices Discovery — Awaken Pepper, pink pepper, pepper medley, chipotle, cayenne and more' : 'A Seasonings Discovery — steak, garden herb, smoked, chili lime, truffle and more'} — is coming. Proposed: any 5 for $${DISCOVERY[k].price}.</p>
           <div class="pk-soon">${DISCOVERY[k].items.map(x => `<span style="--c:${x.color}"><i></i>${x.name}</span>`).join('')}</div>
           <form class="notify"><input type="email" required placeholder="Email for first word" aria-label="Email"><button class="btn">Notify me</button></form></div>`).join('')}
         <p class="pick-note">Three packets of each pick · doubles welcome · ships free on its own</p>`;
@@ -693,7 +693,7 @@ const R = {
   ingredients() {
     const ingUrl = i => `ingredient.html?i=${i.slug}`;
     $('#sources').innerHTML = SALT_SOURCES.map(s => `<a class="src${s.now ? ' now' : ''}" href="${s.now ? ingUrl(s) : 'ingredient.html?i=' + s.slug}">
-      <span class="badge">${s.status}</span><h3>${s.name}</h3>${s.place ? `<small>${s.place}</small>` : ''}<p>${s.line}</p><em>${s.now ? 'Deep dive' : 'Why we’re looking'} →</em></a>`).join('');
+      ${s.img ? `<figure class="source-material"><img src="${s.img}" alt="${s.imgAlt}" loading="lazy"><figcaption>${s.imgNote}</figcaption></figure>` : ''}<span class="badge">${s.status}</span><h3>${s.name}</h3>${s.place ? `<small>${s.place}</small>` : ''}<p>${s.line}</p><em>${s.now ? 'Deep dive' : 'Why we’re looking'} →</em></a>`).join('');
     const idx = $('#ing-index');   // the hero's empty stone carries the index: the page's whole point, up front
     if (idx) idx.innerHTML = [...INGREDIENTS].sort((x, y) => x.name.localeCompare(y.name)).map(i => `<a href="${ingUrl(i)}" style="--c:${findBlend(i.blends[i.blends.length - 1]).color}"><i></i>${i.name}<small>${i.kind}</small></a>`).join('');
     const kinds = ['All', ...new Set(INGREDIENTS.map(i => i.kind))];
@@ -717,7 +717,7 @@ const R = {
     if (src) {   // a salt we're exploring
       document.title = `${src.name} — Sapphire Salt & Spice`;
       root.innerHTML = `<section class="ing-hero"><div class="wrap"><div class="crumbs"><a href="ingredients.html">Ingredients</a> / ${src.name}</div>
-        <span class="eyebrow">${src.status} · ${src.place}</span><h1>${src.name}</h1><p class="lede">${src.line}</p>
+        <span class="eyebrow">${src.status} · ${src.place}</span><h1>${src.name}</h1><p class="lede">${src.line}</p>${src.img ? `<figure class="source-material detail"><img src="${src.img}" alt="${src.imgAlt}"><figcaption>${src.imgNote}</figcaption></figure>` : ''}
         <div class="ing-facts"><div><b>Why we’re looking</b><p>${slug === 'great-salt-lake' ? 'We’re a Utah company, blending an hour from the lake. A local salt would let every jar carry a little of home.' : 'Many people love its mineral flavour and colour, and it’s a natural match for a finishing-salt blend.'}</p></div>
           <div><b>What has to be true first</b><p>The same standard as our sea salt: a lab report for every lot, clean heavy-metal results and a taste that still reads as salt.</p></div>
           <div><b>Want first word?</b><form class="notify"><input type="email" required placeholder="Your email" aria-label="Email"><button class="btn">Notify me</button></form></div></div>
