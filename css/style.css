@@ -869,6 +869,9 @@ h4.wi span{display:grid}
 @media (max-width:860px){ .ing-hero>img{aspect-ratio:16/9} .ih-idx{position:static;width:auto;background:#F7F1E6} }
 /* ---- 2 Nov (b): SALTT-style cards, quick view, Test Kitchen, ethos, policies ---- */
 footer .cols{grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px}
+@media (max-width:1100px){ footer .cols{grid-template-columns:1fr 1fr 1fr} footer .cols>div:first-child{grid-column:1/-1} }
+@media (max-width:860px){ footer .cols{grid-template-columns:1fr 1fr;gap:28px} }
+@media (max-width:520px){ footer .cols{grid-template-columns:1fr} }
 .card .ph{position:relative}
 .card .ph>a{display:block;height:100%}
 .pop.new{background:rgba(255,255,255,.92);color:var(--navy);box-shadow:0 2px 8px rgba(11,27,63,.12)}
@@ -962,7 +965,7 @@ footer.site{background:linear-gradient(180deg,rgba(9,20,48,.94),rgba(9,20,48,.97
 .card,.set,.seas,.soon-card{transition:transform .5s cubic-bezier(.2,.9,.25,1.15),box-shadow .5s ease}
 .card:hover,.set:hover,.seas:hover,.soon-card:hover{transform:translateY(-6px);box-shadow:0 22px 40px -18px color-mix(in srgb,var(--c,#0B1B3F) 45%,transparent),0 2px 6px rgba(11,27,63,.06)}
 .card .ph::after,.set .ph::after{content:"";position:absolute;inset:-30%;pointer-events:none;opacity:0;transition:opacity .6s;
-  background:radial-gradient(40% 35% at 30% 30%,color-mix(in srgb,var(--c,#1E3A9E) 30%,transparent),transparent 70%);animation:blob 9s ease-in-out infinite alternate}
+  background:radial-gradient(40% 35% at 30% 30%,color-mix(in srgb,var(--c,#123C9C) 30%,transparent),transparent 70%);animation:blob 9s ease-in-out infinite alternate}
 .card:hover .ph::after,.set:hover .ph::after{opacity:1}
 .set .ph{position:relative}
 @keyframes blob{to{transform:translate(18%,14%) scale(1.2) rotate(20deg)}}
@@ -971,7 +974,7 @@ footer.site{background:linear-gradient(180deg,rgba(9,20,48,.94),rgba(9,20,48,.97
 .seas .ph img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}.seas:hover .ph img{transform:scale(1.06) translateY(-2px)}
 button.add,.btn,.qadd,.want{position:relative;overflow:hidden;isolation:isolate}
 button.add::before,.btn::before,.qadd::before{content:"";position:absolute;left:-10%;right:-10%;top:100%;height:240%;z-index:-1;border-radius:42% 46% 0 0;
-  background:color-mix(in srgb,var(--c,#1E3A9E) 55%,#1E3A9E);transition:top .55s cubic-bezier(.3,.7,.2,1);animation:wave 3s linear infinite paused}
+  background:color-mix(in srgb,var(--c,#123C9C) 55%,#123C9C);transition:top .55s cubic-bezier(.3,.7,.2,1);animation:wave 3s linear infinite paused}
 .btn.ghost::before{background:rgba(30,58,158,.1)}.btn.gold::before{background:#D8BC7C}
 button.add:hover::before,.btn:hover::before,.qadd:hover::before{top:-40%;animation-play-state:running}
 @keyframes wave{to{transform:rotate(360deg)}}

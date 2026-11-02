@@ -37,11 +37,12 @@ const TAURINE = {
   desc: 'An amino acid, included in a small, measured amount in every shake.',
 };
 
+// card accents = the main-five working SKU inks (shared rules, 3 Nov); site chrome stays Sapphire blue
 const BLENDS = [
   {
     slug: 'pure', name: 'Pure Salt', short: 'Pure', sub: 'Australian Ocean Sea Salt', cat: 'pure', popular: true,
     spec: ['Australian ocean sea salt', 'Nothing added', 'No anti-caking agents', 'Glass jar', 'Walnut lid'], allergens: 'Free of the top 9 allergens',
-    tag: 'Sea salt only', color: '#1E3A9E', tint: '#E8EDF8',
+    tag: 'Sea salt only', color: '#123C9C', tint: '#E8EDF8',
     line: 'Pure Australian ocean sea salt. Nothing added, nothing taken away.',
     about: 'The salt every blend starts with, on its own. Bright, pure and mineral — the everyday salt for people who just want a better one.',
     use: ['Season steaks, roasts and vegetables before cooking', 'Salt pasta water and finish salads', 'Refill your table shaker — it’s a 1:1 swap'],
@@ -50,7 +51,7 @@ const BLENDS = [
   {
     slug: 'gut-health', name: 'Gut Health Salt', short: 'Gut Health', sub: 'Plant Fiber Blend', cat: 'blends', group: 'fiber',
     spec: ['Psyllium', 'White chia', 'Golden flax', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Top-9 allergen free · has chia & flax',
-    tag: 'Fiber blend', color: '#3A5A24', tint: '#EEF2E4',
+    tag: 'Fiber blend', color: '#34513B', tint: '#EDF1EA',
     line: 'Sea salt with psyllium, white chia and golden flax.',
     about: 'Three time-honored plant fibers, milled fine and blended into sea salt — so the salt you already use brings a little fiber to every meal.',
     use: ['Avocado toast, eggs and grain bowls', 'Roasted vegetables and soups', 'Anywhere you’d reach for regular salt'],
@@ -62,7 +63,7 @@ const BLENDS = [
   {
     slug: 'belly-bliss', name: 'Belly Bliss Salt', short: 'Belly Bliss', sub: 'Fiber Nourishing Blend', cat: 'blends', group: 'fiber',
     spec: ['Acacia fiber', 'Psyllium', 'L-glutamine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens',
-    tag: 'Fiber + amino', color: '#A3271D', tint: '#F8EAE5',
+    tag: 'Fiber + amino', color: '#8D463D', tint: '#F6ECE9',
     line: 'Sea salt with acacia fiber, psyllium and L-glutamine.',
     about: 'A smooth, gentle fiber blend. Acacia and psyllium disappear into the salt; L-glutamine rounds it out. You taste salt — that’s it.',
     use: ['Morning eggs and breakfast potatoes', 'Rice, noodles and stir-fries', 'Popcorn, fries and snacks'],
@@ -75,7 +76,7 @@ const BLENDS = [
   {
     slug: 'restore', name: 'Restore Salt', short: 'Restore', sub: 'Daily Nourishing Blend', cat: 'blends', group: 'mineral',
     spec: ['Magnesium glycinate', 'Taurine', 'L-theanine', 'No sugar', 'No flavorings', 'Glass jar'], allergens: 'Free of the top 9 allergens',
-    tag: 'Magnesium + amino', color: '#2E5573', tint: '#EAEEF3',
+    tag: 'Magnesium + amino', color: '#4B5D6D', tint: '#ECEFF1',
     line: 'Sea salt with magnesium glycinate, taurine and L-theanine.',
     about: 'Our mineral blend for the evening table. Magnesium glycinate, taurine and L-theanine, measured into the salt you already shake.',
     use: ['Dinner — roasted chicken, fish and vegetables', 'Soups, stews and sauces', 'Rim a glass for a mocktail'],
@@ -88,7 +89,7 @@ const BLENDS = [
   {
     slug: 'hydrate', name: 'Hydrate Salt', short: 'Hydrate', sub: 'Essential Mineral Blend', cat: 'blends', group: 'mineral',
     spec: ['Potassium', 'Magnesium', 'Taurine', 'Citrulline', 'No sugar', 'Glass jar'], allergens: 'Free of the top 9 allergens',
-    tag: 'Electrolyte minerals', color: '#2F6FD0', tint: '#E5F0FB',
+    tag: 'Electrolyte minerals', color: '#315B91', tint: '#E7EEF6',
     line: 'Sea salt with potassium, magnesium, taurine and citrulline.',
     about: 'Sodium, potassium and magnesium together, plus taurine and citrulline. Built for active days — and still just salt on your plate.',
     use: ['Post-workout meals and salads', 'Grain bowls, tacos and eggs', 'Watermelon, citrus and cucumber'],
@@ -160,7 +161,7 @@ const EXTRAS = [
     spec: ['Tellicherry peppercorns', 'Single origin', 'Whole, for your mill', 'Nothing added'],
     line: 'Single-origin Tellicherry peppercorns. Awaken every bite.',
     about: 'Bold, bright Tellicherry peppercorns — the larger, riper berries left longest on the vine. The partner every Sapphire Salt deserves.' },
-  { slug: 'test-kitchen', name: 'Test Kitchen 3-Pack', sub: 'Small batch · three sticks · about our cost', price: 3, color: '#2F6FD0', tint: '#E5F0FB', kind: 'test', packet: true, proposed: true,
+  { slug: 'test-kitchen', name: 'Test Kitchen 3-Pack', sub: 'Small batch · three sticks · about our cost', price: 3, color: '#315B91', tint: '#E7EEF6', kind: 'test', packet: true, proposed: true,
     spec: ['Three sticks', 'About our cost', 'Three quick questions', 'Ships free'],
     now: 'Hydrate Charge', nowLine: 'Our electrolyte minerals plus a clean lift of caffeine from green tea',
     line: 'Three sticks of whatever we’re testing next, for about what they cost us. Taste it, tell us straight.',
@@ -192,9 +193,9 @@ const COMING = [
     line: 'Chili and lime for tacos, mango, popcorn and margarita rims.' },
   { slug: 'table-packets', name: 'Walnut Packet Holders', sub: 'Restaurants, cafés & your own table', color: '#5A3B22', img: 'img/caddy-card.jpg',
     line: 'Five walnut modules that match the display: sachets, travel sticks, napkins, a menu sign and a 4 oz jar holder. Each stands alone; hidden magnets join them side by side or front to back. Restaurants: ask on the Wholesale page.' },
-  { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#2F6FD0', icon: 'bolt',
+  { slug: 'hydrate-charge', name: 'Hydrate Charge', sub: 'Electrolytes + caffeine · stick packs', color: '#315B91', icon: 'bolt',
     line: 'The Hydrate minerals with a clean lift of caffeine, in a stick for your water bottle. For early runs and long ski days.' },
-  { slug: 'capsules', name: 'Hydrate Capsules', sub: 'Electrolytes in a capsule · 120 count', color: '#2F6FD0', icon: 'capsule', group: 'wellness',
+  { slug: 'capsules', name: 'Hydrate Capsules', sub: 'Electrolytes in a capsule · 120 count', color: '#315B91', icon: 'capsule', group: 'wellness',
     line: 'The Hydrate minerals in a plant-based capsule, for long days, travel and anywhere you’re not salting food. Glass bottle, no plastic tub.' },
   { slug: 'trace-minerals', name: 'Trace Minerals', sub: 'Mineral drops · glass dropper', color: '#2E5573', icon: 'drop', group: 'wellness',
     line: 'Concentrated ocean minerals for water, coffee or a smoothie. A few drops, no flavor added.' },
