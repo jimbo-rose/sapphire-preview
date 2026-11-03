@@ -835,8 +835,8 @@ h4.wi span{display:grid}
 .slot{aspect-ratio:330/300}
 @media (max-width:560px){ #blends.grid4,#pure-grid{grid-template-columns:1fr} }
 /* engraved display: three rails, readable */
-.engr em{left:55.5%;color:#F3E2C4;background:rgba(58,32,16,.82);text-shadow:0 1px 1px rgba(0,0,0,.5);box-shadow:inset 0 1px 3px rgba(0,0,0,.55),0 0 0 1px rgba(255,230,190,.12);font-weight:600}
-.engr em.r0{top:15.7%}.engr em.r1{top:47.1%;left:54.4%}.engr em.r2{top:88.9%;left:55%}
+.engr em{left:53.6%;color:#F3E2C4;background:rgba(58,32,16,.82);text-shadow:0 1px 1px rgba(0,0,0,.5);box-shadow:inset 0 1px 3px rgba(0,0,0,.55),0 0 0 1px rgba(255,230,190,.12);font-weight:600}
+.engr em.r0{top:10.9%}.engr em.r1{top:47.4%}.engr em.r2{top:89.8%}   /* rail centres on the 3 Nov photo stand (assets/v5/hero.py) */
 .set .engr em{font-size:12px;padding:.2em .7em}
 .rails{display:grid;gap:12px;margin-bottom:6px}
 .rail{display:grid;grid-template-columns:96px auto 1fr;gap:10px;align-items:center}
