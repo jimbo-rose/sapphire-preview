@@ -380,8 +380,8 @@ function wireNotify(root = document) {
 const SHELF = {
   salt: { img: 'img/hero-stand.jpg', alt: 'All five Sapphire Salt & Spice blends in both sizes on the engraved walnut display shelf',
     order: ['hydrate', 'restore', 'pure', 'gut-health', 'belly-bliss'], stand: 'display-collection', w: 1672, h: 941,
-    top: { y: [172, 408], x: [[494, 618], [656, 776], [812, 930], [964, 1081], [1114, 1231]] },
-    bot: { y: [462, 782], x: [[458, 634], [636, 806], [808, 980], [980, 1149], [1149, 1319]] },
+    top: { y: [179, 406], x: [[508, 604], [668, 764], [820, 921], [975, 1070], [1124, 1221]] },   // 3 Nov hero (../assets/v4/hero.py)
+    bot: { y: [539, 777], x: [[470, 623], [642, 800], [816, 972], [986, 1143], [1152, 1316]] },
     case: [298, 64, 1440, 856],
     frame: [[298, 64, 1400, 172], [298, 64, 456, 856], [1330, 130, 1440, 856], [456, 408, 1360, 462], [420, 784, 1440, 856]] },   // wood: sign, posts, shelf, base
   seasonings: { img: 'img/seasonings-stand.jpg', alt: 'Five coming-soon seasonings in small jars on a counter',
