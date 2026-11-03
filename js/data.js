@@ -302,9 +302,12 @@ const FUTURE = {
    packaging concepts. Gold descriptors are the label copy; little lines are proposed creative copy.
    cat: seasonings (flavored salts) or spices (peppercorns, chiles); sub: the shelf's sub-category.
    price: proposed 4 oz price, each set on its own, a little under Erewhon where margin allows (../SPICE-PRICING.md) */
-const NO_PHOTO = new Set(); // All 13 staple-spice concept images are now available.
+const NO_PHOTO = new Set(['black-phoenix']); // concept art until ChatGPT's jar lands (docs/CHATGPT-IMAGE-LIST.md §1)
 const SEASONINGS = [
   { slug: 'awaken-pepper', name: 'Awaken Pepper', cat: 'spices', sub: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
+  // Jimmy, 3 Nov: our own all-purpose rub, close to Cuso's Dirt without the sugar; charcoal kept. Named Black Phoenix.
+  { slug: 'black-phoenix', name: 'Black Phoenix', cat: 'seasonings', sub: 'grill', price: 12, gold: 'Bold savory rub', little: 'Dark, bold and savory', color: '#2E2A28',
+    inside: 'Sea salt, garlic, onion, paprika, chili powder, black pepper, rosemary, thyme, activated charcoal' },
   { slug: 'ember-steak', name: 'Ember Steak Salt', cat: 'seasonings', sub: 'grill', price: 12, gold: 'Savory grilling blend', little: 'Fire up every bite', color: '#7A2E1E' },
   { slug: 'garden-herb', name: 'Garden Herb Salt', cat: 'seasonings', sub: 'herb', price: 11, gold: 'Garden herb blend', little: 'A little garden in every pinch', color: '#4A6A3C' },
   { slug: 'smoked', name: 'Smoked Sea Salt', cat: 'seasonings', sub: 'finish', price: 16, gold: 'Smoky finishing salt', little: 'A little smoke goes a long way', color: '#5E4636' },
@@ -335,12 +338,12 @@ const SEASONINGS = [
   { slug: 'bay-leaves', name: 'Bay Leaves', cat: 'spices', sub: 'herb', price: 9, gold: 'Whole Turkish bay', little: 'Slow-simmer magic', color: '#4E6A3A' },
   { slug: 'jalapeno', name: 'Jalapeño', cat: 'spices', sub: 'chile', price: 10, gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
 ].map(x => ({ ...x, img: NO_PHOTO.has(x.slug) ? null : `img/soon-${x.slug}.jpg` }));
-/* Collect the shelf (Jimmy, 3 Nov): buy seasonings and spices in tens, or the whole shelf with a walnut spice wall.
-   proposed: discounts and the wall price are Claude's suggestion, for Ryan to set. */
+/* Collect the shelf (Jimmy, 3 Nov): buy seasonings and spices in tens, or the whole shelf. No spice wall: the walnut
+   salt display is the only display product for now. proposed: discounts are Claude's suggestion, for Ryan to set. */
 const planPrice = x => x.price || (EXTRAS.find(e => e.slug === x.slug) || {}).price || 0;
 const SPICE_SET = {
   list: SEASONINGS.reduce((t, x) => t + planPrice(x), 0),     // every jar at its own planned 4 oz price
-  tiers: [{ n: 10, off: .10 }, { n: 20, off: .15 }, { n: SEASONINGS.length, off: .20, all: true, wall: 42 }],
+  tiers: [{ n: 10, off: .10 }, { n: 20, off: .15 }, { n: SEASONINGS.length, off: .20, all: true }],
   proposed: true,
 };
 

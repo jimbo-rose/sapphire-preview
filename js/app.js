@@ -383,7 +383,7 @@ function shelfGrid(cat) {
   grid.innerHTML = items.map(x => { const e = x.live && findExtra(x.slug);
     return `<article class="seas" data-g="${x.sub}" style="--c:${x.color}">
     <div class="ph">${x.img ? `<img src="${x.img}" alt="${x.name} in a small glass jar${x.live ? '' : ' (packaging concept)'}" loading="lazy">` : conceptArt(x.name, x.gold, x.color, 'tall')}${x.live ? '' : '<span class="soon-tag">Concept</span>'}</div>
-    <h3>${x.name}</h3><small>${x.gold}</small>${!x.live && x.price ? `<small class="plan">Planned · ${money(x.price)} for 4 oz</small>` : ''}
+    <h3>${x.name}</h3><small>${x.gold}</small>${x.inside ? `<small class="inside">${x.inside}</small>` : ''}${!x.live && x.price ? `<small class="plan">Planned · ${money(x.price)} for 4 oz</small>` : ''}
     ${e ? `<a class="btn" href="product.html?p=${x.slug}">Shop · ${money(e.price)}</a>` : `<button class="want" type="button" aria-pressed="false" data-s="${x.slug}">I’d buy this</button>`}${strip([x.little, '4 oz glass jar', 'Walnut lid'])}</article>`; }).join('');
   const count = () => n.textContent = want.size ? `${want.size} picked — we’ll email you when ${want.size > 1 ? 'they land' : 'it lands'}.` : 'Tap “I’d buy this” on any you want. We’ll make the most-wanted first.';
   $$('.want', grid).forEach(b => b.onclick = () => {
@@ -408,7 +408,7 @@ function shelfGrid(cat) {
   $('.seas-notify', root).onsubmit = ev => { ev.preventDefault(); toast(want.size ? 'Thanks — you’ll hear first.' : 'Pick at least one first.'); if (want.size) ev.target.reset(); };
   count();
 }
-/* Collect the shelf: seasonings and spices in tens, or all of them with a walnut spice wall */
+/* Collect the shelf: seasonings and spices in tens, or all of them */
 function collection() {
   const el = $('#collection-grid'); if (!el) return;
   const jars = spread(['cayenne', 'pink-pepper', 'turmeric', 'green-pepper', 'cinnamon', 'pepper-medley', 'white-pepper', 'chipotle', 'oregano', 'awaken-pepper']), T = SPICE_SET.tiers, L = SPICE_SET.list;
@@ -417,7 +417,7 @@ function collection() {
     <span class="eyebrow">${t.all ? `The whole shelf · all ${t.n}` : `Any ${t.n}`}</span>
     <h3>${t.all ? 'Every seasoning and spice' : `Pick ${t.n}, mix freely`}</h3>
     <p class="cl-save">Save ${Math.round(t.off * 100)}%</p>
-    ${t.all ? `<p class="cl-price"><b>${money(Math.round(L * (1 - t.off)))}</b> <s>${money(L)}</s></p><p class="cl-wall">With the walnut spice wall: <b>${money(Math.round(L * (1 - t.off)) + t.wall)}</b></p>`
+    ${t.all ? `<p class="cl-price"><b>${money(Math.round(L * (1 - t.off)))}</b> <s>${money(L)}</s></p><p class="cl-wall">Every jar we make, in one box</p>`
       : `<p class="cl-price">About <b>${money(Math.round(L / SEASONINGS.length * t.n * (1 - t.off)))}</b> for ${t.n} average jars</p>`}
     </article>`).join('');
   $('#collection .cl-note').textContent = `${SEASONINGS.length} on the shelf so far: ${SEASONINGS.filter(x => x.cat === 'seasonings').length} seasonings and ${SEASONINGS.filter(x => x.cat === 'spices').length} spices. As the shelf grows, the full set grows with it.`;
