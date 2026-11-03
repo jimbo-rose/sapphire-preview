@@ -19,6 +19,24 @@ const ICON = {
   pin: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11Z"/><circle cx="12" cy="10" r="2"/></svg>',
 };
 
+/* "use it on": small line drawings, same weight as the rest of the icon set */
+const FOOD = (() => { const s = p => `<svg width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  return {
+    steak: s('<path d="M7 9c4-4 13-4 17 1s2 13-4 15-12 1-15-4-2-8 2-12Z"/><path d="M18 14a3 3 0 1 1-4 4"/>'),
+    veg: s('<path d="M21 6c-3 0-5 2-6 5L6 26l12-9c3-1 5-3 5-6"/><path d="M21 6l3-3M23 8l4-1M19 5l1-3"/><path d="M11 21l2 2M14 17l2 2"/>'),
+    pot: s('<path d="M5 13h22v8a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5v-8Z"/><path d="M3 13h26M12 9c0-2 2-2 2-4M18 9c0-2 2-2 2-4"/>'),
+    avocado: s('<path d="M16 3c-5 0-9 9-9 15a9 9 0 0 0 18 0c0-6-4-15-9-15Z"/><circle cx="16" cy="19" r="4"/>'),
+    egg: s('<path d="M9 8c4-4 11-4 15 0s4 11 0 15-12 5-16 1-3-12 1-16Z"/><circle cx="16" cy="16" r="4.5"/>'),
+    soup: s('<path d="M4 15h24a12 12 0 0 1-24 0Z"/><path d="M12 11c-1-2 1-3 0-5M16 11c-1-2 1-3 0-5M20 11c-1-2 1-3 0-5"/>'),
+    bowl: s('<path d="M4 15h24a12 12 0 0 1-24 0Z"/><path d="M9 15c1-3 4-4 7-4s6 1 7 4"/><path d="M21 4l-6 11M25 6l-8 9"/>'),
+    popcorn: s('<path d="M9 13l2 15h10l2-15"/><path d="M13 13l1 15M19 13l-1 15"/><path d="M9 13a3 3 0 0 1 2-5 4 4 0 0 1 7-2 3 3 0 0 1 5 3 2.5 2.5 0 0 1 0 4"/>'),
+    fish: s('<path d="M4 16c4-6 11-8 17-4l6-4v16l-6-4c-6 4-13 2-17-4Z"/><circle cx="10" cy="15" r="1" fill="currentColor"/>'),
+    glass: s('<path d="M8 6h16l-2 20H10L8 6Z"/><path d="M8 6l.6 3h14.8l.6-3" stroke-dasharray="1 2"/><path d="M14 16h6"/>'),
+    citrus: s('<circle cx="16" cy="16" r="11"/><circle cx="16" cy="16" r="7.5"/><path d="M16 8.5v15M8.5 16h15M10.7 10.7l10.6 10.6M21.3 10.7 10.7 21.3"/>'),
+  }; })();
+const perUnit = (z, price = z.price) => z.oz ? `${money(price / z.oz)} / oz` : z.count ? `${money(price / z.count)} a ${z.per}` : '';
+const PROMISES = () => [[ICON.truck, `Free shipping over $${SS.freeShip}`], [ICON.jar, 'Glass jars, walnut lids'], [ICON.utah, 'Blended in Park City, Utah'], [ICON.heart, 'Love it or your money back']];
+
 /* packet illustration (no photo exists yet) */
 function packetsSVG(n = 5, h = 150) {
   const cols = BLENDS.map(b => b.color);
@@ -60,7 +78,9 @@ function layout() {
     ? `<details class="mm-shop"><summary>Shop</summary>${MEGA().map(c => `<a href="${c.href}">${c.title}${c.soon ? ' <em>Soon</em>' : ''}</a>`).join('')}<a href="shop.html">Shop everything</a></details>` : `<a href="${h}">${t}</a>`).join('')}</nav></header>`);
   wireMega();
 
-  document.body.insertAdjacentHTML('beforeend', `
+  const shopping = ['home', 'shop', 'gifts', 'product', 'ingredients'].includes(document.body.dataset.page);
+  document.body.insertAdjacentHTML('beforeend', `${shopping ? `
+  <div class="promise" role="list"><div class="wrap">${PROMISES().map(([ic, t]) => `<span role="listitem">${ic}${t}</span>`).join('<i aria-hidden="true"></i>')}</div></div>` : ''}
   <section class="newsletter"><div class="wrap">
     <span class="eyebrow">With purpose</span>
     <h2 style="margin-top:14px">Join the Sapphire table</h2>
@@ -235,7 +255,7 @@ function blendCard(b) {
       ${b.allergens ? `<span class="alg">${b.allergens}</span>` : ''}</div>
     <div class="body"><span class="tag">${b.tag}</span><h3><a href="product.html?p=${b.slug}">${b.name}</a></h3>${b.inside ? `<small class="inside">${b.inside}</small>` : ''}${starsHTML(b.slug)}<p>${b.line}</p>
       <div class="chips">${CHIPS.map((s, i) => `<button class="chip${i ? '' : ' on'}" data-size="${s.id}">${s.chip || s.label}</button>`).join('')}</div>
-      <div class="buy"><span class="price">${money(SIZES[0].price)}</span><button class="add">Add to cart</button></div></div>
+      <div class="buy"><span class="price">${money(SIZES[0].price)}<small class="unit">${perUnit(SIZES[0])}</small></span><button class="add">Add to cart</button></div></div>
     ${strip(b.spec && [...b.spec, b.allergens])}</article>`;
 }
 /* quick view: the card's essentials in a panel, without leaving the grid */
@@ -263,7 +283,7 @@ function wireCards(root = document) {
     const b = findBlend(card.dataset.slug); let size = SIZES[0];
     $$('.chip', card).forEach(ch => ch.onclick = () => {
       $$('.chip', card).forEach(c => c.classList.remove('on')); ch.classList.add('on');
-      size = SIZES.find(s => s.id === ch.dataset.size); $('.price', card).textContent = money(size.price); $('.qadd b', card).textContent = money(size.price);
+      size = SIZES.find(s => s.id === ch.dataset.size); $('.price', card).innerHTML = `${money(size.price)}<small class="unit">${perUnit(size)}</small>`; $('.qadd b', card).textContent = money(size.price);
       const im = $('.ph img', card), src = `img/${b.slug}-${size.pic}.jpg`;
       if (!im.src.endsWith(src)) { im.style.opacity = 0; setTimeout(() => { im.src = src; im.alt = sizeAlt(b, size); im.style.opacity = ''; }, 160); }
     });
@@ -580,6 +600,19 @@ function shelfPanel(which, it) {
   const f = $('.notify', q);
   if (f) f.onsubmit = ev => { ev.preventDefault(); toast(`Thanks — we’ll tell you when ${it.name} lands.`); f.reset(); };
 }
+/* product page, after Cuso's: the jar in the middle and every ingredient around it, each one a tap away */
+function insideMap(b, root) {
+  const ings = b.ingredients.map(i => ({ ...i, g: INGREDIENTS.find(x => x.name === i.name) }));
+  const half = Math.ceil(ings.length / 2), sides = [ings.slice(0, half), ings.slice(half)];
+  const mark = (i, n) => `<details class="im-mark" style="--d:${n * .7}s"><summary><span class="im-dot"><img src="${i.g.img}" alt="" loading="lazy"></span><span class="im-name"><small>${i.title}</small>${i.name}</span><b aria-hidden="true">+</b></summary>
+      <p>${i.desc} <a class="link sm" href="ingredient.html?i=${i.g.slug}">More</a></p></details>`;
+  root.insertAdjacentHTML('afterend', `<section class="inside-map" style="--c:${b.color};--tint:${b.tint}"><div class="wrap">
+    <div class="im-head"><span class="eyebrow">What’s inside</span><h2>${ings.length > 1 ? `${['', '', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'][ings.length]} ingredients. Nothing else.` : 'One ingredient. Nothing added.'}</h2></div>
+    <div class="im-grid"><div class="im-side l">${sides[0].map((i, n) => mark(i, n)).join('')}</div>
+      <figure class="im-jar"><img src="img/${b.slug}-4oz.jpg" alt="${b.name}, 4 oz jar"></figure>
+      <div class="im-side r">${sides[1].map((i, n) => mark(i, n + half)).join('')}</div></div></div></section>`);
+}
+
 const closeQV = () => {};
 
 /* ---------- concept pages for future products: the idea, how you'd use it, formats, what has to be true first ---------- */
@@ -698,7 +731,7 @@ const R = {
     if (b) {
       imgs = [[`img/${b.slug}-pair.jpg`, ''], [`img/${b.slug}-4oz.jpg`, ''], [`img/${b.slug}-16oz.jpg`, ''], [`img/${b.slug}-sticks.jpg`, ''], [`img/${b.slug}-packets.jpg`, ''], [`img/${b.slug}-family.jpg`, ''], ['img/stand-crop.jpg', '']];
       if (b.slug === 'pure') imgs.push(['img/lifestyle-avocado.jpg', 'Pure Sea Salt and Awaken Pepper beside avocado toast'], ['img/lifestyle-eggs.jpg', 'Sapphire salt used at breakfast']);
-      sizeHTML = `<div class="opt-label">Size</div><div class="sizes">${SIZES.map((s, i) => `<button class="size${i ? '' : ' on'}" data-size="${s.id}"><span><b>${s.label}</b><small>${s.note}</small></span><span class="price">${money(s.price)}</span></button>`).join('')}</div>
+      sizeHTML = `<div class="opt-label">Size</div><div class="sizes">${SIZES.map((s, i) => `<button class="size${i ? '' : ' on'}" data-size="${s.id}"><span><b>${s.label}</b><small>${s.note}</small></span><span class="price">${money(s.price)}${s.oz ? `<small class="unit">${perUnit(s)}</small>` : ''}</span></button>`).join('')}</div>
         <div class="opt-label">Purchase</div><div class="ptype">
           <label class="on"><input type="radio" name="pt" value="once" checked> One-time purchase</label>
           <label><input type="radio" name="pt" value="sub"> Subscribe & save — ships every 2 months <span class="save">Save ${SS.subscribeOff * 100}%</span></label></div>`;
@@ -750,6 +783,7 @@ const R = {
         ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((im, i) => `<button class="${i ? '' : 'on'}" data-i="${i}"><img class="${im[1]}" src="${im[0] === 'engraved' ? 'img/stand-crop.jpg' : im[0]}" alt=""></button>`).join('')}</div>` : ''}</div>
       <div class="info"><div class="crumbs"><a href="shop.html">Shop</a> / ${p.name}</div>
         <h1>${p.name}</h1><div class="subt">${p.sub}</div><p class="line">${p.line}</p><p style="color:var(--muted)">${p.about}</p>
+        ${b && b.useOn ? `<div class="use-on"><span>Use it on</span>${b.useOn.map(([k, t]) => `<div>${FOOD[k]}<small>${t}</small></div>`).join('')}</div>` : ''}
         ${b && b.why ? `<div class="why-box" style="--c:${b.color}"><b>${b.why.title}</b><ul>${b.why.items.map(([n, t]) => `<li><span>${n}</span>${t}</li>`).join('')}</ul><small>${b.why.note} <span class="draft">Pending label update</span></small></div>` : ''}
         ${b ? `<div class="swatches">${BLENDS.map(x => `<a href="product.html?p=${x.slug}" title="${x.name}" style="--sw:${x.color}" class="${x.slug === b.slug ? 'on' : ''}"></a>`).join('')}</div>` : ''}
         ${sizeHTML}
@@ -757,6 +791,7 @@ const R = {
         ${e && (e.slug === 'discovery' || e.slug === 'kindness') ? `<div class="vs"><a class="${e.slug === 'discovery' ? 'on' : ''}" href="product.html?p=discovery"><b>Discovery · $15</b><span>For you — pick 5 blends, 15 packets</span></a><a class="${e.slug === 'kindness' ? 'on' : ''}" href="product.html?p=kindness"><b>Kindness Card · $5</b><span>For someone else — mailed, 5 packets + your note</span></a></div>` : ''}
         <div class="buyrow"><div class="qty"><button data-q="-1">−</button><span>1</span><button data-q="1">+</button></div>
           <button class="btn add-main">Add to cart — <span class="pp">${money(b ? SIZES[0].price : e.price)}</span></button></div>
+        ${b || e.oz ? `<p class="pp-unit"></p>` : ''}
         <div class="why"><div>${ICON.check} Tastes like the salt you know</div><div>${ICON.heart} Love it or your money back</div>
           <div>${ICON.utah} Made in Park City, Utah</div><div>${ICON.truck} ${e && e.digital ? 'Delivered by email' : e && (e.packet || e.inclShip) ? '<b>Ships free</b> — on us' : `Free shipping over $${SS.freeShip}`}</div></div>
         <div class="acc">
@@ -770,7 +805,8 @@ const R = {
     // options
     let size = SIZES[0], qty = 1, sub = false;
     const unit = () => (b ? size.price : e.price) * (sub ? 1 - SS.subscribeOff : 1);
-    const upd = () => { $('.pp', root).textContent = money(unit() * qty); $('.qty span', root).textContent = qty; };
+    const upd = () => { $('.pp', root).textContent = money(unit() * qty); $('.qty span', root).textContent = qty;
+      const u = $('.pp-unit', root); if (u) u.textContent = b ? `${perUnit(size, unit())}${sub ? ' with Subscribe & save' : ''}` : perUnit(e, unit()); };
     $$('.size', root).forEach(s => s.onclick = () => { $$('.size', root).forEach(x => x.classList.remove('on')); s.classList.add('on'); size = SIZES.find(z => z.id === s.dataset.size); upd();
       if (b) { const want = size.jar ? 'pair' : size.pic.replace('-card', ''), t = $$('.thumbs button', root).find(x => $('img', x).getAttribute('src') === `img/${b.slug}-${want}.jpg`); if (t) t.click(); } });
     const want = new URLSearchParams(location.search).get('size'); const sb = want && $(`.size[data-size="${want}"]`, root); if (sb) sb.click();   // QR: /p/pure-16 opens on 16 oz
@@ -819,6 +855,8 @@ const R = {
         ? { key: `${b.slug}-${size.id}-${sub ? 'sub' : 'once'}`, name: b.name, variant: `${size.label} ${size.note.toLowerCase()}${sub ? ' · every 2 months' : ''}`, price: unit(), qty, img: `img/${b.slug}-card.jpg` }
         : { key, name: e.name, variant, price: e.price, qty, img: extraThumb(e), packet: !!e.packet });
     };
+    upd();
+    if (b) insideMap(b, root);
     reviews(p, root);
     // related
     $('#related').innerHTML = BLENDS.filter(x => x.slug !== slug).slice(0, 4).map(blendCard).join(''); wireCards($('#related'));

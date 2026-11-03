@@ -46,6 +46,7 @@ const BLENDS = [
     line: 'Pure Australian ocean sea salt. Nothing added, nothing taken away.',
     about: 'The salt every blend starts with, on its own. Bright, pure and mineral — the everyday salt for people who just want a better one.',
     use: ['Season steaks, roasts and vegetables before cooking', 'Salt pasta water and finish salads', 'Refill your table shaker — it’s a 1:1 swap'],
+    useOn: [['steak', 'Steaks & roasts'], ['veg', 'Vegetables'], ['pot', 'Pasta water']],
     ingredients: [BASE_SALT],
   },
   {
@@ -55,6 +56,7 @@ const BLENDS = [
     line: 'Sea salt with psyllium, white chia and golden flax.',
     about: 'Three time-honored plant fibers, milled fine and blended into sea salt — so the salt you already use brings a little fiber to every meal.',
     use: ['Avocado toast, eggs and grain bowls', 'Roasted vegetables and soups', 'Anywhere you’d reach for regular salt'],
+    useOn: [['avocado', 'Avocado toast'], ['egg', 'Eggs'], ['soup', 'Soups']],
     ingredients: [BASE_SALT, PSYLLIUM,
       { name: 'White Chia Seed', title: 'Whole-Food Nutrient Support', desc: 'Milled white chia is a quiet powerhouse. With the oil gently removed, what remains is naturally concentrated in fiber and plant protein — more of what matters in a smaller amount.' },
       { name: 'Golden Flax Seed', title: 'Plant-Based Daily Balance', desc: 'Milled golden flax contributes naturally occurring fiber and plant-based nutrients long valued in traditional whole-food practices.' },
@@ -67,6 +69,7 @@ const BLENDS = [
     line: 'Sea salt with acacia fiber, psyllium and L-glutamine.',
     about: 'A smooth, gentle fiber blend. Acacia and psyllium disappear into the salt; L-glutamine rounds it out. You taste salt — that’s it.',
     use: ['Morning eggs and breakfast potatoes', 'Rice, noodles and stir-fries', 'Popcorn, fries and snacks'],
+    useOn: [['egg', 'Breakfast'], ['bowl', 'Rice & noodles'], ['popcorn', 'Popcorn & fries']],
     ingredients: [BASE_SALT,
       { name: 'Acacia Fiber', title: 'Smooth Everyday Fiber', desc: 'A plant-based fiber traditionally valued for its gentle nature and smooth integration into daily routines.' },
       PSYLLIUM,
@@ -80,6 +83,7 @@ const BLENDS = [
     line: 'Sea salt with magnesium glycinate, taurine and L-theanine.',
     about: 'Our mineral blend for the evening table. Magnesium glycinate, taurine and L-theanine, measured into the salt you already shake.',
     use: ['Dinner — roasted chicken, fish and vegetables', 'Soups, stews and sauces', 'Rim a glass for a mocktail'],
+    useOn: [['fish', 'Chicken & fish'], ['soup', 'Soups & stews'], ['glass', 'Mocktail rims']],
     ingredients: [BASE_SALT,
       { name: 'Magnesium Glycinate', title: 'Mineral Support', desc: 'A magnesium compound included as part of the Restore blend.' },
       TAURINE,
@@ -96,6 +100,7 @@ const BLENDS = [
       ['Sodium', 'From the sea salt. The electrolyte you lose most in sweat.'], ['Potassium', 'As potassium chloride. Works alongside sodium.'],
       ['Magnesium', 'As magnesium malate. The third electrolyte mineral in the jar.'], ['Taurine', 'An amino acid found in everyday foods.'], ['L-citrulline', 'An amino acid first found in watermelon.']] },
     use: ['Post-workout meals and salads', 'Grain bowls, tacos and eggs', 'Watermelon, citrus and cucumber'],
+    useOn: [['bowl', 'Grain bowls'], ['egg', 'Eggs & tacos'], ['citrus', 'Watermelon & citrus']],
     ingredients: [BASE_SALT,
       { name: 'Potassium Chloride', title: 'Electrolyte Balance', desc: 'An electrolyte mineral included to complement the natural sodium of sea salt.' },
       { name: 'Magnesium Malate', title: 'Mineral Support', desc: 'A magnesium compound included as part of the Hydrate blend.' },
@@ -106,11 +111,11 @@ const BLENDS = [
 ];
 
 const SIZES = [   // pic: which photo the card shows for that size (img/<slug>-<pic>.jpg)
-  { id: '4oz', label: '4 oz', note: 'Shaker jar', price: 14, jar: true, pic: 'card' },
-  { id: '16oz', label: '16 oz', note: 'Kitchen jar', price: 28, jar: true, pic: 'card' },
-  { id: 'sticks', label: 'Travel sticks', chip: 'Sticks', note: 'Box of 30 · $1.33 a stick', price: 40, pic: 'sticks-card', proposed: true },   // Jimmy, 3 Nov: 30+ only, about $1.35 a stick
-  { id: 'sticks-60', label: 'Travel sticks', chip: null, note: 'Box of 60 · $1.30 a stick', price: 78, pic: 'sticks-card', proposed: true },
-  { id: 'packets', label: 'Table packets', chip: 'Packets', note: 'Box of 50 · sugar-packet size', price: 15, pic: 'packets-card', proposed: true },
+  { id: '4oz', label: '4 oz', note: 'Shaker jar', price: 14, jar: true, pic: 'card', oz: 4 },
+  { id: '16oz', label: '16 oz', note: 'Kitchen jar', price: 28, jar: true, pic: 'card', oz: 16 },
+  { id: 'sticks', label: 'Travel sticks', chip: 'Sticks', note: 'Box of 30 · $1.33 a stick', price: 40, pic: 'sticks-card', proposed: true, count: 30, per: 'stick' },   // Jimmy, 3 Nov: 30+ only, about $1.35 a stick
+  { id: 'sticks-60', label: 'Travel sticks', chip: null, note: 'Box of 60 · $1.30 a stick', price: 78, pic: 'sticks-card', proposed: true, count: 60, per: 'stick' },
+  { id: 'packets', label: 'Table packets', chip: 'Packets', note: 'Box of 50 · sugar-packet size', price: 15, pic: 'packets-card', proposed: true, count: 50, per: 'packet' },
 ];
 const JARS = SIZES.filter(z => z.jar);
 
@@ -154,15 +159,15 @@ const EXTRAS = [
     plans: [{ m: 3, price: 66 }, { m: 6, price: 126 }, { m: 12, price: 240 }],
     line: 'A different salt, seasoning or spice in their mailbox every month — shipping included.',
     about: 'Each month brings a 4 oz jar of something new: a salt blend one month, a seasoning or a spice the next, with a card on how to use it. As our shelf grows, so does the year. Prepaid, so they never see a bill.' },
-  { slug: 'full-table', name: 'The Full Table', sub: 'All five blends · 4 oz', price: 62, was: 70, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set', proposed: true,
+  { slug: 'full-table', name: 'The Full Table', sub: 'All five blends · 4 oz', oz: 20, price: 62, was: 70, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set', proposed: true,
     spec: ['Five shaker jars', '4 oz each', 'Save $8', 'Glass and walnut'],
     line: 'All five shaker jars. Pure, Gut Health, Belly Bliss, Restore and Hydrate.',
     about: 'The whole line in shaker jars — one for every meal of the day. Save $8 against buying them one at a time.' },
-  { slug: 'kitchen-set', name: 'The Kitchen Set', sub: 'All five blends · 16 oz', price: 125, was: 140, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set16', proposed: true,
+  { slug: 'kitchen-set', name: 'The Kitchen Set', sub: 'All five blends · 16 oz', oz: 80, price: 125, was: 140, color: '#0B1B3F', tint: '#EFEBE1', kind: 'set16', proposed: true,
     spec: ['Five kitchen jars', '16 oz each', 'Save $15', 'Glass and walnut'],
     line: 'All five kitchen jars, for the cook who salts by the pinch.',
     about: 'Five 16 oz glass jars with wood lids, lined up by the stove. Save $15 against buying them one at a time.' },
-  { slug: 'awaken-pepper', name: 'Awaken Pepper', sub: 'Single-origin Tellicherry · 6 oz', price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
+  { slug: 'awaken-pepper', name: 'Awaken Pepper', sub: 'Single-origin Tellicherry · 6 oz', oz: 6, price: 20, color: '#1C1C1C', tint: '#EEEDEB', kind: 'pepper', proposed: true,
     spec: ['Tellicherry peppercorns', 'Single origin', 'Whole, for your mill', 'Nothing added'],
     line: 'Single-origin Tellicherry peppercorns. Awaken every bite.',
     about: 'Bold, bright Tellicherry peppercorns — the larger, riper berries left longest on the vine. The partner every Sapphire Salt deserves.' },

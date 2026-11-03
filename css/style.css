@@ -1189,3 +1189,53 @@ footer .logo{height:auto;object-fit:contain}
 @media (prefers-reduced-motion:reduce){ .matrix tbody tr{animation:none} }
 @media (max-width:640px){ .mx-pick .mx-tog{margin-left:0} }
 .mx-pick button[hidden]{display:none}
+
+/* ---------- price per ounce ---------- */
+.price .unit{display:block;font:500 11.5px var(--sans);color:var(--muted);letter-spacing:.01em;margin-top:2px}
+.size .price{text-align:right}
+.pp-unit{margin:8px 0 0;font-size:13px;color:var(--muted)}
+/* ---------- use it on ---------- */
+.use-on{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:16px 0 6px}
+.use-on>span{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.use-on div{display:flex;align-items:center;gap:8px;color:var(--c,var(--navy))}
+.use-on small{font-size:13.5px;color:var(--ink)}
+.use-on svg{flex:none;transition:transform .4s ease}
+.use-on div:hover svg{transform:rotate(-6deg) scale(1.06)}
+/* ---------- what's inside: the jar and its ingredients ---------- */
+.inside-map{background:color-mix(in srgb,var(--tint) 70%,#fff);padding:70px 0}
+.im-head{text-align:center;max-width:640px;margin:0 auto 34px}
+.im-head h2{margin-top:12px}
+.im-grid{display:grid;grid-template-columns:1fr minmax(220px,300px) 1fr;gap:28px;align-items:start}
+.im-jar{margin:0;display:grid;place-items:center;position:sticky;top:120px}
+.im-jar img{width:100%;border-radius:50%;aspect-ratio:1;object-fit:cover;box-shadow:0 18px 40px rgba(11,27,63,.12);animation:imFloat 7s ease-in-out infinite}
+@keyframes imFloat{50%{transform:translateY(-6px)}}
+.im-side{display:grid;gap:16px}
+.im-mark{background:#fff;border:1px solid var(--line);border-radius:var(--radius);transition:border-color .3s ease,box-shadow .3s ease}
+.im-mark[open],.im-mark:hover{border-color:color-mix(in srgb,var(--c) 45%,var(--line));box-shadow:var(--shadow)}
+.im-mark summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 14px}
+.im-mark summary::-webkit-details-marker{display:none}
+.im-mark summary:focus-visible{outline:2px solid var(--c);outline-offset:2px;border-radius:var(--radius)}
+.im-dot{position:relative;flex:none;width:46px;height:46px;border-radius:50%}
+.im-dot img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.im-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--c);opacity:0;animation:imPulse 4.2s ease-out infinite;animation-delay:var(--d)}
+@keyframes imPulse{0%{opacity:.55;transform:scale(.92)}70%,100%{opacity:0;transform:scale(1.18)}}
+.im-name{flex:1;font-weight:600;font-size:15px;color:var(--ink);line-height:1.3}
+.im-name small{display:block;font:600 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--c);margin-bottom:2px}
+.im-mark summary b{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-weight:500;color:var(--c);transition:transform .3s ease}
+.im-mark[open] summary b{transform:rotate(45deg)}
+.im-mark p{margin:0;padding:2px 18px 16px;font-size:14px;color:var(--muted)}
+.im-side.l .im-mark{position:relative}
+@media (min-width:1001px){
+  .im-side.l .im-mark::after,.im-side.r .im-mark::after{content:"";position:absolute;top:34px;width:28px;border-top:1px dashed color-mix(in srgb,var(--c) 50%,transparent)}
+  .im-side.l .im-mark::after{right:-29px}.im-side.r .im-mark{position:relative}.im-side.r .im-mark::after{left:-29px}
+}
+@media (max-width:1000px){.im-grid{grid-template-columns:1fr 1fr}.im-jar{grid-column:1/-1;order:-1;max-width:240px;margin:0 auto;position:static}}
+@media (max-width:620px){.im-grid{grid-template-columns:1fr}}
+/* ---------- promise strip ---------- */
+.promise{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--cream)}
+.promise .wrap{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 22px;padding-block:16px;font-size:13.5px;color:var(--ink)}
+.promise span{display:inline-flex;align-items:center;gap:9px}
+.promise svg{color:var(--gold);width:18px;height:18px}
+.promise i{width:5px;height:5px;background:var(--gold-2);transform:rotate(45deg)}
+@media (max-width:640px){.promise i{display:none}.promise .wrap{justify-content:flex-start;display:grid;grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){.im-jar img,.im-dot::after{animation:none}.use-on svg{transition:none}}
