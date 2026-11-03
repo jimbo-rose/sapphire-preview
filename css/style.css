@@ -607,7 +607,7 @@ a.ing-link:hover{color:var(--navy-2);text-decoration-style:solid}
 .view360 img.frame360{width:100%;display:block;user-select:none;-webkit-user-drag:none}
 /* window light falls on the wall and wood only — never across the jars */
 .sun{-webkit-mask:url(../img/jar-holes.png?v=2) 0 0/100% 100% no-repeat;mask:url(../img/jar-holes.png?v=2) 0 0/100% 100% no-repeat}
-[data-which=seasonings] .sun{-webkit-mask-image:url(../img/jar-holes-seasonings.png);mask-image:url(../img/jar-holes-seasonings.png)}
+[data-which=seasonings] .sun{-webkit-mask-image:url(../img/jar-holes-seasonings.png?v=4b431384);mask-image:url(../img/jar-holes-seasonings.png?v=4b431384)}
 /* whole-shelf bar under the shelf */
 .whole-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;margin-top:14px;padding:16px 22px;border-radius:14px;cursor:pointer;
   background:rgba(250,246,236,.06);border:1px solid rgba(228,209,164,.45);color:#F4EEE2;text-align:left;transition:background .25s,border-color .25s}
@@ -815,7 +815,7 @@ h4.wi span{display:grid}
 .origins span{font-weight:600;color:var(--gold)}.origins a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
 .origins em{font-style:normal;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-left:3px}
 .shelf-tabs{flex-wrap:wrap}
-[data-which=spices] .sun{-webkit-mask-image:url(../img/jar-holes-seasonings.png);mask-image:url(../img/jar-holes-seasonings.png)}
+[data-which=spices] .sun{-webkit-mask-image:url(../img/jar-holes-seasonings.png?v=4b431384);mask-image:url(../img/jar-holes-seasonings.png?v=4b431384)}
 .catbar{position:sticky;top:var(--hdr,76px);z-index:20;background:rgba(247,243,234,.94);backdrop-filter:blur(8px);border-block:1px solid var(--line);margin:8px 0 26px}
 .catbar .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
 .catbar a{flex:none;padding:9px 16px;border-radius:999px;font:600 13px var(--sans);color:var(--ink);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
@@ -953,13 +953,13 @@ footer .cols{grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px}
 .avatar>img:not(.av-gem){width:100%;height:100%;object-fit:cover;border-radius:50%}
 /* ---- 3 Nov: sapphire crystal instead of flat navy ---- */
 .shelf-hero,.band,.ethos,footer.site{position:relative;isolation:isolate}
-.shelf-hero{background:linear-gradient(180deg,rgba(8,20,54,.5),rgba(11,27,63,.8) 75%),url(../img/sapphire-crystal-macro.png) center/cover var(--navy);animation:crystalDrift 90s ease-in-out infinite alternate}
-.band{background:linear-gradient(120deg,rgba(9,22,58,.88),rgba(11,27,63,.55)),url(../img/sapphire-crystal-macro.png) 30% 60%/cover var(--navy);animation:crystalDrift 110s ease-in-out infinite alternate}
-.ethos{background:linear-gradient(200deg,rgba(9,22,58,.92),rgba(11,27,63,.74)),url(../img/sapphire-crystal-macro.png) 70% 40%/cover var(--navy)}
-footer.site{background:linear-gradient(180deg,rgba(9,20,48,.94),rgba(9,20,48,.97)),url(../img/sapphire-crystal-macro.png) center/cover var(--navy)}
+.shelf-hero{background:linear-gradient(180deg,rgba(8,20,54,.5),rgba(11,27,63,.8) 75%),url(../img/sapphire-crystal-macro.png?v=56379ecd) center/cover var(--navy);animation:crystalDrift 90s ease-in-out infinite alternate}
+.band{background:linear-gradient(120deg,rgba(9,22,58,.88),rgba(11,27,63,.55)),url(../img/sapphire-crystal-macro.png?v=56379ecd) 30% 60%/cover var(--navy);animation:crystalDrift 110s ease-in-out infinite alternate}
+.ethos{background:linear-gradient(200deg,rgba(9,22,58,.92),rgba(11,27,63,.74)),url(../img/sapphire-crystal-macro.png?v=56379ecd) 70% 40%/cover var(--navy)}
+footer.site{background:linear-gradient(180deg,rgba(9,20,48,.94),rgba(9,20,48,.97)),url(../img/sapphire-crystal-macro.png?v=56379ecd) center/cover var(--navy)}
 @keyframes crystalDrift{from{background-position:center,40% 40%}to{background-position:center,60% 55%}}
 @media (prefers-reduced-motion:reduce){ .shelf-hero,.band{animation:none} }
-.newsletter{background:linear-gradient(rgba(247,243,234,.82),rgba(247,243,234,.88)),url(../img/pale-mineral-slab.png) center/cover var(--sand)}
+.newsletter{background:linear-gradient(rgba(247,243,234,.82),rgba(247,243,234,.88)),url(../img/pale-mineral-slab.png?v=9abe724d) center/cover var(--sand)}
 
 /* ---- organic motion: cards breathe up, buttons fill like poured salt, grains fly to the bag ---- */
 .card,.set,.seas,.soon-card{transition:transform .5s cubic-bezier(.2,.9,.25,1.15),box-shadow .5s ease}
@@ -1004,7 +1004,7 @@ button:active,.btn:active,.chip:active{transform:scale(.96)}
 /* concept art: for things without a photo yet */
 .concept-art{position:relative;display:grid;place-content:center;justify-items:center;gap:8px;width:100%;height:100%;min-height:220px;color:#fff;text-align:center;padding:16px;overflow:hidden;
   background:linear-gradient(160deg,color-mix(in srgb,var(--c) 55%,#fff),var(--c) 70%,color-mix(in srgb,var(--c) 70%,#000))}
-.concept-art::before{content:"";position:absolute;inset:0;background:url(../img/pale-mineral-slab.png) center/cover;mix-blend-mode:soft-light;opacity:.55}
+.concept-art::before{content:"";position:absolute;inset:0;background:url(../img/pale-mineral-slab.png?v=9abe724d) center/cover;mix-blend-mode:soft-light;opacity:.55}
 .concept-art::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.6) 1px,transparent 1.6px);background-size:16px 16px;opacity:.25;animation:drift 50s linear infinite}
 .concept-art img{position:relative;width:72px;opacity:.9}.concept-art b{position:relative;font:500 26px/1.1 var(--serif)}
 .concept-art small{position:relative;font:600 10px var(--sans);letter-spacing:.16em;text-transform:uppercase;opacity:.85}
