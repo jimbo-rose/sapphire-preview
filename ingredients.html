@@ -8,7 +8,7 @@
 <link rel="icon" href="img/favicon.png"><link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=52"><link rel="stylesheet" href="css/checkout.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=54"><link rel="stylesheet" href="css/checkout.css?v=4">
 </head>
 <body data-page="ingredients">
 
@@ -17,6 +17,13 @@
 <div class="wrap"><div class="ing-hero"><img src="img/ingredient-hero.jpg" alt="Sea salt, paprika, peppercorns and rosemary on a warm stone counter">
   <div class="ih-idx"><span class="eyebrow">Every ingredient, A to Z</span><div id="ing-index"></div></div></div></div>
 
+<!-- blend x ingredient matrix -->
+<section class="mx-sec"><div class="wrap">
+  <div class="section-head"><div><span class="eyebrow">At a glance</span><h2 style="margin-top:12px">Which blend has what</h2></div><p class="mx-lede">Every jar starts with the same sea salt. Most shared ingredients first.</p></div>
+  <div class="mx-pick" id="mx-pick" role="group" aria-label="Blends shown in the chart"></div>
+  <div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>
+</div></section>
+
 <!-- all ingredients -->
 <section><div class="wrap">
   <div class="section-head"><div><span class="eyebrow">Every ingredient</span><h2 style="margin-top:12px">What’s in the jar, and why</h2></div>
@@ -24,11 +31,6 @@
   <div class="ing-grid" id="ing-grid"></div>
 </div></section>
 
-<!-- blend x ingredient matrix -->
-<section style="padding-top:10px"><div class="wrap">
-  <div class="section-head"><div><span class="eyebrow">At a glance</span><h2 style="margin-top:12px">Which blend has what</h2></div></div>
-  <div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>
-</div></section>
 <!-- the foundation -->
 <section class="found"><div class="wrap">
   <div class="found-grid">
@@ -51,6 +53,6 @@
   <div class="sources"><div class="ph-head"><span class="eyebrow">Our salts</span></div><div class="src-grid" id="sources"></div></div>
 </div></section>
 
-<script src="js/data.js?v=52"></script><script src="js/app.js?v=52"></script>
+<script src="js/data.js?v=54"></script><script src="js/app.js?v=54"></script>
 </body>
 </html>

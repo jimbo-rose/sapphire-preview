@@ -1151,3 +1151,41 @@ footer .logo{height:auto;object-fit:contain}
 .why-box li span{font-weight:600;color:var(--ink)}
 .why-box small{font-size:12px;color:var(--muted)}
 @media (max-width:520px){ .why-box li{grid-template-columns:1fr;gap:0} }
+/* which blend has what: near the top, most shared first */
+.mx-sec{padding-top:34px}
+.mx-lede{margin:0;color:var(--muted);max-width:36ch}
+.matrix th a{display:inline-grid;justify-items:center;gap:6px}
+.matrix th img{width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px #fff,0 0 0 3px var(--c);transition:transform .4s cubic-bezier(.3,.7,.2,1)}
+.matrix th a:hover img{transform:translateY(-3px) rotate(-4deg)}
+.matrix tr.mx-shared td{background:#FBF9F4}
+.matrix td.mx-n,.matrix th.mx-n{text-align:left;white-space:nowrap;font-size:12px;color:var(--muted)}
+.matrix td.mx-n span{display:inline-grid;gap:5px;min-width:74px}
+.matrix td.mx-n span::after{content:"";height:4px;border-radius:2px;background:linear-gradient(90deg,var(--navy-2,#123C9C) calc(var(--w)*100%),var(--line) 0)}
+.matrix tbody tr{transition:background .25s}.matrix tbody tr:hover td{background:#F4F0E6}
+@media (max-width:640px){
+  .matrix{min-width:0;font-size:12px}
+  .matrix th,.matrix td{padding:9px 4px}
+  .matrix th:first-child,.matrix td:first-child{padding-left:12px}
+  .matrix th a{font-size:9px;letter-spacing:.02em}
+  .matrix th img{width:30px;height:30px}
+  .matrix .mx-ing .specimen,.matrix .mx-n{display:none}
+  .matrix td i{width:10px;height:10px}
+}
+/* chart controls: tap blends to hide or compare */
+.mx-pick{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px}
+.mx-pick button{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font:600 12px var(--sans);color:var(--muted);cursor:pointer;transition:background .25s,color .25s,border-color .25s,transform .25s cubic-bezier(.3,.7,.2,1)}
+.mx-pick button:hover{transform:translateY(-1px)}
+.mx-pick button i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--c);transition:background .25s}
+.mx-pick button[data-b][aria-pressed="true"]{color:var(--ink);border-color:var(--c)}
+.mx-pick button[data-b][aria-pressed="true"] i{background:var(--c)}
+.mx-pick .mx-tog{margin-left:8px}
+.mx-pick .mx-tog[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.mx-pick .mx-tog:disabled{opacity:.45;cursor:default;transform:none}
+.mx-pick .mx-reset{border-style:dashed}
+.mx-pick small{flex-basis:100%;color:var(--muted);font-size:12px;margin-top:2px}
+.matrix tbody tr{animation:mxIn .35s ease both}
+@keyframes mxIn{from{opacity:0;transform:translateY(4px)}}
+.matrix td.mx-none{text-align:center!important;color:var(--muted);padding:22px}
+@media (prefers-reduced-motion:reduce){ .matrix tbody tr{animation:none} }
+@media (max-width:640px){ .mx-pick .mx-tog{margin-left:0} }
+.mx-pick button[hidden]{display:none}

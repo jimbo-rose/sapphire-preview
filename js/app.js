@@ -94,7 +94,7 @@ function layout() {
 /* ---------- Shop mega-menu: every category with small photos, one hover away ---------- */
 const MEGA = () => [   // built on first use: it needs helpers defined further down
   { title: 'Pure Salts', href: 'shop.html#pure', items: PURE_SALTS.map(x => x.live ? { name: x.name, sub: 'Australian ocean', href: 'product.html?p=pure', img: 'img/pure-card.jpg' }
-      : { name: x.name, sub: 'Coming soon', href: 'shop.html#pure', color: x.color }) },
+      : { name: x.name, sub: 'Coming soon', href: 'shop.html#pure', color: x.color, img: x.img }) },
   { title: 'Salt Blends', href: 'shop.html#blends-sec', items: BLENDS.filter(b => b.cat === 'blends').map(b => ({ name: b.name, sub: b.inside || b.tag, href: `product.html?p=${b.slug}`, img: `img/${b.slug}-card.jpg` })) },
   { title: 'Seasonings & Spices', href: 'shop.html#spices', items: [
       { name: 'Awaken Pepper', sub: 'Tellicherry peppercorns', href: 'product.html?p=awaken-pepper', img: 'img/soon-awaken-pepper.jpg' },
@@ -367,7 +367,7 @@ function clamp(grid, n, noun) {
 function pureSalts() {
   const el = $('#pure-grid'); if (!el) return;
   el.innerHTML = PURE_SALTS.map(x => x.live ? blendCard(findBlend(x.slug)).replace(/<span class="tag">[^<]*<\/span>/, '<span class="tag">Australian ocean sea salt</span>')
-    : `<article class="soon-card salt-soon" style="--c:${x.color}"><div class="ph"><div class="grain"><img src="img/tiara-white.png" alt=""><b>${x.name}</b></div><span class="soon-tag">Coming soon</span></div>
+    : `<article class="soon-card salt-soon" style="--c:${x.color}"><div class="ph">${x.img ? `<img src="${x.img}" alt="${x.imgAlt || x.name}" loading="lazy">` : `<div class="grain"><img src="img/tiara-white.png" alt=""><b>${x.name}</b></div>`}<span class="soon-tag">Concept</span></div>
       <div class="body"><span class="eyebrow">${x.sub}</span><h3>${x.name}</h3><p>${x.line}</p>
       <form class="notify"><input type="email" required placeholder="Your email" aria-label="Email"><button class="btn">Notify me</button></form></div></article>`).join('');
   wireCards(el); wireNotify(el);
@@ -823,8 +823,33 @@ const R = {
       $$('#ing-filter button').forEach(x => x.classList.toggle('on', x === btn));
       $$('.ing-group').forEach(g => g.hidden = btn.dataset.k !== 'All' && g.dataset.k !== btn.dataset.k);
     });
-    $('#matrix').innerHTML = `<thead><tr><th>Ingredient</th>${BLENDS.map(b => `<th><a href="product.html?p=${b.slug}" style="--c:${b.color}">${b.short}</a></th>`).join('')}</tr></thead>
-      <tbody>${INGREDIENTS.map(i => `<tr><td><a class="mx-ing" href="${ingUrl(i)}">${specimen(i, 'xs')}${i.name}</a></td>${BLENDS.map(b => `<td>${i.blends.includes(b.slug) ? `<i style="--c:${b.color}" aria-label="in ${b.short}"></i>` : ''}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    // most shared first: the salt is in every jar, tapioca in every blend, then the ones two blends share, then each blend's own.
+    // Interactive: tap a blend to hide it (leave two to compare them); "Only differences" drops the rows they agree on.
+    const shared = [...INGREDIENTS].sort((x, y) => y.blends.length - x.blends.length || kinds.indexOf(x.kind) - kinds.indexOf(y.kind));
+    const on = new Set(BLENDS.map(b => b.slug)); let diff = false;
+    const inN = (i, vis) => { const has = vis.filter(b => i.blends.includes(b.slug)), k = vis.length, n = has.length;
+      return n === k ? (k === BLENDS.length ? 'Every jar' : k === 2 ? 'Both' : k === 1 ? 'Yes' : `All ${k}`) : n === 1 ? `Only ${has[0].short}` : `${n} of ${k}`; };
+    const mx = () => {
+      const vis = BLENDS.filter(b => on.has(b.slug));
+      const rows = shared.filter(i => { const n = vis.filter(b => i.blends.includes(b.slug)).length; return n && !(diff && n === vis.length); });
+      $('#matrix').innerHTML = `<thead><tr><th>Ingredient</th>${vis.map(b => `<th><a href="product.html?p=${b.slug}" style="--c:${b.color}"><img src="img/${b.slug}-card.jpg" alt="" loading="lazy">${b.short}</a></th>`).join('')}<th class="mx-n">In</th></tr></thead>
+        <tbody>${rows.map(i => { const n = vis.filter(b => i.blends.includes(b.slug)).length;
+          return `<tr${n > 1 ? ' class="mx-shared"' : ''}><td><a class="mx-ing" href="${ingUrl(i)}">${specimen(i, 'xs')}${i.name}</a></td>${vis.map(b => `<td>${i.blends.includes(b.slug) ? `<i style="--c:${b.color}" aria-label="in ${b.short}"></i>` : ''}</td>`).join('')}<td class="mx-n"><span style="--w:${n / vis.length}">${inN(i, vis)}</span></td></tr>`; }).join('')
+          || `<tr><td colspan="${vis.length + 2}" class="mx-none">${vis.length === 1 ? 'Pick a second blend to compare.' : 'These blends share every ingredient shown.'}</td></tr>`}</tbody>`;
+      $$('#mx-pick button[data-b]').forEach(x => x.setAttribute('aria-pressed', on.has(x.dataset.b)));
+      $('#mx-diff').setAttribute('aria-pressed', diff); $('#mx-diff').disabled = vis.length < 2;
+      $('#mx-all').hidden = vis.length === BLENDS.length;
+      $('#mx-note').textContent = vis.length === 2 ? `Comparing ${vis[0].short} and ${vis[1].short}` : vis.length === BLENDS.length ? 'Tap a blend to hide it. Leave two to compare.' : `${vis.length} of ${BLENDS.length} blends shown`;
+    };
+    $('#mx-pick').innerHTML = BLENDS.map(b => `<button type="button" data-b="${b.slug}" style="--c:${b.color}"><i></i>${b.short}</button>`).join('')
+      + '<button type="button" id="mx-diff" class="mx-tog">Only differences</button><button type="button" id="mx-all" class="mx-reset">Show all</button><small id="mx-note" aria-live="polite"></small>';
+    $$('#mx-pick button[data-b]').forEach(btn => btn.onclick = () => {
+      const b = btn.dataset.b;
+      if (on.has(b)) { if (on.size > 1) on.delete(b); } else on.add(b);
+      mx(); });
+    $('#mx-diff').onclick = () => { diff = !diff; mx(); };
+    $('#mx-all').onclick = () => { BLENDS.forEach(b => on.add(b.slug)); diff = false; mx(); };
+    mx();
   },
   ingredient() {
     const slug = new URLSearchParams(location.search).get('i') || 'australian-sea-salt';
