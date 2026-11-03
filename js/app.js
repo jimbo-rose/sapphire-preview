@@ -112,22 +112,31 @@ function layout() {
 }
 
 /* ---------- Shop mega-menu: every category with small photos, one hover away ---------- */
+/* Mega menu pictures show what is inside, after Cuso's: the salt itself for pure salts, each blend's own ingredients
+   for the blends, a spread of jars for seasonings and spices. Jar photos only where the jar is the product. */
+const MACRO = { pure: 'img/australian-ocean-salt-detail.png', 'utah-salt': 'img/utah-bonneville-overhead-texture.png', himalayan: 'img/himalayan-pink-salt-macro.png' };
+const insideOf = b => b.ingredients.filter(i => i.name !== BASE_SALT.name).map(i => (INGREDIENTS.find(g => g.name === i.name) || {}).img).filter(Boolean).slice(0, 3);
+const spread = slugs => slugs.map(s => (SEASONINGS.find(x => x.slug === s) || {}).img).filter(Boolean);   // four colors that read as a spice drawer
 const MEGA = () => [   // built on first use: it needs helpers defined further down
-  { title: 'Pure Salts', href: 'shop.html#pure', items: PURE_SALTS.map(x => x.live ? { name: x.name, sub: 'Australian ocean', href: 'product.html?p=pure', img: 'img/pure-card.jpg' }
-      : { name: x.name, sub: 'Coming soon', href: 'shop.html#pure', color: x.color, img: x.img }) },
-  { title: 'Salt Blends', href: 'shop.html#blends-sec', items: BLENDS.filter(b => b.cat === 'blends').map(b => ({ name: b.name, sub: b.inside || b.tag, href: `product.html?p=${b.slug}`, img: `img/${b.slug}-card.jpg` })) },
+  { title: 'Pure Salts', href: 'shop.html#pure', items: PURE_SALTS.map(x => x.live ? { name: x.name, sub: 'Australian ocean', href: 'product.html?p=pure', img: MACRO.pure, round: true }
+      : { name: x.name, sub: 'Coming soon', href: 'shop.html#pure', color: x.color, img: MACRO[x.slug] || x.img, round: !!MACRO[x.slug] }) },
+  { title: 'Salt Blends', href: 'shop.html#blends-sec', items: BLENDS.filter(b => b.cat === 'blends').map(b => ({ name: b.name, sub: b.inside || b.tag, href: `product.html?p=${b.slug}`, stack: insideOf(b), ring: b.color })) },
   { title: 'Seasonings & Spices', href: 'shop.html#spices', items: [
-      { name: 'Awaken Pepper', sub: 'Tellicherry peppercorns', href: 'product.html?p=awaken-pepper', img: 'img/soon-awaken-pepper.jpg' },
-      { name: 'Seasonings', sub: `${SEASONINGS.filter(x => x.cat === 'seasonings').length} flavored salts · soon`, href: 'shop.html#seasonings', img: 'img/soon-ember-steak.jpg' },
-      { name: 'Spices', sub: `${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more · soon`, href: 'shop.html#spices', img: 'img/soon-pink-pepper.jpg' },
+      { name: 'Awaken Pepper', sub: 'Tellicherry peppercorns', href: 'product.html?p=awaken-pepper', img: 'img/soon-awaken-pepper.jpg', jar: true },
+      { name: 'Seasonings', sub: `${SEASONINGS.filter(x => x.cat === 'seasonings').length} flavored salts · soon`, href: 'shop.html#seasonings', grid: spread(['ember-steak', 'garden-herb', 'chili-lime', 'smoked']) },
+      { name: 'Spices', sub: `${SEASONINGS.filter(x => x.cat === 'spices').length - 1} more · soon`, href: 'shop.html#spices', grid: spread(['cayenne', 'turmeric', 'pink-pepper', 'green-pepper']) },
+      { name: 'Collect the shelf', sub: `Any 10, 20 or all ${SEASONINGS.length} · save up to 20%`, href: 'shop.html#collection', grid: spread(['chipotle', 'white-pepper', 'thyme', 'cinnamon']) },
       { name: 'Test Kitchen', sub: 'Taste it first · $3', href: 'product.html?p=test-kitchen', color: '#315B91' }] },
   { title: 'Hydration & Supplements', href: 'shop.html#supplements', items: [
-      { name: 'Hydrate Salt', sub: 'Sodium, potassium & magnesium', href: 'product.html?p=hydrate', img: 'img/hydrate-card.jpg' },
+      { name: 'Hydrate Salt', sub: 'Sodium, potassium & magnesium', href: 'product.html?p=hydrate', stack: insideOf(findBlend('hydrate')), ring: findBlend('hydrate').color },
       ...COMING.filter(c => c.group === 'supplements').slice(0, 4).map(c => ({ name: c.name, sub: 'Coming soon', href: `product.html?p=${c.slug}`, color: c.color }))] },
   { title: 'Gifts & Sets', href: 'gifts.html', items: ['kindness', 'gift-box', 'year-of-salt', 'gift-card', 'display-collection'].map(k => { const e = findExtra(k); return { name: e.name, sub: money(e.price) + (k === 'gift-card' ? '+' : ''), href: `product.html?p=${k}`, img: extraThumb(e) }; }) },
 ];
 function megaMenu() {
-  const it = x => `<a class="mg-it" href="${x.href}">${x.img ? `<img src="${x.img}" alt="" loading="lazy">` : `<i class="mg-sw" style="--c:${x.color}"></i>`}<span><b>${x.name}</b><small>${x.sub}</small></span></a>`;
+  const pic = x => x.stack && x.stack.length ? `<span class="mg-stack"${x.ring ? ` style="--ring:${x.ring}"` : ''}>${x.stack.map(s => `<i style="background-image:url('${s}')"></i>`).join('')}</span>`
+    : x.grid && x.grid.length ? `<span class="mg-shelf">${x.grid.slice(0, 3).map(s => `<i style="background-image:url('${s}')"></i>`).join('')}</span>`
+    : x.img ? `<img class="${x.round ? 'round' : x.jar ? 'jar' : ''}" src="${x.img}" alt="" loading="lazy">` : `<i class="mg-sw" style="--c:${x.color}"></i>`;
+  const it = x => `<a class="mg-it" href="${x.href}">${pic(x)}<span><b>${x.name}</b><small>${x.sub}</small></span></a>`;
   return `<div class="mega" id="mega" aria-label="Shop by category"><div class="wrap mega-grid">
     ${MEGA().map(c => `<div class="mg-col"><a class="mg-h" href="${c.href}">${c.title}</a>${c.items.map(it).join('')}</div>`).join('')}
     <a class="mg-feat" href="product.html?p=discovery"><img src="img/fan-card.jpg" alt="Sample packets of all five blends" loading="lazy"><span class="eyebrow">New here?</span><b>Try all five for $15</b><small>Pick any five · 15 packets · ships free</small></a>
@@ -367,12 +376,37 @@ function shelfGrid(cat) {
     const on = !want.has(b.dataset.s); on ? want.add(b.dataset.s) : want.delete(b.dataset.s);
     b.setAttribute('aria-pressed', on); b.textContent = on ? '✓ On my list' : 'I’d buy this'; count();
   });
-  $$('.seas-tabs button', root).forEach(t => t.onclick = () => {
-    $$('.seas-tabs button', root).forEach(x => x.classList.toggle('on', x === t));
-    $$('.seas', grid).forEach(a => a.hidden = t.dataset.g !== 'all' && a.dataset.g !== t.dataset.g);
-  });
+  // filter by kind and availability, sort like a collection page
+  $('.seas-tabs', root).insertAdjacentHTML('afterend', `<div class="seas-tools"><span class="st-n" aria-live="polite"></span>
+    <label>Availability <select class="st-av"><option value="all">All</option><option value="now">Available now</option><option value="soon">Coming soon</option></select></label>
+    <label>Sort <select class="st-sort"><option value="feat">Featured</option><option value="az">Alphabetically, A–Z</option><option value="za">Alphabetically, Z–A</option><option value="lo">Price, low to high</option><option value="hi">Price, high to low</option></select></label></div>`);
+  const cards = $$('.seas', grid); cards.forEach((c, i) => { const x = items[i]; c.dataset.i = i; c.dataset.name = x.name; c.dataset.p = planPrice(x); c.dataset.live = x.live ? 1 : 0; });
+  let g = 'all';
+  const apply = () => {
+    const av = $('.st-av', root).value, so = $('.st-sort', root).value;
+    const by = { feat: (p, q) => p.dataset.i - q.dataset.i, az: (p, q) => p.dataset.name.localeCompare(q.dataset.name), za: (p, q) => q.dataset.name.localeCompare(p.dataset.name), lo: (p, q) => p.dataset.p - q.dataset.p || p.dataset.i - q.dataset.i, hi: (p, q) => q.dataset.p - p.dataset.p || p.dataset.i - q.dataset.i }[so];
+    [...cards].sort(by).forEach(c => grid.appendChild(c));
+    let shown = 0; cards.forEach(c => { c.hidden = (g !== 'all' && c.dataset.g !== g) || (av === 'now' && c.dataset.live !== '1') || (av === 'soon' && c.dataset.live === '1'); shown += !c.hidden; });
+    $('.st-n', root).textContent = `${shown} ${shown === 1 ? C.name.replace(/s$/, '').toLowerCase() : C.name.toLowerCase()}`;
+  };
+  $$('.seas-tabs button', root).forEach(t => t.onclick = () => { $$('.seas-tabs button', root).forEach(x => x.classList.toggle('on', x === t)); g = t.dataset.g; apply(); });
+  $$('.seas-tools select', root).forEach(s => s.onchange = apply); apply();
   $('.seas-notify', root).onsubmit = ev => { ev.preventDefault(); toast(want.size ? 'Thanks — you’ll hear first.' : 'Pick at least one first.'); if (want.size) ev.target.reset(); };
   count();
+}
+/* Collect the shelf: seasonings and spices in tens, or all of them with a walnut spice wall */
+function collection() {
+  const el = $('#collection-grid'); if (!el) return;
+  const jars = spread(['cayenne', 'pink-pepper', 'turmeric', 'green-pepper', 'cinnamon', 'pepper-medley', 'white-pepper', 'chipotle', 'oregano', 'awaken-pepper']), T = SPICE_SET.tiers, L = SPICE_SET.list;
+  const pics = n => `<span class="cl-pics" style="--cols:${n > 5 ? Math.ceil(n / 2) : n}">${jars.slice(0, n).map((s, i) => `<i style="background-image:url('${s}');--i:${i}"></i>`).join('')}</span>`;
+  el.innerHTML = T.map(t => `<article class="cl-tier${t.all ? ' all' : ''}">${pics(t.all ? 10 : t.n === 10 ? 4 : 6)}
+    <span class="eyebrow">${t.all ? `The whole shelf · all ${t.n}` : `Any ${t.n}`}</span>
+    <h3>${t.all ? 'Every seasoning and spice' : `Pick ${t.n}, mix freely`}</h3>
+    <p class="cl-save">Save ${Math.round(t.off * 100)}%</p>
+    ${t.all ? `<p class="cl-price"><b>${money(Math.round(L * (1 - t.off)))}</b> <s>${money(L)}</s></p><p class="cl-wall">With the walnut spice wall: <b>${money(Math.round(L * (1 - t.off)) + t.wall)}</b></p>`
+      : `<p class="cl-price">About <b>${money(Math.round(L / SEASONINGS.length * t.n * (1 - t.off)))}</b> for ${t.n} average jars</p>`}
+    </article>`).join('');
+  $('#collection .cl-note').textContent = `${SEASONINGS.length} on the shelf so far: ${SEASONINGS.filter(x => x.cat === 'seasonings').length} seasonings and ${SEASONINGS.filter(x => x.cat === 'spices').length} spices. As the shelf grows, the full set grows with it.`;
 }
 /* long grids show their first rows, with a button for the rest (keeps the shop page short) */
 function clamp(grid, n, noun) {
@@ -714,7 +748,7 @@ const R = {
       $$('button', ct).forEach(t => t.onclick = () => { $$('button', ct).forEach(x => x.classList.toggle('on', x === t)); $$('#coming .soon-card').forEach(c => c.hidden = t.dataset.g !== 'all' && c.dataset.g !== t.dataset.g); $('#coming').classList.toggle('open', t.dataset.g !== 'all'); });
     }
     clamp($('#coming'), 8, 'ideas'); clamp($('#spices .seas-grid'), 12, 'spices'); clamp($('#seasonings .seas-grid'), 12, 'seasonings');
-    shelfGrid('seasonings'); shelfGrid('spices'); wireExtras($('#test-kitchen'));
+    shelfGrid('seasonings'); shelfGrid('spices'); collection(); wireNotify($('#collection')); wireExtras($('#test-kitchen'));
     // the category bar follows the scroll
     const bar = $$('.catbar a'), secs = bar.map(a => $(a.getAttribute('href')));
     const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) bar.forEach((a, i) => a.classList.toggle('on', secs[i] === en.target)); }), { rootMargin: '-45% 0px -50% 0px' });
@@ -737,7 +771,7 @@ const R = {
           <label><input type="radio" name="pt" value="sub"> Subscribe & save — ships every 2 months <span class="save">Save ${SS.subscribeOff * 100}%</span></label></div>`;
       ingHTML = b.ingredients.map(i => { const g = INGREDIENTS.find(x => x.name === i.name); return `<h4 class="wi"><img src="${g.img}" alt="" loading="lazy"><span><small>${i.title}</small><a href="ingredient.html?i=${g.slug}">${i.name}</a></span></h4><p class="no-ing">${i.desc} <a class="link sm" href="ingredient.html?i=${g.slug}">Learn more</a></p>`; }).join('') + `<p><a class="link" href="ingredients.html">All ingredients</a></p>`;
     } else {
-      imgs = e.kind === 'pepper' ? [['img/awaken-pair.jpg', ''], ['img/awaken-6oz.jpg', ''], ['img/awaken-family.jpg', ''], ['img/spices-crop.jpg', '']]
+      imgs = e.kind === 'pepper' ? [['img/soon-awaken-pepper.jpg', ''], ['img/spices-crop.jpg', '']]   // 3 Nov label; the older AWAKENED shots are retired
         : e.kind === 'stand' ? [['img/stand-crop.jpg', ''], ['img/hero-stand.jpg', ''], ['img/stand-rear.jpg', ''], ['img/set-4oz.jpg', ''], ['img/set-16oz.jpg', '']]
         : e.kind === 'gift' ? [['img/giftbox.jpg', ''], ['img/set-4oz.jpg', ''], ['img/fan.jpg', '']]
         : e.kind === 'packets' ? [['img/fan.jpg', ''], ['img/packets-band.jpg', ''], ['img/pure-family.jpg', ''], ['img/caddy.jpg', '']]

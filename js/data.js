@@ -335,6 +335,14 @@ const SEASONINGS = [
   { slug: 'bay-leaves', name: 'Bay Leaves', cat: 'spices', sub: 'herb', price: 9, gold: 'Whole Turkish bay', little: 'Slow-simmer magic', color: '#4E6A3A' },
   { slug: 'jalapeno', name: 'Jalapeño', cat: 'spices', sub: 'chile', price: 10, gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
 ].map(x => ({ ...x, img: NO_PHOTO.has(x.slug) ? null : `img/soon-${x.slug}.jpg` }));
+/* Collect the shelf (Jimmy, 3 Nov): buy seasonings and spices in tens, or the whole shelf with a walnut spice wall.
+   proposed: discounts and the wall price are Claude's suggestion, for Ryan to set. */
+const planPrice = x => x.price || (EXTRAS.find(e => e.slug === x.slug) || {}).price || 0;
+const SPICE_SET = {
+  list: SEASONINGS.reduce((t, x) => t + planPrice(x), 0),     // every jar at its own planned 4 oz price
+  tiers: [{ n: 10, off: .10 }, { n: 20, off: .15 }, { n: SEASONINGS.length, off: .20, all: true, wall: 42 }],
+  proposed: true,
+};
 
 /* Ratings come from REVIEWS (below). With none, cards say "No reviews yet".
    Allergen lines are drafts: Ryan to confirm against each supplier's allergen statement. */
