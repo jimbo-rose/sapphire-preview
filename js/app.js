@@ -275,17 +275,17 @@ function extraImg(e) {
   if (e.kind === 'pepper') return `<img src="img/soon-awaken-pepper.jpg" alt="Awaken Pepper in a glass jar" style="object-position:50% 35%">`;
   if (e.kind === 'stand') return `<img src="img/stand-crop.jpg" alt="All ten jars on the walnut display stand">`;
   if (e.kind === 'custom') return engraved(['The Rose Family', 'Salt & Spice', 'Est. 2026'], 'The walnut display stand, engraved on all three rails');
-  if (e.kind === 'gift') return `<img src="img/giftbox-card.jpg" alt="Three 4 oz jars in front of the navy, gold-foil Sapphire gift box">`;
+  if (e.kind === 'gift') return `<img src="img/giftbox-card.jpg" alt="Three 4 oz jars seated in a fitted navy Sapphire gift box">`;
   if (e.kind === 'packets') return `<img src="img/fan.jpg" alt="Sample packets of all five blends">`;
   if (e.kind === 'kindness') return `<img src="img/kindness-card.jpg" alt="A Kindness Card with five packets">`;
   if (e.kind === 'giftcard') return `<img src="img/giftcard.jpg" alt="Sapphire Salt digital gift card">`;
   if (e.kind === 'subgift') return `<img src="img/year-of-salt.jpg" alt="A Year of Salt & Spice: twelve different jars, one a month">`;
   if (e.kind === 'set') return `<img src="img/set-4oz.jpg" alt="All five blends in 4 oz shaker jars">`;
-  if (e.kind === 'test') return conceptArt(e.now, 'Small batch', e.color);
+  if (e.kind === 'test') return `<img src="img/future/test-kitchen.jpg" alt="Three small-batch blend sample packets in a Test Kitchen sleeve">`;
   if (e.kind === 'set16') return `<img src="img/set-16oz.jpg" alt="All five blends in 16 oz kitchen jars">`;
   return packetsSVG(e.slug === 'kindness' ? 5 : 5, 130);
 }
-const extraThumb = e => e.kind === 'custom' ? 'img/stand-crop.jpg' : e.kind === 'kindness' ? 'img/kindness-card.jpg' : e.kind === 'giftcard' ? 'img/giftcard.jpg' : e.kind === 'subgift' ? 'img/year-of-salt.jpg' : e.kind === 'pepper' ? 'img/soon-awaken-pepper.jpg' : e.kind === 'stand' ? 'img/stand-crop.jpg' : e.kind === 'gift' ? 'img/giftbox-card.jpg' : e.kind === 'packets' ? 'img/fan-card.jpg' : e.kind === 'set' ? 'img/set-4oz.jpg' : e.kind === 'set16' ? 'img/set-16oz.jpg' : e.kind === 'test' ? 'img/tiara-gold.png' : 'img/crest-gold.png';
+const extraThumb = e => e.kind === 'custom' ? 'img/stand-crop.jpg' : e.kind === 'kindness' ? 'img/kindness-card.jpg' : e.kind === 'giftcard' ? 'img/giftcard.jpg' : e.kind === 'subgift' ? 'img/year-of-salt.jpg' : e.kind === 'pepper' ? 'img/soon-awaken-pepper.jpg' : e.kind === 'stand' ? 'img/stand-crop.jpg' : e.kind === 'gift' ? 'img/giftbox-card.jpg' : e.kind === 'packets' ? 'img/fan-card.jpg' : e.kind === 'set' ? 'img/set-4oz.jpg' : e.kind === 'set16' ? 'img/set-16oz.jpg' : e.kind === 'test' ? 'img/future/test-kitchen.jpg' : 'img/crest-gold.png';
 /* art for things we don't have a photo of yet: the product's color, the tiara and its name */
 const conceptArt = (name, label, color, cls = '') => `<span class="concept-art ${cls}" style="--c:${color}"><img src="img/tiara-white.png" alt=""><b>${name}</b><small>${label}</small></span>`;
 /* the stand with every rail blank, and the customer's words laid into the walnut */
@@ -309,7 +309,6 @@ const SOON_ICON = {
   cellar: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 34h44c0 12-10 18-22 18S10 46 10 34Z"/><path d="M10 34c2-10 42-10 44 0"/><path d="M14 30c-2-8 6-14 18-14s20 6 18 14"/><circle cx="32" cy="14" r="2.5"/></svg>',
   pouch: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 12h32l4 40H12l4-40Z"/><path d="M16 18h32"/><path d="M24 34h16M26 40h12"/></svg>',
   grinder: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 10h16l-2 8H26l-2-8Z"/><path d="M26 18h12l3 30H23l3-30Z"/><path d="M22 48h20v6H22z"/><circle cx="32" cy="8" r="2"/></svg>',
-  dispenser: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 14h28v34H18z"/><path d="M18 48l6 6h16l6-6"/><path d="M28 54v4h8v-4"/><path d="M24 24h16"/></svg>',
   oil: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M28 6h8v8h-8z"/><path d="M27 14h10l3 8v32a4 4 0 0 1-4 4h-8a4 4 0 0 1-4-4V22l3-8Z"/><path d="M24 34h16"/></svg>',
   honey: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 18h24v6H20z"/><path d="M18 24h28v28a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4V24Z"/><path d="M26 36l6-4 6 4v7l-6 4-6-4z"/></svg>',
   tote: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22h40l-3 32H15l-3-32Z"/><path d="M23 22c0-12 18-12 18 0"/><path d="M27 38h10"/></svg>',
@@ -588,17 +587,34 @@ function conceptPage(c, root) {
   const f = FUTURE[c.slug]; document.title = `${c.name} (concept) — Sapphire Salt & Spice`;
   root.style.setProperty('--c', c.color);
   const art = `<span class="concept-art big" style="--c:${c.color}"><span class="soon-ic">${SOON_ICON[c.icon] || ''}</span><b>${c.name}</b><small>Concept · in development</small></span>`;
-  root.innerHTML = `<div class="gallery"><div class="main concept-main">${art}</div></div>
+  root.innerHTML = `<div class="gallery"><div class="main concept-main">${art}</div><div class="thumbs concept-thumbs" hidden></div></div>
     <div class="info"><div class="crumbs"><a href="shop.html#soon">Coming soon</a> / ${c.name}</div>
       <span class="soon-tag static">Concept</span><h1>${c.name}</h1><div class="subt">${c.sub}</div><p class="line">${f.idea}</p>
       <div class="cp-block"><b>How you’d use it</b><ul>${f.use.map(u => `<li>${u.replace(/\[(.*?)\]/g, '<span class="draft">$1</span>')}</li>`).join('')}</ul></div>
-      <div class="cp-block"><b>Formats we’re considering</b><ul>${f.formats.map(u => `<li>${u}</li>`).join('')}</ul><p class="muted">Price to come, once the recipe and packaging are final.</p></div>
+      <div class="cp-block"><b>Formats we’re considering</b><ul>${f.formats.map(u => `<li>${u}</li>`).join('')}</ul><p class="muted">Price to come, once ${c.group === 'pantry' || c.group === 'supplements' ? 'the recipe and packaging' : 'the design and materials'} are final.</p></div>
       <div class="cp-block"><b>What has to be true first</b><ul>${f.first.map(u => `<li>${u}</li>`).join('')}</ul></div>
       <div class="cp-act"><button class="btn gold cp-want" type="button" aria-pressed="false">I’d buy this</button>
         <form class="notify"><input type="email" required placeholder="Email for first word" aria-label="Email"><button class="btn">Notify me</button></form>
         <label class="ck2"><input type="checkbox" class="cp-test"> Send me a small batch to test before it launches</label></div>
-      <p class="muted cp-note">Concepts are ideas we’re working on, not products for sale. Nothing here is a final recipe, label or claim.</p></div>`;
-  const img = new Image(); img.onload = () => { $('.concept-main', root).innerHTML = `<img src="${img.src}" alt="${c.name}, concept image">`; }; img.src = `img/future/${c.slug}.jpg`;   // ChatGPT art, when it lands
+      <p class="muted cp-note">Concepts are ideas we’re working on, not products for sale. Nothing here is a final ${c.group === 'pantry' || c.group === 'supplements' ? 'recipe, label or claim' : 'design or material specification'}.</p></div>`;
+  const variants = c.imageVariants || [{ src: c.img || `img/future/${c.slug}.jpg`, alt: `${c.name}, concept image` }];
+  let selected = 0;
+  const showVariant = index => {
+    selected = index;
+    const img = new Image();
+    img.alt = variants[index].alt; img.className = 'contain';
+    img.onload = () => { if (selected === index) $('.concept-main', root).replaceChildren(img); };
+    img.src = variants[index].src;
+  };
+  if (variants.length > 1) {
+    const thumbs = $('.concept-thumbs', root); thumbs.hidden = false;
+    thumbs.innerHTML = variants.map((v, i) => `<button type="button" class="${i ? '' : 'on'}" aria-label="${v.alt}" aria-pressed="${i === 0}"><img src="${v.src}" alt=""></button>`).join('');
+    $$('button', thumbs).forEach((button, i) => button.onclick = () => {
+      $$('button', thumbs).forEach((b, j) => { b.classList.toggle('on', i === j); b.setAttribute('aria-pressed', String(i === j)); });
+      showVariant(i);
+    });
+  }
+  showVariant(0);
   const w = $('.cp-want', root); w.onclick = () => { const on = w.getAttribute('aria-pressed') !== 'true'; w.setAttribute('aria-pressed', on); w.textContent = on ? '✓ On my list' : 'I’d buy this'; if (on) toast('Counted. The most-wanted ideas get made first.'); };
   $('.notify', root).onsubmit = ev => { ev.preventDefault(); toast(`Thanks — you’ll hear first${$('.cp-test', root).checked ? ', and we’ll offer you a test batch' : ''}.`); ev.target.reset(); };
   $('#related').innerHTML = COMING.filter(x => x.group === c.group && x.slug !== c.slug && FUTURE[x.slug]).slice(0, 4).map(comingCard).join('') || BLENDS.slice(0, 4).map(blendCard).join('');
@@ -681,6 +697,7 @@ const R = {
     let imgs, sizeHTML = '', ingHTML = '';
     if (b) {
       imgs = [[`img/${b.slug}-pair.jpg`, ''], [`img/${b.slug}-4oz.jpg`, ''], [`img/${b.slug}-16oz.jpg`, ''], [`img/${b.slug}-sticks.jpg`, ''], [`img/${b.slug}-packets.jpg`, ''], [`img/${b.slug}-family.jpg`, ''], ['img/stand-crop.jpg', '']];
+      if (b.slug === 'pure') imgs.push(['img/lifestyle-avocado.jpg', 'Pure Sea Salt and Awaken Pepper beside avocado toast'], ['img/lifestyle-eggs.jpg', 'Sapphire salt used at breakfast']);
       sizeHTML = `<div class="opt-label">Size</div><div class="sizes">${SIZES.map((s, i) => `<button class="size${i ? '' : ' on'}" data-size="${s.id}"><span><b>${s.label}</b><small>${s.note}</small></span><span class="price">${money(s.price)}</span></button>`).join('')}</div>
         <div class="opt-label">Purchase</div><div class="ptype">
           <label class="on"><input type="radio" name="pt" value="once" checked> One-time purchase</label>
@@ -693,7 +710,7 @@ const R = {
         : e.kind === 'packets' ? [['img/fan.jpg', ''], ['img/packets-band.jpg', ''], ['img/pure-family.jpg', ''], ['img/caddy.jpg', '']]
         : e.kind === 'kindness' ? [['img/kindness-card.jpg', ''], ['img/fan.jpg', '']]
         : e.kind === 'giftcard' ? [['img/giftcard.jpg', '']]
-        : e.kind === 'test' ? [['img/hydrate-sticks.jpg', ''], ['img/packets-band.jpg', '']]
+        : e.kind === 'test' ? [['img/future/test-kitchen.jpg', '']]
         : e.kind === 'custom' ? [['engraved', ''], ['img/hero-stand.jpg', ''], ['img/lid-etch.jpg', ''], ['img/stand-rear.jpg', '']]
         : e.kind === 'subgift' ? [['img/year-of-salt.jpg', ''], ['img/seasonings-crop.jpg', ''], ['img/spices-crop.jpg', ''], ['img/set-4oz.jpg', '']] : e.kind === 'set' ? [['img/set-4oz.jpg', ''], ['img/stand-crop.jpg', '']] : e.kind === 'set16' ? [['img/set-16oz.jpg', ''], ['img/stand-crop.jpg', '']] : [['packets', '']];
     }
@@ -708,7 +725,7 @@ const R = {
     if (e && e.slug === 'gift-box') sizeHTML = `<div class="opt-label">Choose three blends</div><div class="gift-picks">${[0, 1, 2].map(i => `<select data-gp="${i}">${[...BLENDS, findExtra('awaken-pepper')].map((x, j) => `<option value="${x.slug}"${j === [0, 1, 4][i] ? ' selected' : ''}>${x.name}</option>`).join('')}</select>`).join('')}</div>
         <div class="opt-label">Gift note (free)</div><textarea class="gift-note" rows="3" maxlength="200" placeholder="Happy birthday — salt your eggs with this one."></textarea>`;
     if (e && e.kind === 'test') sizeHTML = `<div class="tk-now"><span class="eyebrow">Now testing</span><b>${e.now}</b><span>${e.nowLine}</span></div>
-        <ol class="tk-steps"><li>We send three small-batch sticks, with your order or on their own.</li><li>Three days later, three quick questions by email.</li><li>Your answers decide if it launches. Testers hear first.</li></ol>`;
+        <ol class="tk-steps"><li>We send three small-batch sample packets, with your order or on their own.</li><li>Three days later, three quick questions by email.</li><li>Your answers decide if it launches. Testers hear first.</li></ol>`;
     if (e && e.kind === 'giftcard') sizeHTML = `<div class="opt-label">Amount</div><div class="chips gc-amt">${[25, 50, 100, 150].map(a => `<button class="chip${a === 50 ? ' on' : ''}" data-amt="${a}">$${a}</button>`).join('')}<label class="chip other">$<input type="number" min="10" max="500" placeholder="Other" aria-label="Other amount"></label></div>
         <div class="opt-label">Send to</div><div class="gform"><input class="g-name" placeholder="Their name"><input class="g-email" type="email" placeholder="Their email"><label>Send on <input class="g-date" type="date"></label><textarea class="g-note" rows="3" maxlength="200" placeholder="Your note"></textarea></div>`;
     if (e && e.kind === 'kindness') sizeHTML = `<div class="opt-label">Send it</div><div class="seg2"><label class="on"><input type="radio" name="to" value="them" checked> Mail it to them</label><label><input type="radio" name="to" value="me"> Send it to me</label></div>
