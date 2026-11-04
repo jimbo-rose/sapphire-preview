@@ -762,6 +762,15 @@ h4.wi span{display:grid}
 .seas .ph{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;background:#EFE9DF}
 .seas .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .seas:hover .ph img{transform:scale(1.03)}
+.seas .ph .seas-scene{position:absolute;inset:0;opacity:0;transition:opacity .45s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.seas .ph.show .seas-scene{opacity:1}
+@media (hover:hover){.seas:hover .ph .seas-scene{opacity:1}}
+.seas .ph:has(.seas-scene){cursor:pointer}
+.seas-photo-toggle{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);z-index:2;display:flex;gap:5px;border:0;border-radius:10px;padding:5px 7px;background:rgba(247,243,234,.85);cursor:pointer}
+.seas-photo-toggle i{width:6px;height:6px;border-radius:50%;background:var(--navy);opacity:.25;transition:opacity .25s}
+.seas-photo-toggle[aria-pressed=false] i:first-child,.seas-photo-toggle[aria-pressed=true] i:last-child{opacity:1}
+@media (hover:hover){.seas:hover .seas-photo-toggle i:first-child{opacity:.25}.seas:hover .seas-photo-toggle i:last-child{opacity:1}}
+.seas-photo-toggle:focus-visible{outline:2px solid var(--c);outline-offset:3px}
 .seas .soon-tag{background:var(--c)}
 .seas h3{font-size:18px;margin:12px 10px 4px}
 .seas small{color:var(--muted);font:600 10px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;margin:0 12px 12px;flex:1}
@@ -820,6 +829,7 @@ h4.wi span{display:grid}
 .catbar .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
 .catbar a{flex:none;padding:9px 16px;border-radius:999px;font:600 13px var(--sans);color:var(--ink);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
 .catbar a.on{background:var(--navy);color:#fff}
+.catbar a{display:inline-flex;align-items:center;gap:7px}.catbar img{width:22px;height:22px;border-radius:50%;object-fit:cover;margin-left:-8px;background:#EFE9DF}
 .catbar em{font-style:normal;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-left:4px}
 .cat-sec{scroll-margin-top:150px}.seas-wrap,#extras-wrap,#soon{scroll-margin-top:150px}
 .cat-sec .section-head{align-items:flex-end;gap:20px;flex-wrap:wrap}

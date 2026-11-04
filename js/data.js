@@ -204,7 +204,9 @@ const COMING = [
   { slug: 'table-packets', name: 'Walnut Packet Holders', sub: 'Restaurants, cafés & your own table', color: '#5A3B22', group: 'kitchen', img: 'img/caddy-card.jpg',
     line: 'Five walnut modules that match the display: sachets, travel sticks, napkins, a menu sign and a 4 oz jar holder. Each stands alone; hidden magnets join them side by side or front to back. Restaurants: ask on the Wholesale page.' },
   { slug: 'hydrate-drink', img: 'img/future/hydrate-drink.jpg', name: 'Hydrate Drink Mix', sub: 'Electrolyte sticks · 30 in a resealable pouch', color: '#315B91', group: 'supplements', shelf: 'electrolytes', icon: 'pouch',
-    line: 'The Hydrate minerals made for water instead of food: tear a stick, pour it in your bottle, shake. Unflavored first, with a light citrus to follow.' },
+    line: 'The Hydrate minerals made for water instead of food: tear a stick, pour it in your bottle, shake. Unflavored, plus five naturally flavored: Lemonade, Watermelon Mint, Ruby Grapefruit, Lime and Berry.',
+    imageVariants: [['', 'Unflavored'], ['family', 'All six flavors'], ['lemonade', 'Lemonade'], ['watermelon-mint', 'Watermelon Mint'], ['ruby-grapefruit', 'Ruby Grapefruit'], ['lime', 'Lime'], ['berry', 'Berry']]
+      .map(([f, t]) => ({ src: `img/future/hydrate-drink${f ? '-' + f : ''}.jpg`, alt: `Hydrate Drink Mix, ${t} (packaging concept)` })) },   // flavors: Jimmy, 3 Nov (PR #36)
   { slug: 'salt-flakes', img: 'img/future/salt-flakes.jpg', imageVariants: [{ src: 'img/future/salt-flakes.jpg', alt: 'Salt Flakes concept jar' }, { src: 'img/lifestyle-steak.jpg', alt: 'Finishing salt flakes beside a steak, serving illustration' }], name: 'Salt Flakes', sub: 'Finishing flakes · sea, smoked and Utah', color: '#123C9C', icon: 'flakes', group: 'pantry',
     line: 'Big, crisp pyramid flakes for the last pinch: on steak, chocolate chip cookies, tomatoes and caramel.' },
   { slug: 'salted-nuts', img: 'img/future/salted-nuts.jpg', name: 'Salted Nuts', sub: 'Assortments · seasoned with our salts', color: '#8A6236', icon: 'nuts', group: 'pantry',
@@ -302,7 +304,7 @@ const FUTURE = {
    packaging concepts. Gold descriptors are the label copy; little lines are proposed creative copy.
    cat: seasonings (flavored salts) or spices (peppercorns, chiles); sub: the shelf's sub-category.
    price: proposed 4 oz price, each set on its own, a little under Erewhon where margin allows (../SPICE-PRICING.md) */
-const NO_PHOTO = new Set(['black-phoenix']); // concept art until ChatGPT's jar lands (docs/CHATGPT-IMAGE-LIST.md §1)
+const NO_PHOTO = new Set(); // All current seasoning and spice jars now have concept photography.
 const SEASONINGS = [
   { slug: 'awaken-pepper', name: 'Awaken Pepper', cat: 'spices', sub: 'pepper', gold: 'Single-origin Tellicherry peppercorns', little: 'Awaken every bite', color: '#2B2F38', live: true },
   // Jimmy, 3 Nov: our own all-purpose rub, close to Cuso's Dirt without the sugar; charcoal kept. Named Black Phoenix.
@@ -337,7 +339,8 @@ const SEASONINGS = [
   { slug: 'thyme', name: 'Thyme', cat: 'spices', sub: 'herb', price: 8, gold: 'Dried garden thyme', little: 'Roasts and soups', color: '#6A7A44' },
   { slug: 'bay-leaves', name: 'Bay Leaves', cat: 'spices', sub: 'herb', price: 9, gold: 'Whole Turkish bay', little: 'Slow-simmer magic', color: '#4E6A3A' },
   { slug: 'jalapeno', name: 'Jalapeño', cat: 'spices', sub: 'chile', price: 10, gold: 'Bright green chili', little: 'A lively little kick', color: '#4E7A32' },
-].map(x => ({ ...x, img: NO_PHOTO.has(x.slug) ? null : `img/soon-${x.slug}.jpg` }));
+].map(x => ({ ...x, img: NO_PHOTO.has(x.slug) ? null : `img/soon-${x.slug}.jpg`,
+  scene: `img/scene/${x.slug}.jpg` }));   // jar beside what's inside: 8 seasonings (PR #30), 23 spices (PR #31)
 /* Collect the shelf (Jimmy, 3 Nov): buy seasonings and spices in tens, or the whole shelf. No spice wall: the walnut
    salt display is the only display product for now. proposed: discounts are Claude's suggestion, for Ryan to set. */
 const planPrice = x => x.price || (EXTRAS.find(e => e.slug === x.slug) || {}).price || 0;
@@ -366,16 +369,16 @@ const ING_INFO = {
     what: 'Sodium chloride crystallised from seawater, with the trace minerals that come with it.',
     from: 'The cold coastal waters of Australia. Harvest site and producer: Ryan to confirm.',
     how: ['Seawater evaporated by sun and wind into crystals [to confirm]', 'Washed, dried and milled to a fine, even grain [to confirm]', 'Every lot tested before blending [proposed standard]'] },
-  'Psyllium Husk': { slug: 'psyllium-husk', img: 'img/ingredients/psyllium-husk.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Plant fiber', aka: ['psyllium'],
+  'Psyllium Husk': { slug: 'psyllium-husk', img: 'img/ingredients/psyllium-husk.jpg', imgNote: "Plantago ovata seed spikes; the husk is the seed's thin outer coat.", kind: 'Plant fiber', aka: ['psyllium'],
     what: 'The outer husk of seeds from the Plantago ovata plant — a soluble fiber that has been part of kitchens and wellness routines for generations.',
     from: 'Grown mainly in India. Supplier: Ryan to confirm.' },
-  'White Chia Seed': { slug: 'white-chia', img: 'img/ingredients/white-chia.jpg', imgNote: 'Whole white chia seeds shown; the blend uses milled chia.', kind: 'Plant fiber', aka: ['white chia', 'chia'],
+  'White Chia Seed': { slug: 'white-chia', img: 'img/ingredients/white-chia.jpg', imgNote: "Whole white chia and its seed head; the blend uses it milled.", kind: 'Plant fiber', aka: ['white chia', 'chia'],
     what: 'Seeds of Salvia hispanica, milled with most of the oil pressed out, leaving a fine flour rich in fiber and plant protein.',
     from: 'Chia is grown mainly in South America and Mexico. Supplier: Ryan to confirm.' },
-  'Golden Flax Seed': { slug: 'golden-flax', img: 'img/ingredients/golden-flax.jpg', imgNote: 'Whole golden flax seeds shown; the blend uses milled flax.', kind: 'Plant fiber', aka: ['golden flax', 'flax'],
+  'Golden Flax Seed': { slug: 'golden-flax', img: 'img/ingredients/golden-flax.jpg', imgNote: "Whole golden flax and seed bolls; the blend uses it milled.", kind: 'Plant fiber', aka: ['golden flax', 'flax'],
     what: 'Milled seeds of the golden variety of Linum usitatissimum, a whole-food source of fiber.',
     from: 'Grown in North America, among other places. Supplier: Ryan to confirm.' },
-  'Acacia Fiber': { slug: 'acacia-fiber', img: 'img/ingredients/acacia-fiber.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Plant fiber', aka: ['acacia fiber', 'acacia'],
+  'Acacia Fiber': { slug: 'acacia-fiber', img: 'img/ingredients/acacia-fiber.jpg', imgNote: "Raw acacia gum, the dried tree sap acacia fiber is made from.", kind: 'Plant fiber', aka: ['acacia fiber', 'acacia'],
     what: 'A soluble fiber from the dried sap of Acacia senegal trees, also known as gum arabic. It dissolves without changing taste.',
     from: 'Harvested mainly in Africa’s Sahel region. Supplier: Ryan to confirm.' },
   'L-Glutamine': { slug: 'l-glutamine', img: 'img/ingredients/l-glutamine.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Amino acid', aka: ['L-glutamine', 'glutamine'],
@@ -390,7 +393,7 @@ const ING_INFO = {
   'L-Theanine': { slug: 'l-theanine', img: 'img/ingredients/l-theanine.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Amino acid', aka: ['L-theanine', 'theanine'],
     what: 'An amino acid found naturally in tea leaves.',
     from: 'Typically made by fermentation. Supplier: Ryan to confirm.' },
-  'Potassium Chloride': { slug: 'potassium-chloride', img: 'img/ingredients/potassium-chloride.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Mineral', aka: ['potassium chloride', 'potassium'],
+  'Potassium Chloride': { slug: 'potassium-chloride', img: 'img/ingredients/potassium-chloride.jpg', imgNote: "Potassium chloride crystals beside raw sylvite, the natural mineral potassium chloride is refined from.", kind: 'Mineral', aka: ['potassium chloride', 'potassium'],
     what: 'A naturally occurring mineral salt — the potassium counterpart of table salt, used to add potassium alongside sodium.',
     from: 'Mined from ancient mineral deposits. Supplier: Ryan to confirm.' },
   'Magnesium Malate': { slug: 'magnesium-malate', img: 'img/ingredients/magnesium-malate.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Mineral', aka: ['magnesium malate'],
@@ -399,7 +402,7 @@ const ING_INFO = {
   'L-Citrulline': { slug: 'l-citrulline', img: 'img/ingredients/l-citrulline.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Amino acid', aka: ['L-citrulline', 'citrulline'],
     what: 'An amino acid first found in watermelon. (Ryan’s ingredient notes say Citrulline Malate — label and site must match.)',
     from: 'Typically made by fermentation. Supplier: Ryan to confirm.' },
-  'Tapioca Starch': { slug: 'tapioca-starch', img: 'img/ingredients/tapioca-starch.jpg', imgNote: 'Ingredient illustration; supplier material and milling may vary.', kind: 'Flow aid', aka: ['tapioca starch', 'tapioca'],
+  'Tapioca Starch': { slug: 'tapioca-starch', img: 'img/ingredients/tapioca-starch.jpg', imgNote: 'Cassava root, the plant tapioca starch is made from.', kind: 'Flow aid', aka: ['tapioca starch', 'tapioca'],
     what: 'A fine starch from the cassava root, used in tiny amounts so the blend pours freely instead of clumping.',
     from: 'Cassava is grown across the tropics. Supplier: Ryan to confirm.' },
 };
