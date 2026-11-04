@@ -1,0 +1,230 @@
+<!doctype html><html lang="en"><head>
+<meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sapphire Relaunch Notes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>body{margin:0}
+/* Layout: a short note up top, then a shelf of proposed products in tiles grouped by aisle.
+   Single deliberate theme: the brand's own ivory, sapphire and gold, so Ryan sees it as it will look. */
+:root{
+  --ivory:#F7F4ED; --paper:#FFFDF8; --sapphire:#123C9C; --midnight:#0B1D3A; --gold:#B89A57;
+  --ink:#1E2433; --muted:#5D6375; --line:#E4DDCD;
+  --serif:'Cormorant Garamond',Garamond,'Times New Roman',serif;
+  --sans:Inter,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--ivory);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.col{max-width:640px}
+h1,h2,h3{font-family:var(--serif);color:var(--midnight);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.2rem,6vw,3.2rem);line-height:1.05}
+h2{font-size:clamp(1.7rem,4vw,2.2rem);line-height:1.1}
+h3{font-size:1.3rem;line-height:1.2}
+p{margin:0}
+.eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600}
+a{color:var(--sapphire)}
+a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+header{padding-block:44px 32px}
+header .logo{width:130px;margin-bottom:22px}
+header .lede{font-size:1.1rem;color:var(--muted);margin-top:14px}
+
+section{padding-block:40px;border-top:1px solid var(--line)}
+.head{display:grid;gap:8px;margin-bottom:22px}
+.head p{color:var(--muted)}
+
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pair figure{margin:0;min-width:0}
+.pair img{width:100%;display:block;border-radius:6px}
+.tag{display:block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:6px;color:var(--muted)}
+.tag.now{color:var(--sapphire)}
+
+.why{display:grid;gap:12px;margin-top:22px}
+.why p{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.why p::before{content:"";width:8px;height:8px;margin-top:9px;background:var(--gold);transform:rotate(45deg)}
+.why b{color:var(--midnight)}
+
+.aisle{margin-top:30px}
+.aisle:first-of-type{margin-top:0}
+.aisle h3{margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tile{display:block;text-decoration:none;background:var(--paper);border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:0;transition:border-color .2s,transform .2s}
+.tile figure{margin:0}
+.tile:hover{border-color:var(--gold);transform:translateY(-2px)}
+.tile figcaption b::after{content:" →";color:var(--gold);font-weight:500}
+.lids{margin:24px 0 0;max-width:640px}
+.lids img{width:100%;display:block;border-radius:6px}
+.lids figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}
+@media (prefers-reduced-motion:reduce){.tile{transition:none}.tile:hover{transform:none}}
+.tile img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.tile figcaption{padding:10px 12px 12px;font-size:.85rem;color:var(--muted);line-height:1.45}
+.tile figcaption b{display:block;color:var(--midnight);font-size:.95rem;margin-bottom:2px}
+
+.cta{background:var(--midnight);padding-block:44px}
+.cta h2{color:#fff}
+.cta p{color:#C9D0E0;margin-top:12px}
+.btn{display:inline-block;margin-top:22px;background:var(--gold);color:var(--midnight);text-decoration:none;font-weight:600;padding:12px 22px;border-radius:999px}
+.cta small{display:block;margin-top:14px;color:#C9D0E0;font-size:.85rem}
+footer{padding-block:24px;font-size:.8rem;color:var(--muted)}
+
+.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.feat{display:block;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px 18px;text-decoration:none;color:var(--muted);font-size:.9rem;line-height:1.5;transition:border-color .2s,transform .2s}
+.feat b{display:block;color:var(--sapphire);font-size:1rem;margin-bottom:4px}
+.feat b::after{content:" →";color:var(--gold)}
+.feat:hover{border-color:var(--gold);transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){.feat{transition:none}.feat:hover{transform:none}}
+
+@media print{
+  @page{size:letter;margin:.45in 0}
+  :root{--ivory:#fff}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:13px}
+  section{padding-block:20px}
+  header{padding-block:0 16px}
+  .feats-sec{break-before:page;border-top:0;padding-top:0}
+  .tile img{aspect-ratio:4/3}
+  .why{gap:8px;margin-top:16px}
+  .pair img{aspect-ratio:16/10;object-fit:cover}
+  header .logo{width:110px;margin-bottom:14px}
+  .lids{max-width:200px;margin-top:10px}
+  .lids figcaption{display:none}
+  .aisle{margin-top:20px}
+  .tile,.feat,.pair,.cta,.why p{break-inside:avoid}
+  .head,.aisle h3{break-after:avoid}
+  .cta{padding-block:28px;margin-top:10px}
+  footer,.no-print{display:none}
+}
+
+@media (max-width:640px){
+  .feats{grid-template-columns:1fr}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .tile figcaption{font-size:.8rem;padding:8px 10px 10px}
+  header{padding-block:32px 24px}
+}
+</style>
+
+<header class="wrap">
+  <img class="logo" src="img/logo-after.png" alt="Sapphire Salt & Spice logo: five sapphires above the word Sapphire">
+  <div class="col">
+    <span class="eyebrow">For Ryan · from Jimmy</span>
+    <h1 style="margin-top:8px">Your salt, shown off</h1>
+    <p class="lede">A quick look at what I changed and the new products I'd love to add. None of it is final until you say yes.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="pair">
+      <figure><span class="tag">Before</span><img src="img/jars-before.jpg" alt="Pure Salt in a 4 oz and a 16 oz jar with white printed labels and the crest logo"></figure>
+      <figure><span class="tag now">Now</span><img src="img/jars-after.jpg" alt="Pure Sea Salt in the same two jars with clear blue labels and engraved lids"></figure>
+    </div>
+    <div class="why col">
+      <p><span><b>Clear labels</b> so the crystals show through. The salt is the best advertisement we have.</span></p>
+      <p><span><b>Laser-engraved lids.</b> Each walnut lid has the product's name burned into the top. When the jars are all in a kitchen drawer, you can find Gut Health or Ember Steak at a glance.</span></p>
+      <p><span><b>Five sapphires for the logo,</b> in sapphire blue. It matches the name and stays sharp on a lid or a travel stick.</span></p>
+      <p><span><b>Sapphire Salt &amp; Spice,</b> so the name grows with the line.</span></p>
+      <p><span><b>Still yours:</b> the salt, all five blends and their ingredients, your jars and walnut lids, the display, the waves, a color for each blend, and your prices.</span></p>
+    </div>
+    <figure class="lids"><img src="img/lids.jpg" alt="Two walnut lids, small and large, laser-engraved with five gems and Pure Sea Salt"><figcaption>Engraved lids, read from above</figcaption></figure>
+  </div>
+</section>
+
+<section class="feats-sec">
+  <div class="wrap">
+    <div class="col head">
+      <span class="eyebrow">The new website</span>
+      <h2>Big features</h2>
+      <p>Tap any of these to see it live.</p>
+    </div>
+    <div class="feats">
+      <a class="feat" href="https://jimbo-rose.github.io/sapphire-preview/"><b>Shop from the shelf</b>The home page opens on your walnut display. Tap any jar to buy it.</a>
+      <a class="feat" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=discovery"><b>Discovery: any 5 for $15</b>Sample packets of any five, the easiest way to try us.</a>
+      <a class="feat" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=gut-health"><b>Product pages that sell</b>Photo gallery, price per ounce, what's inside and what to use it on.</a>
+      <a class="feat" href="https://jimbo-rose.github.io/sapphire-preview/ingredients.html"><b>Ingredient library</b>Every ingredient in every blend, with its own photo and page.</a>
+      <a class="feat" href="https://jimbo-rose.github.io/sapphire-preview/gifts.html"><b>Gifts</b>Gift box, A Year of Salt &amp; Spice, $5 Kindness Cards and an engraved display.</a>
+      <a class="feat" href="https://jimbo-rose.github.io/sapphire-preview/wholesale.html"><b>Wholesale</b>Shops apply online for the walnut display and reorders.</a>
+    </div>
+    <p class="col" style="margin-top:16px;color:var(--muted);font-size:.92rem">Also: free shipping at $45, subscribe and save, and it all works on phones.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="col head">
+      <span class="eyebrow">New products</span>
+      <h2>What we could add next</h2>
+      <p>I've drafted packaging for all of these so you can picture them. Nothing has a formula or price yet. Pick the ones you like and we'll work them up. Tap any product to see its page on the website.</p>
+    </div>
+
+    <div class="aisle">
+      <h3>More salts</h3>
+      <div class="tiles">
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/shop.html#pure"><figure><img src="img/p-himalayan-pair.jpg" alt="Pink Mountain Salt jars"><figcaption><b>Pink Mountain Salt</b>Himalayan pink salt</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/shop.html#pure"><figure><img src="img/p-utah-salt-pair.jpg" alt="Saint Salt jars"><figcaption><b>Saint Salt</b>From the Great Salt Lake, Utah</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=salt-flakes"><figure><img src="img/p-salt-flakes.jpg" alt="Salt Flakes jar"><figcaption><b>Salt Flakes</b>Finishing flakes for steak and salads</figcaption></figure></a>
+      </div>
+    </div>
+
+    <div class="aisle">
+      <h3>Seasonings and spices</h3>
+      <div class="tiles">
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/shop.html#seasonings"><figure><img src="img/phoenix.jpg" alt="Black Phoenix rub jar with its ingredients"><figcaption><b>8 seasonings</b>Ember Steak, Garden Herb, Chili Lime, and Black Phoenix, our own bold rub with no sugar</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/shop.html#spices"><figure><img src="img/p-spices-spread.jpg" alt="Peppercorns, paprika, turmeric, cinnamon and herbs"><figcaption><b>23 spices</b>Peppercorns to smoked paprika, sold by the 10, the 20 or the whole shelf</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=steakhouse-kit"><figure><img src="img/p-steakhouse-kit.jpg" alt="Steakhouse Kit gift box"><figcaption><b>The Steakhouse Kit</b>Ember Steak Salt, Awaken Pepper and a walnut cellar</figcaption></figure></a>
+      </div>
+    </div>
+
+    <div class="aisle">
+      <h3>Hydration</h3>
+      <div class="tiles">
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=hydrate-drink"><figure><img src="img/hydrate.jpg" alt="Six pouches of Hydrate Drink Mix"><figcaption><b>Hydrate Drink Mix</b>Your Hydrate minerals for water, in six flavors</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=hydrate-charge"><figure><img src="img/p-hydrate-charge.jpg" alt="Hydrate Charge pouch and sticks"><figcaption><b>Hydrate Charge</b>Electrolytes plus caffeine from green tea</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=capsules"><figure><img src="img/p-capsules.jpg" alt="Electrolyte Capsules jar"><figcaption><b>Electrolyte Capsules</b>Salt and minerals to take on the go</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=trace-minerals"><figure><img src="img/p-trace-minerals.jpg" alt="Trace Minerals dropper bottle"><figcaption><b>Trace Minerals</b>Drops for your water</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=creatine"><figure><img src="img/p-creatine.jpg" alt="Creatine jar"><figcaption><b>Creatine</b>Monohydrate in a glass jar</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=protein"><figure><img src="img/p-protein.jpg" alt="Clean Protein canister and bag"><figcaption><b>Clean Protein</b>In a big glass canister</figcaption></figure></a>
+      </div>
+    </div>
+
+    <div class="aisle">
+      <h3>Pantry</h3>
+      <div class="tiles">
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=utah-honey"><figure><img src="img/p-utah-honey.jpg" alt="Utah Honey jars"><figcaption><b>Utah Honey</b>Raw and local</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=hot-honey"><figure><img src="img/p-hot-honey.jpg" alt="Hot Honey jars"><figcaption><b>Hot Honey</b>Sweet with a little heat</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=olive-oil"><figure><img src="img/p-olive-oil.jpg" alt="Finishing Olive Oil bottle"><figcaption><b>Finishing Olive Oil</b>Through a partner grower</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=salted-nuts"><figure><img src="img/p-salted-nuts.jpg" alt="Salted Nuts bag and jar"><figcaption><b>Salted Nuts</b>Made with our own salts</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=coffee"><figure><img src="img/p-coffee.jpg" alt="Coffee bag"><figcaption><b>Sapphire Coffee</b>Whole bean</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=tea"><figure><img src="img/p-tea.jpg" alt="Loose-Leaf Teas jars"><figcaption><b>Loose-Leaf Teas</b>In glass jars</figcaption></figure></a>
+      </div>
+    </div>
+
+    <div class="aisle">
+      <h3>Kitchen and merch</h3>
+      <div class="tiles">
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=walnut-shakers"><figure><img src="img/p-walnut-shakers.jpg" alt="Walnut salt and pepper shakers"><figcaption><b>Walnut Shakers</b>Salt and pepper pair</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=salt-cellar"><figure><img src="img/p-salt-cellar.jpg" alt="Walnut salt cellar"><figcaption><b>Walnut Salt Cellar</b>For the counter</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=grinder"><figure><img src="img/p-grinder.jpg" alt="Walnut grinder"><figcaption><b>Salt Grinder</b>Walnut, to match the lids</figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=tote"><figure><img src="img/p-tote.jpg" alt="Canvas tote with the logo"><figcaption><b>Market Tote</b></figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=cap"><figure><img src="img/p-cap.jpg" alt="Navy cap with the logo"><figcaption><b>Park City Cap</b></figcaption></figure></a>
+        <a class="tile" href="https://jimbo-rose.github.io/sapphire-preview/product.html?p=apron"><figure><img src="img/p-apron.jpg" alt="Kitchen apron with the logo"><figcaption><b>Kitchen Apron</b></figcaption></figure></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <div class="col">
+      <h2>Take a look and tell me your top three</h2>
+      <p>The new website has everything above, plus your five blends ready to sell. Ten minutes on your phone is plenty.</p>
+      <a class="btn" href="https://jimbo-rose.github.io/sapphire-preview/">Open the new website</a>
+      <small>jimbo-rose.github.io/sapphire-preview</small>
+      <small class="no-print"><a href="Sapphire-Relaunch-Notes.pdf" style="color:#E3CC92">Download this page as a PDF</a></small>
+      <small>Pictures are concept renders, not photos of real product. Formulas, prices and label art stay drafts until you approve them.</small>
+    </div>
+  </div>
+</div>
+
+</html>
